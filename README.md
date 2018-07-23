@@ -40,3 +40,9 @@ Enter it again: <パスワード>
 export TASCAL_DB_USER="<PostgreSQLのユーザー名>"
 export TASCAL_DB_PASSWORD="<パスワード>"
 ```
+
+その後，リポジトリのディレクトリ化で以下のコマンドでデータベースを作成します。
+```commandline
+brew services start postgresql
+rake db:create
+```
