@@ -1,8 +1,10 @@
 <h1>Tasklist#insert</h1>
 <p>Find me in app/views/tasklist/insert.html.erb</p>
 <%= form_tag("/tasklist/insert", method: "post") do %>
-  <%= label_tag(:q, "Search for:") %>  
-  <%= text_field_tag(:q) %>
+  <%= label_tag(:name, "TaskName:") %>  
+  <%= text_field_tag(:name) %>
+  <%= label_tag(:date, "Date:") %>  
+  <%= text_field_tag(:date) %>
   <%= submit_tag("Search") %>
 <% end %>
 <!-- <form method="post" action="/tasklist/insert"> -->
