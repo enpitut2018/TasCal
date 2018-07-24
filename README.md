@@ -47,12 +47,12 @@ export TASCAL_DB_USER="<PostgreSQLのユーザー名>"
 export TASCAL_DB_PASSWORD="<パスワード>"
 ```
 
-ここまでやったら`bundle install`してGemfileに書かれているパッケージを入れましょう
+ここまでやったら`bundle install`してリポジトリのディレクトリ下のGemfileに書かれているパッケージを入れましょう
 ```
 bundle install
 ```
 
-その後，リポジトリのディレクトリ化で以下のコマンドでデータベースを作成します。
+その後，リポジトリのディレクトリ下で以下のコマンドでデータベースを作成します。
 ```commandline
 brew services start postgresql
 bundle exec rake db:create
