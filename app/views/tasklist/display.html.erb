@@ -9,8 +9,9 @@
   <% tasks = @tasks %>
     <% tasks.each do |task| %>
     <tr>
-      <td><%= task[0] %></td>
       <td><%= task[1] %></td>
+      <td><%= task[2] %></td>
+      <td><button type="submit" name="id" value= "<%= task[0] %>" method="post">削除</button></td>
     </tr>
   <% end %>
 </table>

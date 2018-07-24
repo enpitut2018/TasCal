@@ -14,6 +14,8 @@ class TasklistController < ApplicationController
   end
 
   def delete
+    id = params['id']
+    Tasklist.delete_task(id)
   end
 
   def display
