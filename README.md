@@ -24,13 +24,19 @@ rbenv rehash
 rbenv global 2.4.4
 ```
 
+### bundlerのインストール
+※rubyのバージョンを切り替えた場合は要実行(gemはrubyのバージョン毎に異なります)
+```commandline
+gem install bundler
+```
+
 ### PostgreSQL
 MacOS環境なら`brew install postgresql`で導入できます。  
 開発を始める前にデータベースを編集する権限のあるPostgreSQLのユーザーを作成する必要があります。
 
 ```commandline
 postgres -D /usr/local/var/postgres/
-createuser -P <PostgreSQLのユーザー名>
+createuser -P -s <PostgreSQLのユーザー名>
 Enter password for new role: <パスワード>
 Enter it again: <パスワード>
 ```
@@ -41,8 +47,13 @@ export TASCAL_DB_USER="<PostgreSQLのユーザー名>"
 export TASCAL_DB_PASSWORD="<パスワード>"
 ```
 
-その後，リポジトリのディレクトリ化で以下のコマンドでデータベースを作成します。
+ここまでやったら`bundle install`してリポジトリのディレクトリ下のGemfileに書かれているパッケージを入れましょう
+```
+bundle install
+```
+
+その後，リポジトリのディレクトリ下で以下のコマンドでデータベースを作成します。
 ```commandline
 brew services start postgresql
-rake db:create
+bundle exec rake db:create
 ```
