@@ -1,7 +1,7 @@
 class TasklistController < ApplicationController  
   def insert
     if request.post? then
-      name = params['taskname']
+      name = params['name']
       date = params['date']
 
       Tasklist.addtasks(name, date)
