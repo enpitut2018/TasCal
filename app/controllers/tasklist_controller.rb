@@ -5,6 +5,7 @@ class TasklistController < ApplicationController
       date = params['date']
 
       Tasklist.addtasks(name, date)
+      redirect_to :action =>"display"
     end
   end
 
