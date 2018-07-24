@@ -1,2 +1,16 @@
 <h1>Tasklist#display</h1>
 <p>Find me in app/views/tasklist/display.html.erb</p>
+
+<table>
+  <tr>
+    <th>NAME</th>
+    <th>DATE</th>
+  </tr>
+  <% tasks = @tasks %>
+    <% tasks.each do |task| %>
+    <tr>
+      <td><%= task[0] %></td>
+      <td><%= task[1] %></td>
+    </tr>
+  <% end %>
+</table>
