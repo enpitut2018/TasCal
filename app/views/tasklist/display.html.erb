@@ -1,17 +1,19 @@
 <h1>Tasklist#display</h1>
 <p>Find me in app/views/tasklist/display.html.erb</p>
 
-<table>
-  <tr>
-    <th>NAME</th>
-    <th>DATE</th>
-  </tr>
-  <% tasks = @tasks %>
-    <% tasks.each do |task| %>
+<%= form_tag("/tasklist/delete", method: "post") do %>
+  <table>
     <tr>
-      <td><%= task[1] %></td>
-      <td><%= task[2] %></td>
-      <td><button type="submit" name="id" value= "<%= task[0] %>" method="post">削除</button></td>
+      <th>NAME</th>
+      <th>DATE</th>
     </tr>
-  <% end %>
-</table>
+    <% tasks = @tasks %>
+      <% tasks.each do |task| %>
+      <tr>
+        <td><%= task[1] %></td>
+        <td><%= task[2] %></td>
+        <td><button type="submit" name="id" value= <%= task[0] %> method="post">Done</button></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

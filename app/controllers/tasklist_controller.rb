@@ -15,7 +15,8 @@ class TasklistController < ApplicationController
 
   def delete
     id = params['id']
-    Tasklist.delete_task(id)
+    Tasklist.delete_task(id.to_i)
+    redirect_to :action =>"display"
   end
 
   def display
