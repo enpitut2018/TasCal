@@ -54,8 +54,8 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
       hour:"12",
       minute:"00"
     }
-    assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが増えていないか?"
-    assert_response 400, "リクエストが不正です"
+    assert_equal (Tasklist.get_tasks.empty?) , true , "空のとき、タスクが増えていないか?"
+    assert_response 400, "空のとき、リクエストが不正ですと出る"
   end
 
   test "should reject invalid date input" do
@@ -68,8 +68,8 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
             hour:"12",
             minute:"00"
         }
-    assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが増えていないか?"
-    assert_response 400, "リクエストが不正です"
+    assert_equal (Tasklist.get_tasks.empty?) , true , "不正な日付のときタスクが増えていないか?"
+    assert_response 400, "不正な日付のときリクエストが不正です"
   end
 
   test "should reject invalid time input" do

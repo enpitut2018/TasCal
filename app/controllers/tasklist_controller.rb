@@ -12,8 +12,8 @@ class TasklistController < ApplicationController
       minute = params['minute']
 
       elements = [name, year, month, day, hour, minute]
-      if elements.all? {|t| !t.empty? && !t.nil?}
-        Tasklist.addtasks(name, year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
+      if (elements.all? {|t| !t.empty? && !t.nil?}) &&
+         (Tasklist.addtasks(name, year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i))
         @err_flag = false
         redirect_to :action =>"display"
       else
