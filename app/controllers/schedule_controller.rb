@@ -1,10 +1,10 @@
 require 'date'
-
+require 'time'
 class ScheduleController < ApplicationController
 
 	@err_flag = false
 
-	def is_valid_date: year, month, day, hour, minute
+	def is_valid_date year, month, day, hour, minute
 		if Date.valid_date?(year,month,day) then
 			begin
 				parsed_time = Time.parse(hour.to_s + ":" + minute.to_s) 
@@ -37,9 +37,12 @@ class ScheduleController < ApplicationController
 			if (elements.all? {|t| !t.empty? && !t.nil?}) &&
 				self.is_valid_date(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i) &&
 				self.is_valid_date(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i) then
-				start_time = DataTime.new(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
-				end_time = DataTime.new(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
-				object = Schedule.new(name, start_time, end_time)
+				start_time = DateTime.new(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
+				end_time = DateTime.new(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
+				object = Schedule.new(
+                                  :name => name,
+                                  :start => start_time,
+                                  :end => end_time)
 				object.save
 
 				@err_flag = false

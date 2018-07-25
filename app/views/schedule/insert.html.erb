@@ -1,5 +1,38 @@
 <h1>Schedule#insert</h1>
-<p>Find me in app/views/schedule/insert.html.erb</p>
+<h2>予定を追加します</h2>
+<p><a href="/schedule/display">予定の一覧表示はこちら</a></p>
+<% if @err_flag then %>
+  <p>不正な入力です。</p>
+<% end %>
+<p>Find me in app/views/tasklist/insert.html.erb</p>
+<%= form_tag("/schedule/insert", method: "post") do %>
+<%= label_tag(:name, "予定名:") %>
+<%= text_field_tag(:name) %>
+  <br/>  
+  <%= label_tag(:s_year, "Year:") %>   
+  <%= text_field_tag(:s_year) %>
+  <%= label_tag(:s_month, "Month:") %>  
+  <%= text_field_tag(:s_month) %>
+  <%= label_tag(:s_day, "Day:") %>  
+  <%= text_field_tag(:s_day) %>
+  <%= label_tag(:s_hour, "Hour:") %>  
+  <%= text_field_tag(:s_hour) %>
+  <%= label_tag(:s_minute, "Minute:") %>
+  <%= text_field_tag(:s_minute) %>
+  <br/>
+  <%= label_tag(:e_year, "Year:") %>   
+  <%= text_field_tag(:e_year) %>
+  <%= label_tag(:e_month, "Month:") %>  
+  <%= text_field_tag(:e_month) %>
+  <%= label_tag(:e_day, "Day:") %>  
+  <%= text_field_tag(:e_day) %>
+  <%= label_tag(:e_hour, "Hour:") %>  
+  <%= text_field_tag(:e_hour) %>
+  <%= label_tag(:e_minute, "Minute:") %>
+  <%= text_field_tag(:e_minute) %>
+  <%= submit_tag("追加") %>
+<% end %>
+
 <table>
-  <!-- <%= render : partial => "partials/list", :collection => @schedules %> -->
+
 </table>
