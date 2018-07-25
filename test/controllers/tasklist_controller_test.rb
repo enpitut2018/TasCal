@@ -15,7 +15,7 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
     end
     assert_equal (Tasklist.get_tasks.empty?) , false , "タスクに追加されたか?"
     # assert_template 'tasklist/insert'
-     # end
+    #  end
     # post :create 
     # assert_response :seccess
     # assert_template "tasklist/insert"
@@ -23,9 +23,35 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
     # assert_equal (shops_count_before_create +1), Shop.count
   end
 
+  test "should pass validation" do
+    post tasklist_insert_url , params: 
+    { 
+      name: "hoge", 
+      year: "2018",
+      month:"07",
+      date:"25",
+      hour:"12",
+      minute:"00"
+    }
+    assert_redirected_to tasklist_display_url    
+  end
+
   test "should get delete" do
-    get tasklist_delete_url
-    assert_response :success
+
+    post tasklist_insert_url , params: 
+    { 
+      name: "hoge", 
+      date: "fuga"
+    }
+
+    assert_difference 'Tasklist.get_task_count' , -1 , "タスクカウントが減ったか？" do
+      post tasklist_delete_url, params: 
+      { 
+        id: "0"
+      }
+      assert_redirected_to tasklist_display_url
+    end
+    assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが削除されたか?"
   end
 
   # test "should get display" do
