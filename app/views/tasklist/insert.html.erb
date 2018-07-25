@@ -1,6 +1,12 @@
 <h1>Tasklist#insert</h1>
 <h2>タスクを追加します</h2>
 <p><a href="/tasklist/display">タスクの一覧表示はこちら</a></p>
+
+<% if @err_flag then %>
+  <p>不正な入力です。</p>
+<% end %>
+
+
 <p>Find me in app/views/tasklist/insert.html.erb</p>
 <%= form_tag("/tasklist/insert", method: "post") do %>
   <%= label_tag(:name, "TaskName:") %>  
