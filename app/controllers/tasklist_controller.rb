@@ -48,7 +48,7 @@ class TasklistController < ApplicationController
     diff = ((deadline - now) * 24 * 60).to_i
 
     # schedule_list = ScheduleController.display
-    diff    
+    (diff/60).to_s + "時間" + (diff%60).to_s + "分"
   end
 
   def display

@@ -24,7 +24,12 @@ class Tasklist
   end
 
   def self.get_tasks
-    @tasks
+    return_tasks_info = []
+    for task in @tasks do
+      return_tasks_info.push [task[0], task[1], task[2], task[3], task[4], task[5], task[6], TasklistController.calc_available_time(task[0])]
+    end
+
+    return_tasks_info
   end
 
   def self.delete_task id
