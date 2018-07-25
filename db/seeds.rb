@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Schedule.create(
+                   "name": "hoge",
+                    #{}"start": DateTime.new(1993, 2, 24, 11, 30, 45),
+                    #{}"end": DateTime.new(1993, 2, 24, 12, 30, 45))
+                    )
