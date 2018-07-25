@@ -35,6 +35,22 @@ class TasklistController < ApplicationController
     redirect_to :action =>"display"
   end
 
+  def self.calc_available_time id
+    # 今の時間の取得
+    now = DateTime.now
+    # deadlineの取得
+    taskdata = Tasklist.get_task(id.to_i)
+    deadline = DateTime.new(taskdata[2],taskdata[3],taskdata[4],taskdata[5],taskdata[6], 0, "+09:00")
+    
+    puts deadline
+    puts now
+    # 予定が入っている時間を引く
+    diff = ((deadline - now) * 24 * 60).to_i
+
+    # schedule_list = ScheduleController.display
+    diff    
+  end
+
   def display
     @err_flag = false
     @tasks = Tasklist.get_tasks

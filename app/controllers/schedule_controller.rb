@@ -4,7 +4,7 @@ class ScheduleController < ApplicationController
 
 	@err_flag = false
 
-	def is_valid_date: year, month, day, hour, minute
+	def is_valid_date year, month, day, hour, minute
 		if Date.valid_date?(year,month,day) then
 			begin
 				parsed_time = Time.parse(hour.to_s + ":" + minute.to_s) 
@@ -53,7 +53,8 @@ class ScheduleController < ApplicationController
 
 	def display
 		@err_flag = false
-		@schedules = Schedule.all
+    @schedules = Schedule.all
+    @schedules
 	end
 
 	def delete

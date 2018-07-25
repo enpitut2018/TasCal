@@ -33,6 +33,10 @@ class Tasklist
     end
   end
 
+  def self.get_task id
+    @tasks[id]
+  end
+
   def self.get_task_count
     @task_count
   end

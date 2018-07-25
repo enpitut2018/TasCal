@@ -113,4 +113,23 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
   #   assert_response :success
   # end
 
+  test "should get schedule_list" do
+
+    Tasklist.addtasks("あ", 2018, 7, 25, 18, 00)
+
+    test = TasklistController.calc_available_time(0)
+    puts test
+    # assert_redirected_to tasklist_display_url
+
+
+
+  #   assert_difference 'Tasklist.get_task_count' , -1 , "タスクカウントが減ったか？" do
+  #     post tasklist_delete_url, params: 
+  #     { 
+  #       id: "0"
+  #     }
+  #     assert_redirected_to tasklist_display_url
+  #   end
+  #   assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが削除されたか?"
+  end
 end
