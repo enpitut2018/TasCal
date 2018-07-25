@@ -1,22 +1,20 @@
+# coding: utf-8
 require 'test_helper'
 
 class TasklistControllerTest < ActionDispatch::IntegrationTest
-  # host! "localhost:3000"
   test "should get insert" do
     get tasklist_insert_url
-    puts tasklist_insert_url
     assert_response :success
-
-    # test "invalid signup information" do
-    #   get 'tasklist/insert'
-      # assert_no_difference 'Tasklist.task_count' do
-      #   post 'tasklist/insert', params: 
-      #   { 
-      #     name: "hoge", 
-      #     date: "fuga"
-      #   }
-      #  end
-       # assert_template 'tasklist/insert'
+    assert_equal (Tasklist.get_tasks.empty?) , true , "タスク空か?"
+    assert_difference 'Tasklist.get_task_count' , 1 , "タスクカウントが増えたか？" do
+      post tasklist_insert_url , params: 
+                                { 
+                                  name: "hoge", 
+                                  date: "fuga"
+                                }
+    end
+    assert_equal (Tasklist.get_tasks.empty?) , false , "タスクに追加されたか?"
+    # assert_template 'tasklist/insert'
      # end
     # post :create 
     # assert_response :seccess
@@ -30,9 +28,9 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get display" do
-    get tasklist_display_url
-    assert_response :success
-  end
+  # test "should get display" do
+  #   get tasklist_display_url
+  #   assert_response :success
+  # end
 
 end
