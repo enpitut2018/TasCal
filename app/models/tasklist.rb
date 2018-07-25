@@ -1,4 +1,5 @@
 require 'date'
+require 'time'
 
 class Tasklist
   # cattr_accessor :tasks
@@ -8,8 +9,17 @@ class Tasklist
 
   def self.addtasks name, year, month, day, hour, minute
     if Date.valid_date?(year,month,day)
+
+      begin
+        parsed_time = Time.parse(hour.to_s + ":" + minute.to_s)
+      rescue ArgumentError => e
+        return false
+      end
+
       @tasks[@task_count] = [@task_count, name, year, month, day, hour, minute]
       @task_count += 1
+
+      return true
     end
   end
 

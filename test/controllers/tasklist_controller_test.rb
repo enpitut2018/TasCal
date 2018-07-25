@@ -44,7 +44,7 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to tasklist_display_url, "一覧画面にリダイレクトされる．"    
   end
 
-  test "should reject validation" do
+  test "should reject empty input" do
     post tasklist_insert_url , params: 
     { 
       name: "hoge", 
@@ -54,6 +54,34 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
       hour:"12",
       minute:"00"
     }
+    assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが増えていないか?"
+    assert_response 400, "リクエストが不正です"
+  end
+
+  test "should reject invalid date input" do
+    post tasklist_insert_url , params:
+        {
+            name: "hoge",
+            year: "2018",
+            month:"07",
+            day:"40",
+            hour:"12",
+            minute:"00"
+        }
+    assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが増えていないか?"
+    assert_response 400, "リクエストが不正です"
+  end
+
+  test "should reject invalid time input" do
+    post tasklist_insert_url , params:
+        {
+            name: "hoge",
+            year: "2018",
+            month:"07",
+            day:"25",
+            hour:"12",
+            minute:"70"
+        }
     assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが増えていないか?"
     assert_response 400, "リクエストが不正です"
   end
