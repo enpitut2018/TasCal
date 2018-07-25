@@ -1,2 +1,21 @@
 <h1>Schedule#display</h1>
 <p>Find me in app/views/schedule/display.html.erb</p>
+
+<%= form_tag("/schedule/delete", method: "post") do %>
+  <table>
+    <tr>
+      <th>予定名</th>
+      <th>開始日</th>
+      <th>終了日</th>
+    </tr>
+    <% schedules = @schedules %>
+      <% schedules.each do |schedule| %>
+      <tr>
+        <td><%= schedule.name %></td>
+        <td><%= schedule.start.to_s %></td>
+        <td><%= schedule.end.to_s %></td>
+        
+      </tr>
+    <% end %>
+  </table>
+<% end %>
