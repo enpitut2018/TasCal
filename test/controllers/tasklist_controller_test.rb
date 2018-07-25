@@ -2,6 +2,10 @@
 require 'test_helper'
 
 class TasklistControllerTest < ActionDispatch::IntegrationTest
+  def setup
+    Tasklist.cleanup
+  end
+
   test "should get insert" do
     get tasklist_insert_url
     assert_response :success
@@ -38,6 +42,20 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
       minute:"00"
     }
     assert_redirected_to tasklist_display_url, "一覧画面にリダイレクトされる．"    
+  end
+
+  test "should reject validation" do
+    post tasklist_insert_url , params: 
+    { 
+      name: "hoge", 
+      year: "",
+      month:"07",
+      day:"25",
+      hour:"12",
+      minute:"00"
+    }
+    assert_equal (Tasklist.get_tasks.empty?) , true , "タスクが増えていないか?"
+    assert_response 400, "リクエストが不正です"
   end
 
   test "should get delete" do

@@ -8,8 +8,11 @@ class TasklistController < ApplicationController
       hour = params['hour']
       minute = params['minute']
 
-      Tasklist.addtasks(name, year, month, day, hour, minute)
-      redirect_to :action =>"display"
+      elements = [name, year, month, day, hour, minute]
+      if elements.all? {|t| !t.empty? && !t.nil?}
+        Tasklist.addtasks(name, year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
+        redirect_to :action =>"display"
+      end
     end
   end
 

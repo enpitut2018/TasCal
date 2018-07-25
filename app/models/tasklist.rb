@@ -1,3 +1,5 @@
+require 'date'
+
 class Tasklist
   # cattr_accessor :tasks
   # cattr_accessor :task_count
@@ -5,8 +7,10 @@ class Tasklist
   @task_count = 0
 
   def self.addtasks name, year, month, day, hour, minute
-    @tasks[@task_count] = [@task_count, name, year, month, day, hour, minute]
-    @task_count += 1
+    if Date.valid_date?(year,month,day)
+      @tasks[@task_count] = [@task_count, name, year, month, day, hour, minute]
+      @task_count += 1
+    end
   end
 
   def self.get_tasks
@@ -21,6 +25,11 @@ class Tasklist
 
   def self.get_task_count
     @task_count
+  end
+
+  def self.cleanup
+    @tasks = []
+    @task_count = 0
   end
 
 end
