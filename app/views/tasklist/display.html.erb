@@ -11,7 +11,8 @@
       <% tasks.each do |task| %>
       <tr>
         <td><%= task[1] %></td>
-        <td><%= task[2] %></td>
+        <td><%= task[2] %>/<%= task[3] %>/<%= task[4] %> <%= task[5] %>:<%= task[6] %></td>
+
         <td><button type="submit" name="id" value= <%= task[0] %> method="post">Done</button></td>
       </tr>
     <% end %>

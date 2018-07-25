@@ -4,8 +4,8 @@ class Tasklist
   @tasks = []
   @task_count = 0
 
-  def self.addtasks name, date
-    @tasks[@task_count] = [@task_count, name, date]
+  def self.addtasks name, year, month, day, hour, minute
+    @tasks[@task_count] = [@task_count, name, year, month, day, hour, minute]
     @task_count += 1
   end
 

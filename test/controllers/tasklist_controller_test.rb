@@ -8,10 +8,14 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
     assert_equal (Tasklist.get_tasks.empty?) , true , "タスク空か?"
     assert_difference 'Tasklist.get_task_count' , 1 , "タスクカウントが増えたか？" do
       post tasklist_insert_url , params: 
-                                { 
-                                  name: "hoge", 
-                                  date: "fuga"
-                                }
+    { 
+      name: "hoge", 
+      year: "2018",
+      month:"07",
+      day:"25",
+      hour:"12",
+      minute:"00"
+    }
     end
     assert_equal (Tasklist.get_tasks.empty?) , false , "タスクに追加されたか?"
     # assert_template 'tasklist/insert'
@@ -29,11 +33,11 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
       name: "hoge", 
       year: "2018",
       month:"07",
-      date:"25",
+      day:"25",
       hour:"12",
       minute:"00"
     }
-    assert_redirected_to tasklist_display_url    
+    assert_redirected_to tasklist_display_url, "一覧画面にリダイレクトされる．"    
   end
 
   test "should get delete" do
@@ -41,7 +45,11 @@ class TasklistControllerTest < ActionDispatch::IntegrationTest
     post tasklist_insert_url , params: 
     { 
       name: "hoge", 
-      date: "fuga"
+      year: "2018",
+      month:"07",
+      day:"25",
+      hour:"12",
+      minute:"00"
     }
 
     assert_difference 'Tasklist.get_task_count' , -1 , "タスクカウントが減ったか？" do

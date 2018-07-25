@@ -2,9 +2,14 @@ class TasklistController < ApplicationController
   def insert
     if request.post? then
       name = params['name']
-      date = params['date']
+      year = params['year']
+      month = params['month']
+      day = params['day']
+      hour = params['hour']
+      minute = params['minute']
 
-      Tasklist.addtasks(name, date)
+      Tasklist.addtasks(name, year, month, day, hour, minute)
+      redirect_to :action =>"display"
     end
   end
 
