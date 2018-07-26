@@ -1,2 +1,48 @@
 <h1>Task#insert</h1>
-<p>Find me in app/views/task/insert.html.erb</p>
+<h2>タスクの情報を入力してください</h2>
+<p><a href="/task/display">タスクの一覧表示はこちら</a></p>
+
+<% if @err_flag then %>
+  <p>不正な入力です。</p>
+<% end %>
+
+<%= form_tag("/task/insert", method: "post") do %>
+  <table>
+    <tr>
+      <td>タスクの名前を入力</td>
+    </tr>
+    <tr>
+      <td>
+        <%= label_tag(:name, "TaskName:") %>
+        <%= text_field_tag(:name) %>
+      </td>
+    </tr>
+    <tr>
+      <td>タスクの締切を入力</td>
+    </tr>
+    <tr>
+      <td>
+        <%= label_tag(:year, "Year:") %>
+        <%= text_field_tag(:year) %>
+        <%= label_tag(:month, "Month:") %>
+        <%= text_field_tag(:month) %>
+        <%= label_tag(:day, "Day:") %>
+        <%= text_field_tag(:day) %>
+        <%= label_tag(:hour, "Hour:") %>
+        <%= text_field_tag(:hour) %>
+        <%= label_tag(:minute, "Minute:") %>
+        <%= text_field_tag(:minute) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= submit_tag("追加") %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+<!-- <form method="post" action="/tasklist/insert"> -->
+<!--   <input type="text" name="taskname"> -->
+<!--   <input type="text" name="date"> -->
+<!--   <input type="submit"> -->
+<!-- </form> -->

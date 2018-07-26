@@ -36,6 +36,9 @@ class TaskController < ApplicationController
 end
 
 def display
+  @err_flag = false
+  @tasks = Task.all
+  # p @tasks
 end
 
 def delete

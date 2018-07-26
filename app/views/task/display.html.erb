@@ -1,2 +1,22 @@
 <h1>Task#display</h1>
-<p>Find me in app/views/task/display.html.erb</p>
+<h2>タスクの一覧を表示します</h2>
+<p><a href="/task/insert">タスクの新規追加はこちら</a></p>
+
+<%= form_tag("/task/delete", method: "post") do %>
+  <table border=1>
+    <tr>
+      <th>タスク名</th>
+      <th>締切</th>
+      <th>締切までの残り時間</th>
+    </tr>
+    <% tasks = @tasks %>
+      <% tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.deadline.strftime("%Y年%m月%d日%H時%M分") %></td>
+
+        <td><button type="submit" name="id" value= <%= task.id %> method="post">Done</button></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
