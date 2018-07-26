@@ -14,8 +14,8 @@
     <tr>
       <% p schedule.start_time %>
         <td><%= schedule.name %></td>
-        <td><%= schedule.start_time.to_s %></td>
-        <td><%= schedule.end_time.to_s %></td>
+        <td><%= schedule.start_time.strftime("%Y年%m月%d日%H時%M分") %></td>
+        <td><%= schedule.end_time.strftime("%Y年%m月%d日%H時%M分") %></td>
         
       </tr>
     <% end %>

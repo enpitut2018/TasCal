@@ -9,6 +9,6 @@
 
 Schedule.create(
                    name: "ゼミ1",
-                   start_time: DateTime.new(1993, 2, 24, 11, 30, 45),
-                   end_time: DateTime.new(1993, 2, 24, 12, 30, 45)
+                   start_time: Time.zone.local(2018, 2, 24, 11, 30, 45),
+                   end_time: Time.zone.local(2018, 2, 24, 12, 30, 45)
 )
