@@ -41,8 +41,8 @@ class ScheduleController < ApplicationController
 				end_time = DateTime.new(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
 				object = Schedule.new(
                                   :name => name,
-                                  :start => start_time,
-                                  :end => end_time)
+                                  :start_time => start_time,
+                                  :end_time => end_time)
 				object.save
 
 				@err_flag = false
@@ -57,7 +57,7 @@ class ScheduleController < ApplicationController
 	def display
 		@err_flag = false
     @schedules = Schedule.all
-    @schedules
+    p @schedules
 	end
 
 	def delete
