@@ -87,35 +87,44 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
 
     id = Task.find_by(name: "sample").id
 
-    assert_equal(60*48+1, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+    assert_equal(60*48, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
   end
 
   test "calc_available_time_現時点->予定のスタート->タスクの期限->予定のエンド" do
     insert_task "sample", "2018", "07", "28", "12", "00"
-    insert_schedule "sample_schedule" , e_day="27"
-
-    id = Task.find_by(name: "sample").id
-
-    assert_equal(60*24+1, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
-  end
-
-  test "calc_available_time_予定のスタート->現時点->予定のエンド->タスクの期限" do
-    insert_task "sample", "2018", "07", "28", "12", "00"
-    insert_schedule "sample_schedule" , s_day="24"
+    insert_schedule "sample_schedule", s_day = "26", e_day = "29"
 
     id = Task.find_by(name: "sample").id
 
     assert_equal(60*24, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
   end
 
-  # test "calc_available_time_予定のスタート->現時点->タスクの期限->予定のエンド" do
-  #   insert_task "sample", "2018", "07", "28", "12", "00"
-  #   insert_schedule "sample_schedule" , s_day="24" e_day="29"
+  test "calc_available_time_予定のスタート->現時点->予定のエンド->タスクの期限" do
+    insert_task "sample", "2018", "07", "28", "12", "00"
+    insert_schedule "sample_schedule", s_day = "24"
 
-  #   id = Task.find_by(name: "sample").id
+    id = Task.find_by(name: "sample").id
 
-  #   assert_equal(60*24, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
-  # end
+    assert_equal(60*24, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+  end
+
+  test "calc_available_time_予定のスタート->現時点->タスクの期限->予定のエンド" do
+    insert_task "sample", "2018", "07", "28", "12", "00"
+    insert_schedule "sample_schedule" , s_day="24", e_day="29"
+
+    id = Task.find_by(name: "sample").id
+
+    assert_equal(0, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+  end
+
+  test "calc_available_time_現時点->タスクの期限->予定のスタート->予定のエンド" do
+    insert_task "sample", "2018", "07", "28", "12", "00"
+    insert_schedule "sample_schedule" , s_day="29", e_day="30"
+
+    id = Task.find_by(name: "sample").id
+
+    assert_equal(60*24*3, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+  end
 
   def insert_task name, year, month, day, hour, minute
     post task_insert_url , params:
@@ -129,7 +138,15 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
         }
   end
 
-  def insert_schedule(name, s_year="2018", s_month="7", s_day="26", s_hour="12", s_minute="0", e_year="2018", e_month="7", e_day="27", e_hour="12", e_minute="0")
+  def insert_schedule(name, s_day="26", e_day="27")
+    s_year="2018"
+    s_month="7"
+    s_hour="12"
+    s_minute="0"
+    e_year="2018"
+    e_month="7"
+    e_hour="12"
+    e_minute="0"
     post schedule_insert_url, params:
         {
             name: name,

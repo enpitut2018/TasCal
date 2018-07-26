@@ -59,21 +59,29 @@ def self.calc_available_time id, current_time=nil
     taskdata = Task.find(id.to_i)
     deadline = taskdata.deadline
     available_time = deadline - now
+    p available_time
     
     # 予定が入っている時間を引く
     schedules = Schedule.all
     schedules.each do |schedule| 
-      if schedule.start_time > now && schedule.end_time < deadline then
+      p schedule.start_time
+      p schedule.end_time
+        if schedule.start_time > now && schedule.end_time < deadline then
+        puts "1"
         available_time -= (schedule.end_time - schedule.start_time)
       elsif schedule.start_time > now && schedule.end_time > deadline then
+        puts "2"
         available_time -= (deadline - schedule.start_time)
       elsif schedule.start_time < now && schedule.end_time < deadline then
+        puts "3"
         available_time -= (schedule.end_time - now)
       elsif schedule.start_time < now && schedule.end_time > deadline then
-        available_time = 0
+        puts "4"
+        available_time -= available_time
       end
     end
 
+    p available_time
     remaining_time = available_time / 60
 
     # schedule_list = ScheduleController.display
