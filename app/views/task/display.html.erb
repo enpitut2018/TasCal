@@ -7,14 +7,15 @@
     <tr>
       <th>タスク名</th>
       <th>締切</th>
-      <th>締切までの残り時間</th>
+      <th>締切までの空き時間</th>
     </tr>
     <% tasks = @tasks.order("deadline ASC") %>
       <% tasks.each do |task| %>
+      <% min = TaskController.calc_available_time(task.id) %>
       <tr>
         <td><%= task.name %></td>
         <td><%= task.deadline.strftime("%Y年%m月%d日%H時%M分") %></td>
-
+        <td><%= min/60 %>"時間"<%= min%60 %>"分"</td> 
         <td><button type="submit" name="id" value= <%= task.id %> method="post">Done</button></td>
       </tr>
     <% end %>
