@@ -4,16 +4,7 @@ require 'test_helper'
 class TaskControllerTest < ActionDispatch::IntegrationTest
   def setup
     Task.destroy_all
-    
-    @task = {
-        name: "sample",
-        year: "2018",
-        month:"07",
-        day:"28",
-        hour:"12",
-        minute:"00"
-    }
-
+    Schedule.destroy_all
   end
 
   test "should get insert" do
@@ -90,15 +81,41 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
     assert_equal (Task.where("id > 0").count == 0) , true , "タスクが削除されたか?"
   end
 
-  test "calc_available_time" do
+  test "calc_available_time_現時点->予定のスタート->予定のエンド->タスクの期限" do
     insert_task "sample", "2018", "07", "28", "12", "00"
     insert_schedule "sample_schedule"
 
     id = Task.find_by(name: "sample").id
 
-    assert_equal(60*48, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+    assert_equal(60*48+1, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
   end
 
+  test "calc_available_time_現時点->予定のスタート->タスクの期限->予定のエンド" do
+    insert_task "sample", "2018", "07", "28", "12", "00"
+    insert_schedule "sample_schedule" , e_day="27"
+
+    id = Task.find_by(name: "sample").id
+
+    assert_equal(60*24+1, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+  end
+
+  test "calc_available_time_予定のスタート->現時点->予定のエンド->タスクの期限" do
+    insert_task "sample", "2018", "07", "28", "12", "00"
+    insert_schedule "sample_schedule" , s_day="24"
+
+    id = Task.find_by(name: "sample").id
+
+    assert_equal(60*24, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+  end
+
+  # test "calc_available_time_予定のスタート->現時点->タスクの期限->予定のエンド" do
+  #   insert_task "sample", "2018", "07", "28", "12", "00"
+  #   insert_schedule "sample_schedule" , s_day="24" e_day="29"
+
+  #   id = Task.find_by(name: "sample").id
+
+  #   assert_equal(60*24, TaskController.calc_available_time(id, Time.zone.local(2018, 7, 25, 12, 0)))
+  # end
 
   def insert_task name, year, month, day, hour, minute
     post task_insert_url , params:

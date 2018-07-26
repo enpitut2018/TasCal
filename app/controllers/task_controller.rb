@@ -60,8 +60,6 @@ def self.calc_available_time id, current_time=nil
     deadline = taskdata.deadline
     available_time = deadline - now
     
-    puts deadline
-    puts now
     # 予定が入っている時間を引く
     schedules = Schedule.all
     schedules.each do |schedule| 
