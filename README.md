@@ -1,4 +1,25 @@
-# TasCal (enPiT activity)
+## 平成進捗Master タスク管理アプリ「TasCal」
+
+## エレベーターピッチ
+「予定を追加して良いか分からない」を解決する
+忙しい学生向けの
+残り時間ベースで考えられる
+タスク管理アプリ「TasCal」です。
+これは、タスクに割ける時間の可視化ができ、
+既存のタスク管理アプリやカレンダーアプリと異なり
+即座にタスクに割くことができる時間を計算できる機能が備わっています。
+
+## URL
+* https://enpit-tascal.herokuapp.com/
+
+## メンバー
+https://github.com/Miwa-TKB<br>
+https://github.com/inside-hakumai<br>
+https://github.com/takashift<br>
+https://github.com/MrSyTk<br>
+https://github.com/ysumiya<br>
+
+<!-- # TasCal (enPiT activity)
 
 このリポジトリはenPiTで作成するアプリケーションのデータを含んでいます。
 
@@ -57,3 +78,4 @@ bundle install
 brew services start postgresql
 bundle exec rake db:create
 ```
+ -->
