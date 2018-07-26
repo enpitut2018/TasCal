@@ -9,7 +9,7 @@
       <th>締切</th>
       <th>締切までの残り時間</th>
     </tr>
-    <% tasks = @tasks %>
+    <% tasks = @tasks.order("deadline ASC") %>
       <% tasks.each do |task| %>
       <tr>
         <td><%= task.name %></td>
