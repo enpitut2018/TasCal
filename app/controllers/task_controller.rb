@@ -48,9 +48,13 @@ def delete
   redirect_to :action =>"display"
 end
 
-def self.calc_available_time id
+def self.calc_available_time id, current_time=nil
     # 今の時間の取得
-    now = Time.zone.now
+    if !current_time.nil?
+      now = current_time
+    else
+      now = Time.zone.now
+    end
     # deadlineの取得
     taskdata = Task.find(id.to_i)
     deadline = taskdata.deadline
@@ -72,10 +76,11 @@ def self.calc_available_time id
       end
     end
 
-    diff = ((deadline - now) * 24 * 60).to_i
+    remaining_time = available_time / 60
 
     # schedule_list = ScheduleController.display
-    (diff/60).to_s + "時間" + (diff%60).to_s + "分"
+    # (diff/60).to_s + "時間" + (diff%60).to_s + "分"
+    remaining_time
   end
 
 end
