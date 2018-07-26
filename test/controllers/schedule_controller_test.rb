@@ -45,8 +45,8 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
   # end
 
   test "should get delete" do
-    get schedule_delete_url
-    assert_response :success
+    # get schedule_delete_url
+    # assert_response :success
 
     post schedule_insert_url params: 
       { 
@@ -62,8 +62,10 @@ class ScheduleControllerTest < ActionDispatch::IntegrationTest
         e_hour:"12",
         e_minute:"00"
       }
-      p Schedule.find_by(name: "hoge")
-    assert_difference 'Schedule.find_by_name("hoge").count' , 1 , "予定が削除できたか" do
+      # p Schedule.all
+    id = Schedule.find_by(name: "hoge").id
+
+    assert_difference 'Schedule.where("id > 0").count' , -1 , "予定が削除できたか" do
       post schedule_delete_url params: 
       {
         id: id
