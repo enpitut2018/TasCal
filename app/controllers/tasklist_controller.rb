@@ -1,3 +1,4 @@
+# coding: utf-8
 class TasklistController < ApplicationController
 
   @err_flag = false

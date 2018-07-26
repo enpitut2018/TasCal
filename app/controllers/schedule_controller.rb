@@ -37,12 +37,12 @@ class ScheduleController < ApplicationController
 			if (elements.all? {|t| !t.empty? && !t.nil?}) &&
 				self.is_valid_date(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i) &&
 				self.is_valid_date(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i) then
-				start_time = DateTime.new(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
-				end_time = DateTime.new(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
+				start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
+				end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
 				object = Schedule.new(
                                   :name => name,
-                                  :start => start_time,
-                                  :end => end_time)
+                                  :start_time => start_time,
+                                  :end_time => end_time)
 				object.save
 
 				@err_flag = false
@@ -57,7 +57,7 @@ class ScheduleController < ApplicationController
 	def display
 		@err_flag = false
     @schedules = Schedule.all
-    @schedules
+    p @schedules
 	end
 
 	def delete

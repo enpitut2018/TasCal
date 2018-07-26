@@ -2,10 +2,8 @@
 
 one:
   name: MyString
-  start_time: 2018-07-26 13:09:55
-  end_time: 2018-07-26 13:09:55
+  deadline: 2018-07-26 13:22:30
 
 two:
   name: MyString
-  start_time: 2018-07-26 13:09:55
-  end_time: 2018-07-26 13:09:55
+  deadline: 2018-07-26 13:22:30
