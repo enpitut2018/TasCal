@@ -1,5 +1,6 @@
 <h1>Schedule#display</h1>
-<p>Find me in app/views/schedule/display.html.erb</p>
+<h2>スケジュールの一覧を表示します</h2>
+<p><a href="/schedule/insert">スケジュールの新規追加はこちら</a></p>
 
 <%= form_tag("/schedule/delete", method: "post") do %>
   <table>
@@ -8,7 +9,7 @@
       <th>開始日</th>
       <th>終了日</th>
     </tr>
-    <% schedules = @schedules %>
+    <% schedules = @schedules.order("start_time ASC") %>
     
       <% schedules.each do |schedule| %>
     <tr>
@@ -16,7 +17,7 @@
         <td><%= schedule.name %></td>
         <td><%= schedule.start_time.strftime("%Y年%m月%d日%H時%M分") %></td>
         <td><%= schedule.end_time.strftime("%Y年%m月%d日%H時%M分") %></td>
-        
+        <td><button type="submit" name="id" value= <%= schedule.id %> method="post">削除</button></td>
       </tr>
     <% end %>
   </table>
