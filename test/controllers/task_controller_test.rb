@@ -60,7 +60,7 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
   test "should get delete" do
     # get task_delete_url
     # assert_response :success
-    post task_delete_url , params: 
+    post task_insert_url , params: 
     { 
       name: "hoge", 
       year: "2018",
@@ -69,11 +69,11 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
       hour:"12",
       minute:"00"
     }
-
+    id = Task.find_by(name: "hoge").id
     assert_difference 'Task.where("id > 0").count' , -1 , "タスクカウントが減ったか？" do
       post task_delete_url, params: 
       { 
-        id: "0"
+        id: id
       }
       assert_redirected_to task_display_url
     end

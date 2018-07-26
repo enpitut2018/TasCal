@@ -39,5 +39,12 @@ def display
 end
 
 def delete
+  id = params['id']
+  object = Task.find(id)
+  if !object.nil? then
+    object.destroy
+    @err_flag = false
+  end
+  redirect_to :action =>"display"
 end
 end
