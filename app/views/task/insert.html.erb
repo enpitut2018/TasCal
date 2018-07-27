@@ -9,7 +9,7 @@
   <p>不正な入力です。</p>
 <% end %>
 
-<%= form_tag("/task/insert", method: "post") do %>
+<%= form_tag("/task/insert", method: "post", onsubmit: "return validate()") do %>
   <table>
     <tr>
       <td>タスクの名前を入力</td>
@@ -25,16 +25,18 @@
     </tr>
     <tr>
       <td>
-        <%= label_tag(:year, "Year:") %>
-        <%= text_field_tag(:year) %>
-        <%= label_tag(:month, "Month:") %>
-        <%= text_field_tag(:month) %>
-        <%= label_tag(:day, "Day:") %>
-        <%= text_field_tag(:day) %>
-        <%= label_tag(:hour, "Hour:") %>
-        <%= text_field_tag(:hour) %>
-        <%= label_tag(:minute, "Minute:") %>
-        <%= text_field_tag(:minute) %>
+        <!-- <%= label_tag(:year, "Year:") %> -->
+        <%= text_field_tag(:year, "", id: 'input-year', type: "hidden") %>
+        <!-- <%= label_tag(:month, "Month:") %> -->
+        <%= text_field_tag(:month, "", id: 'input-month', type: "hidden") %>
+        <!-- <%= label_tag(:day, "Day:") %> -->
+        <%= text_field_tag(:day, "", id: 'input-day', type: "hidden") %>
+        <!-- <%= label_tag(:hour, "Hour:") %> -->
+        <%= text_field_tag(:hour, "", id: 'input-hour', type: "hidden") %>
+        <!-- <%= label_tag(:minute, "Minute:") %> -->
+        <%= text_field_tag(:minute, "", id: 'input-minute', type: "hidden") %>
+        <%= label_tag(:deadline, "Deadline:") %>
+        <%= text_field_tag :deadline, "", id: 'input-deadline' %>
       </td>
     </tr>
     <tr>
@@ -50,3 +52,34 @@
 <!--   <input type="text" name="date"> -->
 <!--   <input type="submit"> -->
 <!-- </form> -->
+
+<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/flatpickr" %>
+<%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" %>
+
+<script>
+	flatpickr("#input-deadline",{
+	  enableTime: true,
+	  dateFormat: "Y-m-d H:i",
+  });
+
+	function validate() {
+		// return like "2018-07-02 12:00"
+	  var date_str = document.getElementById("input-deadline").value;
+
+	  var date_values = date_str.split(/[- :]/);
+
+	  var input_year_tag = document.getElementById("input-year");
+	  var input_month_tag = document.getElementById("input-month");
+	  var input_day_tag = document.getElementById("input-day");
+	  var input_hour_tag = document.getElementById("input-hour");
+	  var input_minute_tag = document.getElementById("input-minute");
+
+	  input_year_tag.value = date_values[0];
+	  input_month_tag.value = date_values[1];
+	  input_day_tag.value = date_values[2];
+	  input_hour_tag.value = date_values[3];
+	  input_minute_tag.value = date_values[4];
+
+    return true;
+  }
+</script>
