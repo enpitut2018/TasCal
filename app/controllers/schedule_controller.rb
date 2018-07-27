@@ -46,7 +46,7 @@ class ScheduleController < ApplicationController
 				object.save
 
 				@err_flag = false
-				redirect_to :action =>"display"
+			        #redirect_to :action =>"display"
 			else
 				@err_flag = true
 				render nothing: true, status: 400
@@ -67,6 +67,7 @@ class ScheduleController < ApplicationController
 	    object.destroy
 	    @err_flag = false
 	  end
-	  redirect_to :action =>"display"
+    #redirect_to :action =>"display"
+    redirect_to :action =>"insert"
 	end
 end
