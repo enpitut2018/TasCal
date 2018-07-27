@@ -2,8 +2,15 @@
 <h2>タスクの情報を入力してください</h2> -->
 <%= render :partial => "header.html.erb"%>
 
-<% if @err_flag then %>
-  <p>不正な入力です。</p>
+<% case @err_id
+   when "名前" %>
+<p class="emess">タスク名(50文字以内)を入れてください</p>
+   <% when "日程" %>
+<p class="emess">締切を設定して下さい</p>
+<% when "正常" %>
+<p class="emess">タスクを追加しました</p>
+<% when "初期" %>
+<p></p>
 <% end %>
 
 <div class="container" id="insert_section">
@@ -39,7 +46,6 @@
 <div class="container">
   <%= render :partial => "task.html.erb"%>
 </div>
-
 
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/flatpickr" %>
 <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" %>
