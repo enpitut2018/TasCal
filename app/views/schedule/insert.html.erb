@@ -7,32 +7,75 @@
 <% if @err_flag then %>
   <p>不正な入力です。</p>
 <% end %>
-<%= form_tag("/schedule/insert", method: "post") do %>
+<%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate()") do %>
 <%= label_tag(:name, "予定名:") %>
 <%= text_field_tag(:name) %>
   <br/>  
-  <%= label_tag(:s_year, "Year:") %>   
-  <%= text_field_tag(:s_year) %>
-  <%= label_tag(:s_month, "Month:") %>  
-  <%= text_field_tag(:s_month) %>
-  <%= label_tag(:s_day, "Day:") %>  
-  <%= text_field_tag(:s_day) %>
-  <%= label_tag(:s_hour, "Hour:") %>  
-  <%= text_field_tag(:s_hour) %>
-  <%= label_tag(:s_minute, "Minute:") %>
-  <%= text_field_tag(:s_minute) %>
+  <%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
+  <%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
+  <%= text_field_tag(:s_day, "", id: 'input-s-day', type: "hidden") %>
+  <%= text_field_tag(:s_hour, "", id: 'input-s-hour', type: "hidden") %>
+  <%= text_field_tag(:s_minute, "", id: 'input-s-minute', type: "hidden") %>
+  <%= label_tag(:deadline, "開始日時:") %>
+  <%= text_field_tag :deadline, "", id: 'input-s-date' %>
   <br/>
-  <%= label_tag(:e_year, "Year:") %>   
-  <%= text_field_tag(:e_year) %>
-  <%= label_tag(:e_month, "Month:") %>  
-  <%= text_field_tag(:e_month) %>
-  <%= label_tag(:e_day, "Day:") %>  
-  <%= text_field_tag(:e_day) %>
-  <%= label_tag(:e_hour, "Hour:") %>  
-  <%= text_field_tag(:e_hour) %>
-  <%= label_tag(:e_minute, "Minute:") %>
-  <%= text_field_tag(:e_minute) %>
+  <%= text_field_tag(:e_year, "", id: 'input-e-year', type: "hidden") %>
+  <%= text_field_tag(:e_month, "", id: 'input-e-month', type: "hidden") %>
+  <%= text_field_tag(:e_day, "", id: 'input-e-day', type: "hidden") %>
+  <%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
+  <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
+  <%= label_tag(:deadline, "終了日時:") %>
+  <%= text_field_tag :deadline, "", id: 'input-e-date' %>
   <%= submit_tag("追加") %>
 <% end %>
 
 <%= render :partial => "schedule.html.erb" %>
+
+<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/flatpickr" %>
+<%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" %>
+
+<script>
+	flatpickr("#input-s-date",{
+	  enableTime: true,
+	  dateFormat: "Y-m-d H:i",
+  });
+	flatpickr("#input-e-date",{
+	  enableTime: true,
+	  dateFormat: "Y-m-d H:i",
+  });
+
+	function validate() {
+		// return like "2018-07-02 12:00"
+	  var s_date_str = document.getElementById("input-s-date").value;
+	  var e_date_str = document.getElementById("input-e-date").value;
+
+	  var s_date_values = s_date_str.split(/[- :]/);
+	  var e_date_values = e_date_str.split(/[- :]/);
+
+	  var input_s_year_tag = document.getElementById("input-s-year");
+	  var input_s_month_tag = document.getElementById("input-s-month");
+	  var input_s_day_tag = document.getElementById("input-s-day");
+	  var input_s_hour_tag = document.getElementById("input-s-hour");
+	  var input_s_minute_tag = document.getElementById("input-s-minute");
+
+	  var input_e_year_tag = document.getElementById("input-e-year");
+	  var input_e_month_tag = document.getElementById("input-e-month");
+	  var input_e_day_tag = document.getElementById("input-e-day");
+	  var input_e_hour_tag = document.getElementById("input-e-hour");
+	  var input_e_minute_tag = document.getElementById("input-e-minute");
+
+	  input_s_year_tag.value = s_date_values[0];
+	  input_s_month_tag.value = s_date_values[1];
+	  input_s_day_tag.value = s_date_values[2];
+	  input_s_hour_tag.value = s_date_values[3];
+	  input_s_minute_tag.value = s_date_values[4];
+
+	  input_e_year_tag.value = e_date_values[0];
+	  input_e_month_tag.value = e_date_values[1];
+	  input_e_day_tag.value = e_date_values[2];
+	  input_e_hour_tag.value = e_date_values[3];
+	  input_e_minute_tag.value = e_date_values[4];
+
+    return true;
+  }
+</script>
