@@ -3,7 +3,7 @@
     <tr>
       <th>タスク名</th>
       <th>締切</th>
-      <th>締切までの残り時間</th>
+      <th>締切までの空き時間</th>
     </tr>
     <% tasks = Task.all.order("deadline ASC") %>
     <%= render :partial => "listingtask.html.erb",

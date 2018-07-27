@@ -1,3 +1,4 @@
+# coding: utf-8
 class TaskController < ApplicationController
   @err_flag = false
 
@@ -26,7 +27,7 @@ class TaskController < ApplicationController
       if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
        Task.new(:name => name, :deadline => Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)).save
        @err_flag = false
-       redirect_to :action =>"display"
+       #redirect_to :action =>"display"
      else
       @err_flag = true
       render nothing: true, status: 400
@@ -48,7 +49,8 @@ def delete
     object.destroy
     @err_flag = false
   end
-  redirect_to :action =>"display"
+  #redirect_to :action =>"display"
+  redirect_to :action =>"insert"
 end
 
 def self.calc_available_time id, current_time=nil

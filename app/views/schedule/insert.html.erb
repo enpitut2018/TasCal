@@ -7,7 +7,6 @@
 <% if @err_flag then %>
   <p>不正な入力です。</p>
 <% end %>
-<p>Find me in app/views/tasklist/insert.html.erb</p>
 <%= form_tag("/schedule/insert", method: "post") do %>
 <%= label_tag(:name, "予定名:") %>
 <%= text_field_tag(:name) %>
@@ -36,6 +35,4 @@
   <%= submit_tag("追加") %>
 <% end %>
 
-<table>
-
-</table>
+<%= render :partial => "schedule.html.erb" %>

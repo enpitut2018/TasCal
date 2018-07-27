@@ -5,23 +5,25 @@
 <p><a href="/schedule/insert">予定の新規追加はこちら</a></p>
 <p><a href="/schedule/display">予定の一覧表示はこちら</a></p>
 
-<%= form_tag("/schedule/delete", method: "post") do %>
-  <table border=1>
-    <tr>
-      <th>予定名</th>
-      <th>開始日</th>
-      <th>終了日</th>
-    </tr>
-    <% schedules = @schedules.order("start_time ASC") %>
+<%= render :partial => "schedule.html.erb" %>
+<!-- <%= form_tag("/schedule/delete", method: "post") do %> -->
+<!--   <table border=1> -->
+<!--     <tr> -->
+<!--       <th>予定名</th> -->
+<!--       <th>開始日</th> -->
+<!--       <th>終了日</th> -->
+<!--     </tr> -->
+
+<!--     <% schedules = @schedules.order("start_time ASC") %> -->
     
-      <% schedules.each do |schedule| %>
-    <tr>
-      <% p schedule.start_time %>
-        <td><%= schedule.name %></td>
-        <td><%= schedule.start_time.strftime("%Y年%m月%d日%H時%M分") %></td>
-        <td><%= schedule.end_time.strftime("%Y年%m月%d日%H時%M分") %></td>
-        <td><button type="submit" name="id" value= <%= schedule.id %> method="post">削除</button></td>
-      </tr>
-    <% end %>
-  </table>
-<% end %>
+<!--       <% schedules.each do |schedule| %> -->
+<!--     <tr> -->
+<!--       <% p schedule.start_time %> -->
+<!--         <td><%= schedule.name %></td> -->
+<!--         <td><%= schedule.start_time.strftime("%Y年%m月%d日%H時%M分") %></td> -->
+<!--         <td><%= schedule.end_time.strftime("%Y年%m月%d日%H時%M分") %></td> -->
+<!--         <td><button type="submit" name="id" value= <%= schedule.id %> method="post">削除</button></td> -->
+<!--       </tr> -->
+<!--     <% end %> -->
+<!--   </table> -->
+<!-- <% end %> -->
