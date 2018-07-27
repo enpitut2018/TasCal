@@ -1,0 +1,63 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+body {
+	font-size: 16px;
+	text-align: center;
+}
+
+header {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
+h1 {
+	font-size: 48px;
+	font-weight: 700;
+}
+h2 {
+	font-size: 40px;
+	font-weight:600;
+}
+h3 {
+	font-weight: 400;
+}
+
+p {
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.btn.btn-primary {
+	font-size: 28px;
+}
+
+.table th {
+	text-align: center;
+}
+
+.table td {
+	vertical-align: middle!important;
+}
+
+.row {
+	margin-top: 15px;
+}
+
+#insert_section {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	/*margin-right: 4.5rem;*/
+	background-color: #ddd;
+	border-radius: .25rem;
+}
+
+.bg-danger {
+	color: white;
+	background-color: #dc3545!important;
+}
+
+.bg-warning {
+	color: white;
+	background-color: #ffc107!important;
+}

@@ -1,9 +1,9 @@
 <% min = TaskController.calc_available_time(listingtask.id) %>
 <% premin = TaskController.calc_available_time(listingtask.id) * 11 / 24  %>
-<tr bgcolor=<%= Task.busy_color(listingtask.id)%>>
+<tr class=<%= Task.busy_color(listingtask.id)%>>
   <td><%= listingtask.name %></td>
   <td><%= listingtask.deadline.strftime("%Y年%m月%d日%H時%M分") %></td>
   <td><%= (min/60).to_i %>時間<%= (min%60).to_i %>分</td>
   <td><%= (premin/60).to_i %>時間<%= (premin%60).to_i %>分</td>
-  <td><button type="submit" name="id" value= <%= listingtask.id %> method="post">Done</button></td>
+  <td><button class="btn btn-success" type="submit" name="id" value= <%= listingtask.id %> method="post">Done</button></td>
 </tr>
