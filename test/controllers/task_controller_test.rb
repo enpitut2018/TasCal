@@ -147,15 +147,6 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
         }
   end
 
-  # def insert_schedule(name, s_year="2018", s_month="7", s_day="26", s_hour="12", s_minute="0", e_year="2018", e_month="7", e_day="27", e_hour="12", e_minute="0")
-  #   post schedule_insert_url, params:
-  #       {
-  #           name: name,
-  #           s_year: s_year, s_month: s_month, s_day: s_day, s_hour: s_hour, s_minute: s_minute,
-  #           e_year: e_year, e_month: e_month, e_day: e_day, e_hour: e_hour, e_minute: e_minute
-  #       }
-  # end
-
   def insert_schedule(name:, s_year:"2018", s_month:"7", s_day:"26", s_hour:"12", s_minute:"0", e_year:"2018", e_month:"7", e_day:"27", e_hour:"12", e_minute:"0")
     post schedule_insert_url, params:
         {
