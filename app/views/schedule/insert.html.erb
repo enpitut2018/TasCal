@@ -5,6 +5,8 @@
 <% if @err_flag then %>
   <p>不正な入力です。</p>
 <% end %>
+
+<div class="container">
 <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate()") do %>
 <%= label_tag(:name, "予定名:") %>
 <%= text_field_tag(:name) %>
@@ -26,6 +28,7 @@
   <%= text_field_tag :deadline, "", id: 'input-e-date' %>
   <%= submit_tag("追加") %>
 <% end %>
+</div>
 
 <%= render :partial => "schedule.html.erb" %>
 

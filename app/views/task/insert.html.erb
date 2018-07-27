@@ -6,22 +6,20 @@
   <p>不正な入力です。</p>
 <% end %>
 
+<div class="container">
 <%= form_tag("/task/insert", method: "post", onsubmit: "return validate()") do %>
-  <table>
-    <tr>
-      <td>タスクの名前を入力</td>
-    </tr>
-    <tr>
-      <td>
+  <div class="row">
+
+    <div class="col-sm-6">
+      <p>タスクの名前を入力</p>
+      <p>
         <%= label_tag(:name, "TaskName:") %>
         <%= text_field_tag(:name) %>
-      </td>
-    </tr>
-    <tr>
-      <td>タスクの締切を入力</td>
-    </tr>
-    <tr>
-      <td>
+      </p>
+    </div>
+    <div class="col-sm-6">
+      <p>タスクの締切を入力</p>
+      <p>
         <!-- <%= label_tag(:year, "Year:") %> -->
         <%= text_field_tag(:year, "", id: 'input-year', type: "hidden") %>
         <!-- <%= label_tag(:month, "Month:") %> -->
@@ -34,15 +32,17 @@
         <%= text_field_tag(:minute, "", id: 'input-minute', type: "hidden") %>
         <%= label_tag(:deadline, "Deadline:") %>
         <%= text_field_tag :deadline, "", id: 'input-deadline' %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= submit_tag("追加") %>
-      </td>
-    </tr>
-  </table>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+        <%= submit_tag("追加", class: "btn btn-primary") %>
+    </div>
+  </div>
 <% end %>
+</div>
+
 <%= render :partial => "task.html.erb"%>
 <!-- <form method="post" action="/tasklist/insert"> -->
 <!--   <input type="text" name="taskname"> -->
