@@ -6,31 +6,43 @@
   <p>不正な入力です。</p>
 <% end %>
 
-<div class="container">
-<%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate()") do %>
-<%= label_tag(:name, "予定名:") %>
-<%= text_field_tag(:name) %>
-  <br/>  
-  <%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
-  <%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
-  <%= text_field_tag(:s_day, "", id: 'input-s-day', type: "hidden") %>
-  <%= text_field_tag(:s_hour, "", id: 'input-s-hour', type: "hidden") %>
-  <%= text_field_tag(:s_minute, "", id: 'input-s-minute', type: "hidden") %>
-  <%= label_tag(:deadline, "開始日時:") %>
-  <%= text_field_tag :deadline, "", id: 'input-s-date' %>
-  <br/>
-  <%= text_field_tag(:e_year, "", id: 'input-e-year', type: "hidden") %>
-  <%= text_field_tag(:e_month, "", id: 'input-e-month', type: "hidden") %>
-  <%= text_field_tag(:e_day, "", id: 'input-e-day', type: "hidden") %>
-  <%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
-  <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
-  <%= label_tag(:deadline, "終了日時:") %>
-  <%= text_field_tag :deadline, "", id: 'input-e-date' %>
-  <%= submit_tag("追加") %>
-<% end %>
+<div class="container" id="insert_section">
+	<%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate()") do %>
+	<div class="row">
+		<div class="col-sm-4">
+			<p>予定の名前を入力</p>
+			<%= text_field_tag(:name) %>
+		</div>
+		<div class="col-sm-4">
+			<p>開始日時</p>
+			<%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
+			<%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
+			<%= text_field_tag(:s_day, "", id: 'input-s-day', type: "hidden") %>
+			<%= text_field_tag(:s_hour, "", id: 'input-s-hour', type: "hidden") %>
+			<%= text_field_tag(:s_minute, "", id: 'input-s-minute', type: "hidden") %>
+			<%= text_field_tag :deadline, "", id: 'input-s-date' %>
+		</div>
+		<div class="col-sm-4">
+			<p>終了日時</p>
+			<%= text_field_tag(:e_year, "", id: 'input-e-year', type: "hidden") %>
+			<%= text_field_tag(:e_month, "", id: 'input-e-month', type: "hidden") %>
+			<%= text_field_tag(:e_day, "", id: 'input-e-day', type: "hidden") %>
+			<%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
+			<%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
+			<%= text_field_tag :deadline, "", id: 'input-e-date' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<%= submit_tag("追加", class: "btn btn-primary") %>
+		</div>
+	</div>
+	<% end %>
 </div>
 
-<%= render :partial => "schedule.html.erb" %>
+<div class="container">
+	<%= render :partial => "schedule.html.erb" %>
+</div>
 
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/flatpickr" %>
 <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" %>

@@ -2,14 +2,7 @@
 @import "bootstrap";
 
 body {
-	font-family: 'Noto Sans Japanese', sans-serif;
 	font-size: 16px;
-	color: #000;
-	text-shadow:
-	-1px -1px #FFF,
-	1px -1px #FFF,
-	-1px 1px #FFF,
-	1px 1px #FFF;
 	text-align: center;
 }
 
@@ -23,7 +16,6 @@ h1 {
 	font-weight: 700;
 }
 h2 {
-	color:#FF8C00;
 	font-size: 40px;
 	font-weight:600;
 }
@@ -31,6 +23,41 @@ h3 {
 	font-weight: 400;
 }
 
-.btn {
+p {
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.btn.btn-primary {
 	font-size: 28px;
+}
+
+.table th {
+	text-align: center;
+}
+
+.table td {
+	vertical-align: middle!important;
+}
+
+.row {
+	margin-top: 15px;
+}
+
+#insert_section {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	/*margin-right: 4.5rem;*/
+	background-color: #ddd;
+	border-radius: .25rem;
+}
+
+.bg-danger {
+	color: white;
+	background-color: #dc3545!important;
+}
+
+.bg-warning {
+	color: white;
+	background-color: #ffc107!important;
 }

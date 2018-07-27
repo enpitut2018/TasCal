@@ -1,13 +1,19 @@
 <%= form_tag("/schedule/delete", method: "post") do %>
-  <table border=1>
-    <tr>
-      <th>予定名</th>
-      <th>開始日</th>
-      <th>終了日</th>
-      <th>削除</th>
-    </tr>
-    <% schedules = Schedule.all.order("start_time ASC") %>
-    <%= render :partial => "listingschedule.html.erb",
-    :collection => schedules %>
+<div class="row">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>予定名</th>
+        <th>開始日</th>
+        <th>終了日</th>
+        <th>削除</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% schedules = Schedule.all.order("start_time ASC") %>
+      <%= render :partial => "listingschedule.html.erb",
+      :collection => schedules %>
+    </tbody>
   </table>
+</div>
 <% end %>
