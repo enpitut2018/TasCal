@@ -99,7 +99,7 @@ def self.calc_available_time id, current_time=nil
       # end
 
     remaining_time = available_time / 60
-    if remaining_time then
+    if remaining_time < 0 then
       remaining_time = 0
     end
     # schedule_list = ScheduleController.display
