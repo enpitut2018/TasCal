@@ -1,5 +1,5 @@
 <% min = TaskController.calc_available_time(listingtask.id) %>
-<tr>
+<tr bgcolor=<%= Task.busy_color(listingtask.id)%>>
   <td><%= listingtask.name %></td>
   <td><%= listingtask.deadline.strftime("%Y年%m月%d日%H時%M分") %></td>
   <td><%= (min/60).to_i %>時間<%= (min%60).to_i %>分</td>
