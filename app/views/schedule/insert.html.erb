@@ -4,8 +4,12 @@
 <% case @err_id
    when "名前" %>
 <p class="emess">予定名(50文字以内)を入れてください</p>
-   <% when "日程" %>
-<p class="emess">日程を設定して下さい</p>
+   <% when "開始日時" %>
+<p class="emess">開始日時を設定して下さい</p>
+   <% when "終了日時" %>
+<p class="emess">終了日時を設定して下さい</p>
+<% when "終始逆" %>
+<p class="emess">終了日時は開始日時より後に設定して下さい</p>
 <% when "正常" %>
 <p class="emess">タスクを追加しました</p>
 <% when "初期" %>
