@@ -62,25 +62,54 @@ def self.calc_available_time id, current_time=nil
     taskdata = Task.find(id.to_i)
     deadline = taskdata.deadline
     available_time = deadline - now
+    # p available_time.class
+    # p available_time
     
     # 予定が入っている時間を引く
     schedules = Schedule.all
+    p schedules
     schedules.each do |schedule| 
-      if schedule.start_time > now && schedule.end_time < deadline then
-        available_time -= (schedule.end_time - schedule.start_time)
-      elsif schedule.start_time > now && schedule.end_time > deadline then
-        available_time -= (deadline - schedule.start_time)
-      elsif schedule.start_time < now && schedule.end_time < deadline then
-        available_time -= (schedule.end_time - now)
-      elsif schedule.start_time < now && schedule.end_time > deadline then
-        available_time = 0
+      p "hoge_each"
+      if schedule.start_time < deadline && schedule.end_time > now then
+        if schedule.start_time >= now then
+          if schedule.end_time < deadline then
+            available_time -= (schedule.end_time - schedule.start_time)
+            p "hoge1"
+          elsif schedule.end_time >= deadline then
+            available_time -= (deadline - schedule.start_time)
+            p "hoge2"
+          end
+        elsif schedule.start_time < now then
+          if schedule.end_time <= deadline then  
+            available_time -= (schedule.end_time - now)
+            p "hoge3"
+          elsif schedule.end_time > deadline then
+            available_time = 0.0
+            p "hoge4"
+          end
+          p "hoge5"
+        end
+        p "hoge6"
       end
+      p "hoge7"
     end
+    p "hoge8"
+
+      # if schedule.start_time > now && schedule.end_time < deadline then
+      #   available_time -= (schedule.end_time - schedule.start_time)
+      # elsif schedule.start_time > now && schedule.end_time > deadline then
+      #   available_time -= (deadline - schedule.start_time)
+      # elsif schedule.start_time < now && schedule.end_time < deadline then
+      #   available_time -= (schedule.end_time - now)
+      # elsif schedule.start_time < now && schedule.end_time > deadline then
+      #   available_time = 0
+      # end
 
     remaining_time = available_time / 60
 
     # schedule_list = ScheduleController.display
     # (diff/60).to_s + "時間" + (diff%60).to_s + "分"
+    p remaining_time
     remaining_time
   end
 
