@@ -1,7 +1,7 @@
 # coding: utf-8
 class TaskController < ApplicationController
   @err_flag = false
-
+  @err_id = "初期" #1:名前 2:日程 0:正常 -1:初期
   def is_valid_date year, month, day, hour, minute
     if Date.valid_date?(year,month,day) then
       begin
@@ -23,21 +23,26 @@ class TaskController < ApplicationController
       day = params['day']
       hour = params['hour']
       minute = params['minute']
-      elements = [name, year, month, day, hour, minute]
-      if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
-       Task.new(:name => name, :deadline => Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)).save
-       @err_flag = false
-       #redirect_to :action =>"display"
-     else
-      @err_flag = true
-      render nothing: true, status: 400
-    end
+      elements = [year, month, day, hour, minute]
+      if (name.length <= 50 && name.length > 0) then 
+        if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
+      
+          Task.new(:name => name, :deadline => Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)).save
+          @err_id = "正常"          # 正常に追加
+        #redirect_to :action =>"display"
+        else
+          @err_id = "日程"          # 日程が異常
+          render nothing: true, status: 400
+        end
+      else
+        @err_id = "名前"        # 名前が0文字または50文字以上
+      end
   end
 
 end
 
 def display
-  @err_flag = false
+  @err_id = "初期"
   @tasks = Task.all
   # p @tasks
 end
@@ -47,7 +52,7 @@ def delete
   object = Task.find(id)
   if !object.nil? then
     object.destroy
-    @err_flag = false
+    @err_id = "初期"
   end
   #redirect_to :action =>"display"
   redirect_to :action =>"insert"
@@ -99,6 +104,9 @@ def self.calc_available_time id, current_time=nil
       # end
 
     remaining_time = available_time / 60
+    if remaining_time < 0 then
+      remaining_time = 0
+    end
     # schedule_list = ScheduleController.display
     # (diff/60).to_s + "時間" + (diff%60).to_s + "分"
     remaining_time
