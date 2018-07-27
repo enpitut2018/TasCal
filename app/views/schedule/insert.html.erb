@@ -1,13 +1,20 @@
 <!-- <h1>Schedule#insert</h1>
 <h2>予定を追加します</h2> -->
 <%= render :partial => "header.html.erb"%>
-
-<% if @err_flag then %>
-  <p>不正な入力です。</p>
+<% case @err_id
+   when "名前" %>
+<p class="emess">予定名(50文字以内)を入れてください</p>
+   <% when "日程" %>
+<p class="emess">日程を設定して下さい</p>
+<% when "正常" %>
+<p class="emess">タスクを追加しました</p>
+<% when "初期" %>
+<p></p>
 <% end %>
+
 <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate()") do %>
 <%= label_tag(:name, "予定名:") %>
-<%= text_field_tag(:name) %>
+<%= text_field_tag(:name, nil, :required => true) %>
   <br/>  
   <%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
   <%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
@@ -23,7 +30,7 @@
   <%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
   <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
   <%= label_tag(:deadline, "終了日時:") %>
-  <%= text_field_tag :deadline, "", id: 'input-e-date' %>
+  <%= text_field_tag :deadline, "", id: 'input-e-date' , :required => true%>
   <%= submit_tag("追加") %>
 <% end %>
 
