@@ -13,13 +13,12 @@ class Task < ApplicationRecord
   end
   def self.busy_color id
     rate = calc_rate_busy id
-    p rate
     if rate <= 0.5 then
-      "#ff0000"
+      "#FA5858"
     elsif rate <= 0.7 then
-      "#00ff00"
+      "#FFFF00"
     else
-      "#0000ff"
+      ""
     end
   end
 end
