@@ -76,7 +76,8 @@ class TaskControllerTest < ActionDispatch::IntegrationTest
       { 
         id: id
       }
-      assert_redirected_to task_display_url
+      #assert_redirected_to task_display_url
+      assert_redirected_to task_insert_url
     end
     assert_equal (Task.where("id > 0").count == 0) , true , "タスクが削除されたか?"
   end
