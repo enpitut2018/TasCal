@@ -13,7 +13,7 @@
 * https://enpit-tascal.herokuapp.com/
 
 ## メンバー
-https://github.com/Miwa-TKB<br>
+https://github.com/wawawanet<br>
 https://github.com/inside-hakumai<br>
 https://github.com/takashift<br>
 https://github.com/MrSyTk<br>
