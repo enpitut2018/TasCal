@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.0.0/hint.min.css" %>
 <%= form_tag("/task/delete", method: "post") do %>
   <div class="row">
     <table class="table">
@@ -5,8 +6,8 @@
         <tr>
           <th>タスク名</th>
           <th>締切</th>
-          <th>残り時間</th>
-          <th>使える空き時間(予想)</th>
+          <th><span class="hint--top" data-hint="締切までの時間のうち、予定が入っていない時間">残り時間</span></th>
+          <th><span class="hint--top" data-hint="締切まで空き時間の中から食事や睡眠の時間などを除いた、実際に使える時間の予想値">使える空き時間(予想)</span></th>
           <th></th>
         </tr>
       </thead>
