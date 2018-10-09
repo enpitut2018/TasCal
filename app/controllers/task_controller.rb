@@ -2,7 +2,7 @@
 class TaskController < ApplicationController
   @err_flag = false
   @err_id = "初期" #1:名前 2:日程 0:正常 -1:初期
-  @edit_id = 0 #編集対象データのID一時保存用
+  @@edit_id = 0 #編集対象データのID一時保存用
 
   def is_valid_date year, month, day, hour, minute
     if Date.valid_date?(year,month,day) then
@@ -51,7 +51,7 @@ class TaskController < ApplicationController
   def delete
     if params['edit'] then
       begin
-        @edit_id = params['edit']
+        @@edit_id = params['edit']
         redirect_to :action => "edit"
         exit
       rescue SystemExit
@@ -82,12 +82,12 @@ class TaskController < ApplicationController
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
           Task.new(:name => name, :deadline => Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)).save
           # 追加完了後に編集前のデータを削除
-          object = Task.find(@edit_id)
+          object = Task.find(@@edit_id)
           if !object.nil? then
             object.destroy
             @err_id = "初期"
           end
-          @edit_id = 0
+          @@edit_id = 0
           @err_id = "正常"          # 正常に追加
           # redirect_to :action =>"display"
         else
@@ -100,7 +100,17 @@ class TaskController < ApplicationController
     end
   end
 
-def self.calc_available_time id, current_time=nil
+  def self.returnEditTaskName
+    t = Task.find(@@edit_id)
+    t.name
+  end
+
+  def self.returnEditTaskDeadline
+    t = Task.find(@@edit_id)
+    t.deadline
+  end
+
+  def self.calc_available_time id, current_time=nil
     # 今の時間の取得
     if !current_time.nil?
       now = current_time
