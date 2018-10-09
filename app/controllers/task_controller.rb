@@ -2,6 +2,7 @@
 class TaskController < ApplicationController
   @err_flag = false
   @err_id = "初期" #1:名前 2:日程 0:正常 -1:初期
+
   def is_valid_date year, month, day, hour, minute
     if Date.valid_date?(year,month,day) then
       begin
@@ -47,7 +48,17 @@ def display
   # p @tasks
 end
 
+  @edit_id = 0
 def delete
+    if params['edit']
+      begin
+        @edit_id = params['edit']
+        # redirect_to :action => "edit"
+        exit
+      rescue SystemExit
+        puts "redirect error"
+      end
+    end
   id = params['id']
   object = Task.find(id)
   if !object.nil? then
@@ -57,6 +68,9 @@ def delete
   #redirect_to :action =>"display"
   redirect_to :action =>"insert"
 end
+
+  # def edit
+  # end
 
 def self.calc_available_time id, current_time=nil
     # 今の時間の取得
@@ -111,5 +125,4 @@ def self.calc_available_time id, current_time=nil
     # (diff/60).to_s + "時間" + (diff%60).to_s + "分"
     remaining_time
   end
-
 end
