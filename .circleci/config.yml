@@ -7,7 +7,17 @@ jobs:
   build:
     docker:
       # specify the version you desire here
+       - image: circleci/postgres:9.6
+         environment:
+           TASCAL_DB_USER=admin
+           TASCAL_DB_PASSWORD=adminpass
+           POSTGRES_USER=admin
+           POSTGRES_DB=adminpass
        - image: circleci/ruby:2.4.4-node-browsers
+         environment:
+           RAILS_ENV: test
+           RACK_ENV: test
+
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -43,6 +53,14 @@ jobs:
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
+
+      - run: 
+          name: Set up DB
+          command: |
+            bundle exec rake db:create db:schema:load --trace
+            bundle exec rake db:migrate
+          environment:
+            DATABASE_URL: "postgres://ubuntu@localhost:5432/tascal_test"
 
       # run tests!
       - run:
