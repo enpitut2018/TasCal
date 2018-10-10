@@ -2,7 +2,7 @@
 class TaskController < ApplicationController
   @err_flag = false
   @err_id = "初期" #1:名前 2:日程 0:正常 -1:初期
-  @@edit_id = 0 #編集対象データのID一時保存用
+  @@edit_id #編集対象データのID一時保存用
 
   def is_valid_date year, month, day, hour, minute
     if Date.valid_date?(year,month,day) then
@@ -69,6 +69,16 @@ class TaskController < ApplicationController
     end
   end
 
+  def self.getEditTaskName
+    t = Task.find(@@edit_id)
+    t.name
+  end
+
+  def self.getEditTaskDeadline
+    t = Task.find(@@edit_id)
+    t.deadline
+  end
+
   def edit
     if request.post? then
       name = params['name']
@@ -89,7 +99,7 @@ class TaskController < ApplicationController
           end
           @@edit_id = 0
           @err_id = "正常"          # 正常に追加
-          # redirect_to :action =>"display"
+          redirect_to :action =>"insert"
         else
           @err_id = "日程"          # 日程が異常
           render nothing: true, status: 400
@@ -98,16 +108,6 @@ class TaskController < ApplicationController
         @err_id = "名前"        # 名前が0文字または50文字以上
       end
     end
-  end
-
-  def self.returnEditTaskName
-    t = Task.find(@@edit_id)
-    t.name
-  end
-
-  def self.returnEditTaskDeadline
-    t = Task.find(@@edit_id)
-    t.deadline
   end
 
   def self.calc_available_time id, current_time=nil

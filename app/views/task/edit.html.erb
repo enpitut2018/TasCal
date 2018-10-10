@@ -20,7 +20,7 @@
     <div class="col-sm-6">
       <p>タスクの名前を入力</p>
       <p>
-        <%= text_field_tag(:name, TaskController.returnEditTaskName) %>
+        <%= text_field_tag(:name, TaskController.getEditTaskName) %>
       </p>
     </div>
     <div class="col-sm-6">
@@ -31,7 +31,7 @@
         <%= text_field_tag(:day, "", id: 'input-day', type: "hidden") %>
         <%= text_field_tag(:hour, "", id: 'input-hour', type: "hidden") %>
         <%= text_field_tag(:minute, "", id: 'input-minute', type: "hidden") %>
-        <%= text_field_tag :deadline, TaskController.returnEditTaskDeadline, id: 'input-deadline' %>
+        <%= text_field_tag :deadline, TaskController.getEditTaskDeadline, id: 'input-deadline' %>
       </p>
     </div>
   </div>
