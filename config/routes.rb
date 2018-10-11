@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'schedule/display'
   get 'schedule/delete'
   post 'schedule/delete'
+  get 'schedule/edit'
+  post 'schedule/edit'
   get 'tasklist/insert'
   post 'tasklist/insert'
   get 'tasklist/delete'
