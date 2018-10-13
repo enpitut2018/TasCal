@@ -4,6 +4,15 @@ pipeline {
     agent none
 
     stages {
+        stage('prepare-psql-test-db') {
+            when {
+                branch 'config-jenkinsfile'
+            }
+            steps {
+                sh './.jenkins/setup.sh'
+            }
+        }
+
         stage('prepare-environment-containers') {
             when {
                 branch 'setup-auto-test'
