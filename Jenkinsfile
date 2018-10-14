@@ -7,14 +7,14 @@ pipeline {
         branch 'config-jenkinsfile'
       }
       steps {
-        sh 'bash ./.jenkins/setup.sh'
+        sh 'bash ./.jenkins/setup_test_db_container.sh'
       }
     }
     stage('rails-container') {
       agent {
         docker {
           image 'ruby:2.4.4'
-          args '--add-host=host_jenkins:172.18.0.2 --expose 5432'
+          args '--link tascal-psql:tascal-psql'
         }
 
       }
@@ -22,19 +22,21 @@ pipeline {
         branch 'config-jenkinsfile'
       }
       steps {
-        sh 'apt-get update && apt-get install -y --no-install-recommends postgresql-client && rm -rf /var/lib/apt/lists/*'
         sh 'cat /etc/hosts'
-        sh 'psql status -h host_jenkins'
+        sh 'apt-get update'
+        sh 'apt-get install -y postgresql-client'
+        sh 'apt-get install -y nodejs'
+        sh 'rm -rf /var/lib/apt/lists/*'
+        sh 'bundle install'
+        sh 'rake db:create RAILS_ENV=test'
       }
     }
   }
   post {
     always {
       node('master') {
-        sh 'su postgres -c "pg_ctl stop -D /usr/local/pgsql/data"'
+        sh 'docker stop tascal-psql'
       }
-
-
     }
 
   }
