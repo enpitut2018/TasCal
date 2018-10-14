@@ -1,47 +1,43 @@
-#!/usr/bin/env groovy
-
 pipeline {
-    agent none
-
-    stages {
-        stage('prepare-psql-test-db') {
-            when {
-                branch 'config-jenkinsfile'
-            }
-            steps {
-                sh './.jenkins/setup.sh'
-            }
-        }
-
-        stage('prepare-environment-containers') {
-            when {
-                branch 'setup-auto-test'
-            }
-            failFast true
-            parallel {
-                stage('rails-container') {
-                    agent {
-                        docker {image 'ruby:2.4.4'}
-                    }
-                    when {
-                        branch 'setup-auto-test'
-                    }
-                    steps {
-                        sh 'apt-get update && apt-get install -y --no-install-recommends postgresql-client && rm -rf /var/lib/apt/lists/*'
-                    }
-                }
-                stage('psql-container') {
-                    agent {
-                        docker {image 'postgres:9.5'}
-                    }
-                    when {
-                        branch 'setup-auto-test'
-                    }
-                    steps {
-                        sh 'psql --version'
-                    }
-                }
-            }
-        }
+  agent none
+  stages {
+    stage('prepare-psql-test-db') {
+      agent any
+      when {
+        branch 'config-jenkinsfile'
+      }
+      steps {
+        sh 'bash ./.jenkins/setup_test_db_container.sh'
+      }
     }
+    stage('rails-container') {
+      agent {
+        docker {
+          image 'ruby:2.4.4'
+          args '--link tascal-psql:tascal-psql'
+        }
+
+      }
+      when {
+        branch 'config-jenkinsfile'
+      }
+      steps {
+        sh 'cat /etc/hosts'
+        sh 'apt-get update'
+        sh 'apt-get install -y postgresql-client'
+        sh 'apt-get install -y nodejs'
+        sh 'rm -rf /var/lib/apt/lists/*'
+        sh 'bundle install'
+        sh 'rake db:create RAILS_ENV=test'
+      }
+    }
+  }
+  post {
+    always {
+      node('master') {
+        sh 'docker stop tascal-psql'
+      }
+    }
+
+  }
 }

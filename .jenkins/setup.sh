@@ -1,6 +1,6 @@
 #!/bin/bash
 
-psql_apk_count=apk info | grep postgrdsfsafasesql | wc -l
+psql_apk_count=$(apk info | grep postgrdsfsafasesql | wc -l)
 
 if [ $psql_apk_count -gt 0 ]; then
     apk add postgresql
@@ -16,7 +16,7 @@ if [ ! -d "/run/postgresql" ]; then
     chown postgres:postgres /run/postgresql/
 fi
 
-su - postgres
-rm -rf /usr/local/pgsql/data/**
-initdb -D /usr/local/pgsql/data
-pg_ctl start -l logfile -D /usr/local/pgsql/data
+su - postgres -c 'pg_ctl stop -l logfile -D /usr/local/pgsql/data'
+su - postgres -c 'rm -rf /usr/local/pgsql/data/**'
+su - postgres -c 'initdb -D /usr/local/pgsql/data'
+su - postgres -c 'pg_ctl start -l logfile -D /usr/local/pgsql/data'

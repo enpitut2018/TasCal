@@ -58,6 +58,10 @@ development:
 test:
   <<: *default
   database: tascal_test
+  reconnect: true
+  username: tascal_tester
+  password: few32h32jew90
+  host: tascal-psql
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
