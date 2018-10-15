@@ -3,14 +3,15 @@ require 'date'
 require 'time'
 class ScheduleController < ApplicationController
   @err_id = "初期" #1:名前 2:開始日時 3:終了日時 4:終始逆 0:正常 -1:初期
+  @@edit_id
 
   def is_valid_date year, month, day, hour, minute
     if Date.valid_date?(year,month,day) then
       begin
-	parsed_time = Time.parse(hour.to_s + ":" + minute.to_s) 
-	return true
+	      parsed_time = Time.parse(hour.to_s + ":" + minute.to_s) 
+	      return true
       rescue ArgumentError => e
-	return false
+	      return false
       end
     else
       return false
@@ -76,13 +77,93 @@ class ScheduleController < ApplicationController
   end
 
   def delete
-    id = params['id']
-    object = Schedule.find(id)
-    if !object.nil? then
-      object.destroy
-      @err_id = "初期"
+    if params['edit'] then
+      begin
+        @@edit_id = params['edit']
+        redirect_to :action => "edit"
+        exit
+      rescue SystemExit
+        puts "Edit"
+      end
+    else
+      id = params['id']
+      object = Schedule.find(id)
+      if !object.nil? then
+        object.destroy
+        @err_id = "初期"
+      end
+      #redirect_to :action =>"display"
+      redirect_to :action =>"insert"
     end
-    #redirect_to :action =>"display"
-    redirect_to :action =>"insert"
   end
+
+  def self.getEditScheduleName
+    s = Schedule.find(@@edit_id)
+    s.name
+  end
+
+  def self.getEditStartTime
+    s = Schedule.find(@@edit_id)
+    s.start_time
+  end
+
+  def self.getEditEndTime
+    s = Schedule.find(@@edit_id)
+    s.end_time
+  end
+
+  def edit
+    if request.post? then
+      name = params['name']
+      s_year = params['s_year']
+      s_month = params['s_month']
+      s_day = params['s_day']
+      s_hour = params['s_hour']
+      s_minute = params['s_minute']
+
+      e_year = params['e_year']
+      e_month = params['e_month']
+      e_day = params['e_day']
+      e_hour = params['e_hour']
+      e_minute = params['e_minute']
+      s_elements = [s_year, s_month, s_day, s_hour, s_minute]
+      e_elements = [e_year, e_month, e_day, e_hour, e_minute]
+      if (name.length <= 50 && name.length > 0) then 
+        if (s_elements.all? {|t| !t.empty? && !t.nil?}) then
+          if (e_elements.all? {|t| !t.empty? && !t.nil?}) then
+            if self.is_valid_date(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i) && self.is_valid_date(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i) then
+            	start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
+            	end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
+              if end_time > start_time then
+              	Schedule.new(:name => name, :start_time => start_time, :end_time => end_time).save
+                object = Schedule.find(@@edit_id)
+                if !object.nil? then
+                  object.destroy
+                  @err_id = "初期"
+                end
+                @err_id = "正常"
+                @@edit_id = 0
+                redirect_to :action =>"insert"
+              else
+                @err_id = "終始逆"
+                render nothing: true, status: 400
+              end
+            end
+          else
+            @err_id = "終了日時"
+            render nothing: true, status: 400
+          end
+        else
+          @err_id = "開始日時"
+          render nothing: true, status: 400
+        end
+      else
+        @err_id = "名前"
+        render nothing: true, status: 400
+      end
+    end
+  end
+
 end
+
+

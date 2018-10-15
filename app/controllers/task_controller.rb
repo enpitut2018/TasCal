@@ -2,6 +2,8 @@
 class TaskController < ApplicationController
   @err_flag = false
   @err_id = "初期" #1:名前 2:日程 0:正常 -1:初期
+  @@edit_id #編集対象データのID一時保存用
+
   def is_valid_date year, month, day, hour, minute
     if Date.valid_date?(year,month,day) then
       begin
@@ -37,28 +39,78 @@ class TaskController < ApplicationController
       else
         @err_id = "名前"        # 名前が0文字または50文字以上
       end
+    end
   end
 
-end
-
-def display
-  @err_id = "初期"
-  @tasks = Task.all
-  # p @tasks
-end
-
-def delete
-  id = params['id']
-  object = Task.find(id)
-  if !object.nil? then
-    object.destroy
+  def display
     @err_id = "初期"
+    @tasks = Task.all
+    # p @tasks
   end
-  #redirect_to :action =>"display"
-  redirect_to :action =>"insert"
-end
 
-def self.calc_available_time id, current_time=nil
+  def delete
+    if params['edit'] then
+      begin
+        @@edit_id = params['edit']
+        redirect_to :action => "edit"
+        exit
+      rescue SystemExit
+        puts "Edit"
+      end
+    else
+      id = params['id']
+      object = Task.find(id)
+      if !object.nil? then
+        object.destroy
+        @err_id = "初期"
+      end
+      #redirect_to :action =>"display"
+      redirect_to :action =>"insert"
+    end
+  end
+
+  def self.getEditTaskName
+    t = Task.find(@@edit_id)
+    t.name
+  end
+
+  def self.getEditTaskDeadline
+    t = Task.find(@@edit_id)
+    t.deadline
+  end
+
+  def edit
+    if request.post? then
+      name = params['name']
+      year = params['year']
+      month = params['month']
+      day = params['day']
+      hour = params['hour']
+      minute = params['minute']
+      elements = [year, month, day, hour, minute]
+      if (name.length <= 50 && name.length > 0) then 
+        if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
+          Task.new(:name => name, :deadline => Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)).save
+          # 追加完了後に編集前のデータを削除
+          object = Task.find(@@edit_id)
+          if !object.nil? then
+            object.destroy
+            @err_id = "初期"
+          end
+          @@edit_id = 0
+          @err_id = "正常"          # 正常に追加
+          redirect_to :action =>"insert"
+        else
+          @err_id = "日程"          # 日程が異常
+          render nothing: true, status: 400
+        end
+      else
+        @err_id = "名前"        # 名前が0文字または50文字以上
+      end
+    end
+  end
+
+  def self.calc_available_time id, current_time=nil
     # 今の時間の取得
     if !current_time.nil?
       now = current_time
@@ -111,5 +163,4 @@ def self.calc_available_time id, current_time=nil
     # (diff/60).to_s + "時間" + (diff%60).to_s + "分"
     remaining_time
   end
-
 end

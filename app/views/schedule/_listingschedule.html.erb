@@ -3,4 +3,5 @@
   <td><%= listingschedule.start_time.strftime("%Y年%m月%d日%H時%M分") %></td>
   <td><%= listingschedule.end_time.strftime("%Y年%m月%d日%H時%M分") %></td>
   <td><button class="btn btn-success"type="submit" name="id" value= <%= listingschedule.id %> method="post">削除</button></td>
+  <td><button class="btn btn-success"type="submit" name="edit" value= <%= listingschedule.id %> method="post">編集</button></td>
 </tr>
