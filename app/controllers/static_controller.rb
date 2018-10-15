@@ -8,4 +8,8 @@ class StaticController < ApplicationController
       render file: "/app/views/kiyaku/privacy.html", layout: true
   end
 
+  def about
+      render file: "/app/views/about/about.html.erb", layout: true
+  end
+
 end
