@@ -59,9 +59,10 @@ test:
   <<: *default
   database: tascal_test
   reconnect: true
-  username: tascal_tester
-  password: few32h32jew90
-  host: tascal-psql
+  username: <%= ENV['TASCAL_TEST_DB_USER'] %>
+  password: <%= ENV['TASCAL_TEST_DB_PASSWORD'] %>
+  host: <%= ENV['TASCAL_TEST_DB_HOST'] %>
+  port: <%= ENV['TASCAL_TEST_DB_PORT'] %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

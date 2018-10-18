@@ -6,19 +6,13 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-       - image: circleci/postgres:9.6
-         environment:
-           TASCAL_DB_USER=admin
-           TASCAL_DB_PASSWORD=adminpass
-           POSTGRES_USER=admin
-           POSTGRES_DB=adminpass
-       - image: circleci/ruby:2.4.4-node-browsers
-         environment:
-           RAILS_ENV: test
-           RACK_ENV: test
+      - image: circleci/ruby:2.4.4-node-browsers
+    environment:
+      RAILS_ENV: test
+      RACK_ENV: test
+      BUNDLE_APP_CONFIG: /home/circleci/repo/vendor/bundle
+      BUNDLE_PATH: /home/circleci/repo/vendor/bundle/ruby/2.4.0
 
-      
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -27,29 +21,18 @@ jobs:
     branches:
       only:
         - setup-auto-test
+        - setup-circleci
 
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
       - run:
           name: install dependencies
           command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            sudo bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-        
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
@@ -59,21 +42,15 @@ jobs:
           command: |
             bundle exec rake db:create db:schema:load --trace
             bundle exec rake db:migrate
-          environment:
-            DATABASE_URL: "postgres://ubuntu@localhost:5432/tascal_test"
 
       # run tests!
       - run:
           name: run tests
+          type: shell
           command: |
             mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-            
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $TEST_FILES
+            bundle exec rails test TESTOPTS="--ci-dir=/tmp/test-results"
+
 
       # collect reports
       - store_test_results:
