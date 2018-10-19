@@ -6,11 +6,24 @@ class Task < ApplicationRecord
     time = task.deadline - Time.zone.now
     time / 60
   end
+
   def self.calc_rate_busy id
     d_time = calc_deadtime(id)
     f_time = TaskController.calc_available_time id
     f_time / d_time
   end
+
+  def self.create_insert name, deadline
+    Task.create(:name => name, :deadline => deadline)
+  end
+
+  def self.create_delete id
+    object = Task.find(id)
+    if !object.nil? then
+      object.destroy
+    end
+  end
+
   def self.busy_color id
     rate = calc_rate_busy id
     if rate <= 0.75 then

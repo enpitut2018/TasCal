@@ -28,10 +28,9 @@ class TaskController < ApplicationController
       elements = [year, month, day, hour, minute]
       if (name.length <= 50 && name.length > 0) then 
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
-      
-          Task.new(:name => name, :deadline => Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)).save
+          deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
+          Task.create_insert(name, deadline)
           @err_id = "正常"          # 正常に追加
-        #redirect_to :action =>"display"
         else
           @err_id = "日程"          # 日程が異常
           render nothing: true, status: 400
@@ -45,7 +44,6 @@ class TaskController < ApplicationController
   def display
     @err_id = "初期"
     @tasks = Task.all
-    # p @tasks
   end
 
   def delete
@@ -59,13 +57,9 @@ class TaskController < ApplicationController
       end
     else
       id = params['id']
-      object = Task.find(id)
-      if !object.nil? then
-        object.destroy
-        @err_id = "初期"
-      end
-      #redirect_to :action =>"display"
-      redirect_to :action =>"insert"
+      Task.create_delete(id)
+      @err_id = "初期"
+      redirect_to :action => "insert"
     end
   end
 
@@ -90,14 +84,12 @@ class TaskController < ApplicationController
       elements = [year, month, day, hour, minute]
       if (name.length <= 50 && name.length > 0) then 
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
-          Task.new(:name => name, :deadline => Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)).save
+          #編集後のデータを新しいタスクとして追加
+          deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
+          Task.create_insert(name, deadline)
           # 追加完了後に編集前のデータを削除
-          object = Task.find(@@edit_id)
-          if !object.nil? then
-            object.destroy
-            @err_id = "初期"
-          end
-          @@edit_id = 0
+          Task.create_delete(@@edit_id)
+          @@edit_id = 0             # 編集処理が完了したのでedit_idを初期化
           @err_id = "正常"          # 正常に追加
           redirect_to :action =>"insert"
         else
@@ -126,7 +118,7 @@ class TaskController < ApplicationController
     
     # 予定が入っている時間を引く
     schedules = Schedule.all
-    p schedules
+    # p schedules
     schedules.each do |schedule| 
       if schedule.start_time < deadline && schedule.end_time > now then
         if schedule.start_time >= now then
