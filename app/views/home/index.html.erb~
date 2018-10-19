@@ -1,0 +1,3 @@
+<%= link_to 'Signin with Google', user_omniauth_authorize_path(:google) %>
+#<h1>Home#index</h1>
+#<p>Find me in app/views/home/index.html.erb</p>
