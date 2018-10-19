@@ -171,7 +171,6 @@ GEM
     rubygems-bundler (1.4.5)
       bundler-unload (>= 1.0.2)
       executable-hooks (>= 1.5.0)
-    rubyzip (1.2.1)
     sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
