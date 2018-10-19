@@ -153,4 +153,15 @@ class TaskController < ApplicationController
     # (diff/60).to_s + "時間" + (diff%60).to_s + "分"
     remaining_time
   end
+
+  def self.busy_color id
+    rate = Task.calc_rate_busy id
+    if rate <= 0.75 then
+      "bg-danger"
+    elsif rate <= 0.85 then
+      "bg-warning"
+    else
+      ""
+    end
+  end
 end

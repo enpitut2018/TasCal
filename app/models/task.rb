@@ -23,15 +23,4 @@ class Task < ApplicationRecord
       object.destroy
     end
   end
-
-  def self.busy_color id
-    rate = calc_rate_busy id
-    if rate <= 0.75 then
-      "bg-danger"
-    elsif rate <= 0.85 then
-      "bg-warning"
-    else
-      ""
-    end
-  end
 end
