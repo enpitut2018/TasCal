@@ -20,7 +20,6 @@ class ScheduleController < ApplicationController
 
   def insert
     if request.post? then
-
       name = params['name']
       s_year = params['s_year']
       s_month = params['s_month']
@@ -35,25 +34,20 @@ class ScheduleController < ApplicationController
       e_minute = params['e_minute']
       s_elements = [s_year, s_month, s_day, s_hour, s_minute]
       e_elements = [e_year, e_month, e_day, e_hour, e_minute]
+
       if (name.length <= 50 && name.length > 0) then 
         if (s_elements.all? {|t| !t.empty? && !t.nil?}) then
           if (e_elements.all? {|t| !t.empty? && !t.nil?}) then
-            if self.is_valid_date(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i) &&
-	             self.is_valid_date(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i) then
-            	  start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
-            	  end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
-                if end_time > start_time then
-              	  object = Schedule.new(
-                        :name => name,
-                        :start_time => start_time,
-                        :end_time => end_time)
-              	   object.save
-                    @err_id = "正常"
-                    #redirect_to :action =>"display"
-                  else
-                    @err_id = "終始逆"
-                    render nothing: true, status: 400
-                  end
+            if self.is_valid_date(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i) && self.is_valid_date(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i) then
+              start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
+              end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
+              if end_time > start_time then
+                Schedule.createRecord(name, start_time, end_time)
+                @err_id = "正常"
+              else
+                @err_id = "終始逆"
+                render nothing: true, status: 400
+              end
             end
           else
           	@err_id = "終了日時"
@@ -73,7 +67,6 @@ class ScheduleController < ApplicationController
   def display
     @err_id = "初期"
     @schedules = Schedule.all
-    # p @schedules
   end
 
   def delete
@@ -87,12 +80,8 @@ class ScheduleController < ApplicationController
       end
     else
       id = params['id']
-      object = Schedule.find(id)
-      if !object.nil? then
-        object.destroy
-        @err_id = "初期"
-      end
-      #redirect_to :action =>"display"
+      Schedule.destroyRecord(id)
+      @err_id = "初期"
       redirect_to :action =>"insert"
     end
   end
@@ -135,12 +124,8 @@ class ScheduleController < ApplicationController
             	start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
             	end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
               if end_time > start_time then
-              	Schedule.new(:name => name, :start_time => start_time, :end_time => end_time).save
-                object = Schedule.find(@@edit_id)
-                if !object.nil? then
-                  object.destroy
-                  @err_id = "初期"
-                end
+                Schedule.createRecord(name, start_time, end_time)
+                Schedule.destroyRecord(@@edit_id)
                 @err_id = "正常"
                 @@edit_id = 0
                 redirect_to :action =>"insert"

@@ -29,7 +29,7 @@ class TaskController < ApplicationController
       if (name.length <= 50 && name.length > 0) then 
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
           deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
-          Task.create_insert(name, deadline)
+          Task.createRecord(name, deadline)
           @err_id = "正常"          # 正常に追加
         else
           @err_id = "日程"          # 日程が異常
@@ -57,7 +57,7 @@ class TaskController < ApplicationController
       end
     else
       id = params['id']
-      Task.create_delete(id)
+      Task.destroyRecord(id)
       @err_id = "初期"
       redirect_to :action => "insert"
     end
@@ -84,11 +84,9 @@ class TaskController < ApplicationController
       elements = [year, month, day, hour, minute]
       if (name.length <= 50 && name.length > 0) then 
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
-          #編集後のデータを新しいタスクとして追加
           deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
-          Task.create_insert(name, deadline)
-          # 追加完了後に編集前のデータを削除
-          Task.create_delete(@@edit_id)
+          Task.createRecord(name, deadline)
+          Task.destroyRecord(@@edit_id)
           @@edit_id = 0             # 編集処理が完了したのでedit_idを初期化
           @err_id = "正常"          # 正常に追加
           redirect_to :action =>"insert"

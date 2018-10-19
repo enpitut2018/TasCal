@@ -13,11 +13,11 @@ class Task < ApplicationRecord
     f_time / d_time
   end
 
-  def self.create_insert name, deadline
+  def self.createRecord name, deadline
     Task.create(:name => name, :deadline => deadline)
   end
 
-  def self.create_delete id
+  def self.destroyRecord id
     object = Task.find(id)
     if !object.nil? then
       object.destroy
