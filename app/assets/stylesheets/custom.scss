@@ -29,6 +29,35 @@ p {
 	font-weight: 600;
 }
 
+.dropdown.nav-avatar {
+
+  .dropdown-toggle:after {
+      display: none;
+  }
+  .dropdown-menu > {
+    a {
+      text-align: right;
+      line-height: 25px;
+    }
+    .user-id {
+      span {
+        line-height: 25px;
+      }
+      span:nth-child(1) {
+        font-weight: bold;
+      }
+      span:nth-child(2) {
+        display:block;
+        text-align: right;
+      }
+    }
+    a:hover {
+      background-color: #3187d2;
+      color: #ffffff;
+    }
+  }
+}
+
 .btn.btn-primary {
 	font-size: 28px;
 }

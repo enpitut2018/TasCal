@@ -12,9 +12,8 @@ class User < ApplicationRecord
 
   protected
   def self.find_for_google(auth)
+    logger.debug("Logging in as %s" % auth.info.email)
     user = User.find_by(email: auth.info.email)
-
-    logger.debug(auth)
 
     unless user
       user = User.create(name:     auth.info.name,
@@ -22,6 +21,7 @@ class User < ApplicationRecord
                          provider: auth.provider,
                          uid:      auth.uid,
                          token:    auth.credentials.token,
+                         avatar_url: auth.extra.raw_info.picture,
                          encrypted_password: Devise.friendly_token[0, 20],
                          meta:     auth.to_yaml)
     end

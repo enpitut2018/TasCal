@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2018_10_10_145021) do
     t.string "provider"
     t.string "uid"
     t.string "token"
+    t.string "avatar_url"
     t.string "meta"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"

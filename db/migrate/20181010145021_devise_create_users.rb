@@ -12,6 +12,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.string :users, :provider
       t.string :users, :uid
       t.string :users, :token
+      t.string :users, :avatar_url
       t.string :users, :meta
 
       ## Recoverable

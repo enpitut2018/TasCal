@@ -18,6 +18,11 @@ class TaskController < ApplicationController
   end
 
   def insert
+    @current_user = current_user
+    logger.debug("Current user: ")
+    logger.debug(@current_user)
+
+
     if request.post? then
       name = params['name']
       year = params['year']
