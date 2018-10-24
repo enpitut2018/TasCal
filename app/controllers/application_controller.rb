@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :get_current_user_avator, :get_current_user_id
+  helper_method :get_current_user_avator, :get_current_user_id, :is_logged_in
 
   private
   def get_current_user_avator

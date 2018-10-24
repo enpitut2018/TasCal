@@ -42,7 +42,13 @@ class ScheduleController < ApplicationController
               start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
               end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
               if end_time > start_time then
-                Schedule.createRecord(name, start_time, end_time)
+
+                if view_context.user_signed_in? then
+                  Schedule.createRecord(name, start_time, end_time, current_user.email)
+                else
+                  Schedule.createRecord(name, start_time, end_time)
+                end
+
                 @err_id = "正常"
               else
                 @err_id = "終始逆"
@@ -124,7 +130,7 @@ class ScheduleController < ApplicationController
             	start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
             	end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
               if end_time > start_time then
-                Schedule.createRecord(name, start_time, end_time)
+                Schedule.createRecord(name, start_time, end_time, Schedule.find_by_id(@@edit_id).user_id)
                 Schedule.destroyRecord(@@edit_id)
                 @err_id = "正常"
                 @@edit_id = 0
