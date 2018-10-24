@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <% schedules = Schedule.all.order("start_time ASC") %>
+      <% schedules = get_available_schedules.order("start_time ASC") %>
       <%= render :partial => "listingschedule.html.erb",
       :collection => schedules %>
     </tbody>
