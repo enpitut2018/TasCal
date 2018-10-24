@@ -4,8 +4,12 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+
+# テスト環境におけるUserテーブルの状態はこのファイルで定義されるが，空エントリは挿入時にemailとencrypted_passwordのNULL非許可設定に
+# 引っかかってエラーを吐くので全てコメントアウト
+
+# one: {}
 # column: value
 #
-two: {}
+# two: {}
 # column: value

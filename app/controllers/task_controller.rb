@@ -18,11 +18,6 @@ class TaskController < ApplicationController
   end
 
   def insert
-    @current_user = current_user
-    logger.debug("Current user: ")
-    logger.debug(@current_user)
-
-
     if request.post? then
       name = params['name']
       year = params['year']
@@ -34,7 +29,13 @@ class TaskController < ApplicationController
       if (name.length <= 50 && name.length > 0) then 
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
           deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
-          Task.createRecord(name, deadline)
+
+          if view_context.user_signed_in? then
+            Task.createRecord(name, deadline, current_user.email)
+          else
+            Task.createRecord(name, deadline)
+          end
+
           @err_id = "正常"          # 正常に追加
         else
           @err_id = "日程"          # 日程が異常
@@ -48,7 +49,13 @@ class TaskController < ApplicationController
 
   def display
     @err_id = "初期"
-    @tasks = Task.all
+
+    if view_context.user_signed_in? then
+      @tasks = Task.where(user_id: current_user.email)
+    else
+      @tasks = Task.all
+    end
+
   end
 
   def delete
@@ -90,7 +97,7 @@ class TaskController < ApplicationController
       if (name.length <= 50 && name.length > 0) then 
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
           deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
-          Task.createRecord(name, deadline)
+          Task.createRecord(name, deadline, Task.find_by_id(@@edit_id).user_id)
           Task.destroyRecord(@@edit_id)
           @@edit_id = 0             # 編集処理が完了したのでedit_idを初期化
           @err_id = "正常"          # 正常に追加

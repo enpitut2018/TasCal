@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <% tasks = Task.all.order("deadline ASC") %>
+        <% tasks = get_available_tasks.order("deadline ASC") %>
         <%= render :partial => "listingtask.html.erb",
         :collection => tasks %>
       </tbody>

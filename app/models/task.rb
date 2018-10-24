@@ -13,8 +13,8 @@ class Task < ApplicationRecord
     f_time / d_time
   end
 
-  def self.createRecord name, deadline
-    Task.create(:name => name, :deadline => deadline)
+  def self.createRecord name, deadline, user_id=nil
+    Task.create(:user_id => user_id, :name => name, :deadline => deadline)
   end
 
   def self.destroyRecord id
