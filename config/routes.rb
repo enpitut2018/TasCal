@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get '/kiyaku', to: 'static#kiyaku'
   get '/privacy', to: 'static#privacy'
   get '/about', to: 'static#about'
+
+  get '/login', to: 'sessions#login'
+  get '/logout', to: 'sessions#logout'
   
   get 'home/index'  
   devise_for :users, controllers: {
