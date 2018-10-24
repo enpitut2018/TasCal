@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # get 'home/index'
+  # devise_for :users
   get 'task/insert'
   post 'task/insert'
   get 'task/display'
@@ -21,6 +23,14 @@ Rails.application.routes.draw do
   get '/kiyaku', to: 'static#kiyaku'
   get '/privacy', to: 'static#privacy'
   get '/about', to: 'static#about'
+
+  get '/login', to: 'sessions#login'
+  get '/logout', to: 'sessions#logout'
+  
+  get 'home/index'  
+  devise_for :users, controllers: {
+      omniauth_callbacks: "users/omniauth_callbacks"
+  }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'task#insert'
 end
