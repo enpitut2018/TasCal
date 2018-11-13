@@ -176,4 +176,13 @@ class TaskController < ApplicationController
       ""
     end
   end
+
+  def self.alert id
+    rate = Task.calc_rate_busy id
+    remaining_time = calc_available_time id
+    deadline = Task.calc_deadtime id
+    if (id == Task.nearest || remaining_time < 72*60 || deadline < 36*60 ) then
+      "alert"
+    end
+  end
 end
