@@ -45,7 +45,7 @@ class ScheduleController < ApplicationController
               end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
               if end_time > start_time then
 
-                tasks = TaskController.get_visible_tasks
+                tasks = TaskController.get_visible_tasks (user_signed_in? ? current_user.email : nil)
 
                 # 予定追加「前」の各タスクの残り時間を取得
                 task_times_before_insert = tasks.map {|t| TaskController.calc_available_time t}
