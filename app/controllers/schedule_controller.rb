@@ -19,6 +19,8 @@ class ScheduleController < ApplicationController
   end
 
   def insert
+    @affected_tasks = [] # スケジュール追加によって，残り可処分時間に変化があるタスクの一時保存用
+
     if request.post? then
       name = params['name']
       s_year = params['s_year']
@@ -43,11 +45,24 @@ class ScheduleController < ApplicationController
               end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
               if end_time > start_time then
 
+                tasks = TaskController.get_visible_tasks (user_signed_in? ? current_user.email : nil)
+
+                # 予定追加「前」の各タスクの残り時間を取得
+                task_times_before_insert = tasks.map {|t| TaskController.calc_available_time t}
+
                 if view_context.user_signed_in? then
                   Schedule.createRecord(name, start_time, end_time, current_user.email)
                 else
                   Schedule.createRecord(name, start_time, end_time)
                 end
+
+                # 予定追加「後」の各タスクの残り時間を取得
+                task_times_after_insert = tasks.map {|t| TaskController.calc_available_time t}
+
+                # 予定追加前後で残り時間が1分でも変わったタスクを抽出
+                affected_task_indexes = tasks.to_a.each_index.select do |i| task_times_before_insert[i] - task_times_after_insert[i] > 1 end
+
+                @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
 
                 @err_id = "正常"
               else
@@ -154,7 +169,6 @@ class ScheduleController < ApplicationController
       end
     end
   end
-
 end
 
 
