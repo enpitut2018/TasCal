@@ -94,7 +94,7 @@ class TaskController < ApplicationController
       hour = params['hour']
       minute = params['minute']
       elements = [year, month, day, hour, minute]
-      if (name.length <= 50 && name.length > 0) then 
+      if (name.length <= 50 && name.length > 0) then
         if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
           deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
           Task.createRecord(name, deadline, Task.find_by_id(@@edit_id).user_id)
@@ -112,24 +112,22 @@ class TaskController < ApplicationController
     end
   end
 
-  def self.calc_available_time id, current_time=nil
+  def self.calc_available_time task_record_or_id, current_time=nil
+    p task_record_or_id
     # 今の時間の取得
-    if !current_time.nil?
-      now = current_time
-    else
-      now = Time.zone.now
-    end
+    now = !current_time.nil? ? current_time : Time.zone.now
+
     # deadlineの取得
-    taskdata = Task.find(id.to_i)
+    taskdata = task_record_or_id.instance_of?(Task) ? task_record_or_id : Task.find(task_record_or_id.to_i)
     deadline = taskdata.deadline
     available_time = deadline - now
     # p available_time.class
     # p available_time
-    
+
     # 予定が入っている時間を引く
     schedules = Schedule.all
     # p schedules
-    schedules.each do |schedule| 
+    schedules.each do |schedule|
       if schedule.start_time < deadline && schedule.end_time > now then
         if schedule.start_time >= now then
           if schedule.end_time < deadline then
@@ -138,7 +136,7 @@ class TaskController < ApplicationController
             available_time -= (deadline - schedule.start_time)
           end
         elsif schedule.start_time < now then
-          if schedule.end_time <= deadline then  
+          if schedule.end_time <= deadline then
             available_time -= (schedule.end_time - now)
           elsif schedule.end_time > deadline then
             available_time = 0.0
@@ -185,4 +183,17 @@ class TaskController < ApplicationController
       "alert"
     end
   end
+
+
+  # 指定したユーザーID(メールアドレス情報)に対応するタスクデータをすべて取得する
+  # @param user_email [String]  ユーザーを識別するためのメールアドレス（）
+  # @return [Array<Task>]  対応するタスクデータの配列，user_emailがnilの場合は未ログイン状態で登録したタスクを取得する
+  def self.get_visible_tasks(user_email = nil)
+    if user_email
+      Task.where(user_id: user_email)
+    else
+      Task.where(user_id: nil)
+    end
+  end
+
 end

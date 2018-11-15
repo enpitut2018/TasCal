@@ -16,6 +16,8 @@
 <p></p>
 <% end %>
 
+<%= notify_affected_tasks %>
+
 <div class="container" id="insert_section">
 	<%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate()") do %>
 	<div class="row">
