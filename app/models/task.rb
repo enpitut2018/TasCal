@@ -5,12 +5,23 @@ class Task < ApplicationRecord
     task = Task.all.find(id)
     time = task.deadline - Time.zone.now
     time / 60
+
+    if time < 0
+      time = 0
+    end
+
+    time
   end
 
   def self.calc_rate_busy id
     d_time = calc_deadtime(id)
-    f_time = TaskController.calc_available_time id
-    f_time / d_time
+
+    if d_time <= 0
+      1
+    else
+      f_time = TaskController.calc_available_time id
+      f_time / d_time
+    end
   end
 
   def self.createRecord name, deadline, user_id=nil
