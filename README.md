@@ -19,6 +19,9 @@ https://github.com/takashift<br>
 https://github.com/MrSyTk<br>
 https://github.com/ysumiya<br>
 
+## CircleCI
+https://circleci.com/gh/enpitut2018/TasCal
+
 <!-- # TasCal (enPiT activity)
 
 このリポジトリはenPiTで作成するアプリケーションのデータを含んでいます。
