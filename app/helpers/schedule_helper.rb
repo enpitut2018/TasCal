@@ -21,8 +21,8 @@ module ScheduleHelper
                 t.tr do
                   t.th task.name, class: 'task-name'
 
-                  pre_before_time = before_time * 11 /24
-                  pre_after_time =  after_time * 11 / 24
+                  pre_before_time = before_time
+                  pre_after_time =  after_time
                   pre_time_diff = pre_before_time - pre_after_time
 
                   t.td format('%d時間%d分', (pre_after_time/60).to_i, (pre_after_time%60).to_i), class: 'task-info'
