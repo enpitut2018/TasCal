@@ -23,9 +23,4 @@ class Task < ApplicationRecord
       object.destroy
     end
   end
-
-  def self.nearest
-    tasks = Task.all
-    tasks[0].id
-  end
 end

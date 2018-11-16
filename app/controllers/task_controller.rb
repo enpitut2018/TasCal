@@ -177,9 +177,9 @@ class TaskController < ApplicationController
 
   def self.alert id
     rate = Task.calc_rate_busy id
-    remaining_time = calc_available_time id
-    deadline = Task.calc_deadtime id
-    if (id == Task.nearest || remaining_time < 72*60 || deadline < 36*60 ) then
+    # remaining_time = calc_available_time id #実質空き時間
+    # deadline = Task.calc_deadtime id #締切
+    if rate <= 0.85 then
       "alert"
     end
   end
@@ -194,6 +194,11 @@ class TaskController < ApplicationController
     else
       Task.where(user_id: nil)
     end
+  end
+
+  def nearest_id
+    tasks = get_visible_tasks(user_signed_in? ? current_user.email : nil).order("deadline ASC")
+    tasks[0].id
   end
 
 end
