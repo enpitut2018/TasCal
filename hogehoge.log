@@ -1,0 +1,68 @@
+=> Booting Puma
+=> Rails 5.2.0 application starting in development 
+=> Run `rails server -h` for more startup options
+Puma starting in single mode...
+* Version 3.12.0 (ruby 2.4.4-p296), codename: Llamas in Pajamas
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://0.0.0.0:3000
+Use Ctrl-C to stop
+I, [2018-11-23T13:11:47.368787 #28423]  INFO -- : Started GET "/task/insert" for 127.0.0.1 at 2018-11-23 13:11:47 +0900
+D, [2018-11-23T13:11:47.490464 #28423] DEBUG -- :   [1m[35m (4.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2018-11-23T13:11:47.490755 #28423] DEBUG -- :   ↳ vendor/bundle/ruby/2.4.0/gems/activerecord-5.2.0/lib/active_record/log_subscriber.rb:98
+I, [2018-11-23T13:11:47.513715 #28423]  INFO -- : Processing by TaskController#insert as HTML
+I, [2018-11-23T13:11:47.543520 #28423]  INFO -- :   Rendering task/insert.html.erb within layouts/application
+I, [2018-11-23T13:11:47.549914 #28423]  INFO -- :   Rendered task/_header.html.erb (0.4ms)
+D, [2018-11-23T13:11:47.821265 #28423] DEBUG -- :   [1m[36mTask Load (12.4ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."user_id" IS NULL ORDER BY deadline ASC[0m
+D, [2018-11-23T13:11:47.821539 #28423] DEBUG -- :   ↳ app/views/task/_task.html.erb:20
+9
+D, [2018-11-23T13:11:47.865378 #28423] DEBUG -- :   [1m[36mTask Load (0.4ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:47.865798 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:121
+D, [2018-11-23T13:11:47.882722 #28423] DEBUG -- :   [1m[36mSchedule Load (13.7ms)[0m  [1m[34mSELECT "schedules".* FROM "schedules"[0m
+D, [2018-11-23T13:11:47.883015 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:130
+9
+D, [2018-11-23T13:11:47.898592 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:47.898787 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:121
+D, [2018-11-23T13:11:47.899242 #28423] DEBUG -- :   [1m[36mCACHE Schedule Load (0.0ms)[0m  [1m[34mSELECT "schedules".* FROM "schedules"[0m
+D, [2018-11-23T13:11:47.899369 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:130
+D, [2018-11-23T13:11:47.900533 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:47.900747 #28423] DEBUG -- :   ↳ app/models/task.rb:5
+"time is "
+82092.098811
+9
+D, [2018-11-23T13:11:47.901721 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:47.901906 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:121
+D, [2018-11-23T13:11:47.902524 #28423] DEBUG -- :   [1m[36mCACHE Schedule Load (0.0ms)[0m  [1m[34mSELECT "schedules".* FROM "schedules"[0m
+D, [2018-11-23T13:11:47.902786 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:130
+D, [2018-11-23T13:11:47.903582 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:47.903724 #28423] DEBUG -- :   ↳ app/models/task.rb:5
+"time is "
+82092.096117
+D, [2018-11-23T13:11:47.904300 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:47.904450 #28423] DEBUG -- :   ↳ app/models/task.rb:5
+"time is "
+82092.09541
+9
+D, [2018-11-23T13:11:47.904839 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:47.904959 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:121
+D, [2018-11-23T13:11:47.905334 #28423] DEBUG -- :   [1m[36mCACHE Schedule Load (0.0ms)[0m  [1m[34mSELECT "schedules".* FROM "schedules"[0m
+D, [2018-11-23T13:11:47.905446 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:130
+D, [2018-11-23T13:11:48.297502 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:48.297771 #28423] DEBUG -- :   ↳ app/models/task.rb:5
+"time is "
+82091.701873
+9
+D, [2018-11-23T13:11:48.298526 #28423] DEBUG -- :   [1m[36mCACHE Task Load (0.0ms)[0m  [1m[34mSELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+D, [2018-11-23T13:11:48.298654 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:121
+D, [2018-11-23T13:11:48.299377 #28423] DEBUG -- :   [1m[36mCACHE Schedule Load (0.0ms)[0m  [1m[34mSELECT "schedules".* FROM "schedules"[0m
+D, [2018-11-23T13:11:48.299983 #28423] DEBUG -- :   ↳ app/controllers/task_controller.rb:130
+I, [2018-11-23T13:11:48.300539 #28423]  INFO -- :   Rendered collection of task/_listingtask.html.erb [1 times] (440.8ms)
+I, [2018-11-23T13:11:48.301105 #28423]  INFO -- :   Rendered task/_task.html.erb (748.1ms)
+I, [2018-11-23T13:11:48.303807 #28423]  INFO -- :   Rendered task/insert.html.erb within layouts/application (760.2ms)
+I, [2018-11-23T13:11:48.494782 #28423]  INFO -- : Completed 200 OK in 981ms (Views: 913.9ms | ActiveRecord: 53.4ms)
+
+
+- Gracefully stopping, waiting for requests to finish
+=== puma shutdown: 2018-11-23 13:11:58 +0900 ===
+- Goodbye!
+Exiting

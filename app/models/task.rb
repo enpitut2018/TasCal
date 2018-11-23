@@ -4,12 +4,12 @@ class Task < ApplicationRecord
     #締め切りまでの時間(min)
     task = Task.all.find(id)
     time = task.deadline - Time.zone.now
-    time / 60
+    time = time / 60
 
     if time < 0
       time = 0
     end
-
+    
     time
   end
 
