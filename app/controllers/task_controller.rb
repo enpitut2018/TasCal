@@ -113,7 +113,6 @@ class TaskController < ApplicationController
   end
 
   def self.calc_available_time task_record_or_id, current_time=nil
-    p task_record_or_id
     # 今の時間の取得
     now = !current_time.nil? ? current_time : Time.zone.now
 

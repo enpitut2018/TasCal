@@ -34,4 +34,7 @@ class Task < ApplicationRecord
       object.destroy
     end
   end
+  def self.calc_splited_time(id, now=Time.zone.now())
+    now - Time.zone.now()
+  end
 end
