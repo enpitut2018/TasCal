@@ -19,7 +19,7 @@ class Task < ApplicationRecord
     if d_time <= 0
       1
     else
-      f_time = self.calc_splited_time id
+      f_time = calc_splited_time id
       f_time / d_time
     end
   end
@@ -48,7 +48,7 @@ class Task < ApplicationRecord
     tasks.each do |task|
       # available_time の計算に係るタスクの総数
       if task.deadline > now then
-        n += n
+        n += 1
         tmp_task << task.id
       end
     end
@@ -57,13 +57,14 @@ class Task < ApplicationRecord
     k = 1
     tasks.each do |task|
       # 一番現在時刻に近い締切のタスクの available_time を最初に計算して、それを2番目以降に締め切りの近いタスクの available_time の計算に利用する。
-      # もし、他のタスクの期限が現在時刻よりあとだったら（本当は自分の期限より前のタスクの計算も個別に行う？）
       # 期限までのタスクの数だけデッドラインまでの空き時間を分割する
       if task.deadline > now then
         available_time += (TaskController.calc_available_time(tmp_task[k-1]) - available_time) / (n - k + 1)
+        # available_time += TaskController.calc_available_time(tmp_task[k-1])
         k += 1
       end
     end
     available_time
+    # available_time / n
   end
 end
