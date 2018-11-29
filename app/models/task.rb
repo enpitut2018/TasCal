@@ -41,8 +41,7 @@ class Task < ApplicationRecord
     taskdata = task_record_or_id.instance_of?(Task) ? task_record_or_id : Task.find(task_record_or_id.to_i)
     deadline = taskdata.deadline
 
-    tasks = Task.all
-    tasks.sort{ |a, b| a.deadline <=> b.deadline }
+    tasks = Task.order(:deadline)
     n = 0
     tmp_task = []
     tasks.each do |task|
@@ -50,18 +49,31 @@ class Task < ApplicationRecord
       if task.deadline > now then
         n += 1
         tmp_task << task.id
+        logger.debug task.deadline
       end
     end
 
+    logger.debug n
+
     available_time = 0
-    k = 1
+    prev_deadline = 0
+    k = 0
     tasks.each do |task|
       # 一番現在時刻に近い締切のタスクの available_time を最初に計算して、それを2番目以降に締め切りの近いタスクの available_time の計算に利用する。
       # 期限までのタスクの数だけデッドラインまでの空き時間を分割する
-      if task.deadline > now then
-        available_time += (TaskController.calc_available_time(tmp_task[k-1]) - available_time) / (n - k + 1)
+      if task.deadline > now && task.deadline <= deadline then
+        logger.debug TaskController.calc_available_time(task.id)
+        logger.debug k
+        if prev_deadline == task.deadline then
+          available_time == (TaskController.calc_available_time(task.id) + available_time) / (n - k)
+        else
+          available_time += (TaskController.calc_available_time(task.id) + available_time) / (n - k)
         # available_time += TaskController.calc_available_time(tmp_task[k-1])
+        end
+
+        logger.debug available_time
         k += 1
+        prev_deadline = task.deadline
       end
     end
     available_time
