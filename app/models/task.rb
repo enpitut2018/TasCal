@@ -57,6 +57,7 @@ class Task < ApplicationRecord
 
     available_time = 0
     prev_deadline = 0
+    prev_available_time = 0
     k = 0
     tasks.each do |task|
       # 一番現在時刻に近い締切のタスクの available_time を最初に計算して、それを2番目以降に締め切りの近いタスクの available_time の計算に利用する。
@@ -65,10 +66,11 @@ class Task < ApplicationRecord
         logger.debug TaskController.calc_available_time(task.id)
         logger.debug k
         if prev_deadline == task.deadline then
-          available_time == (TaskController.calc_available_time(task.id) + available_time) / (n - k)
+          available_time == (TaskController.calc_available_time(task.id) - prev_available_time) / (n - k)
         else
-          available_time += (TaskController.calc_available_time(task.id) + available_time) / (n - k)
+          available_time += (TaskController.calc_available_time(task.id) - available_time) / (n - k)
         # available_time += TaskController.calc_available_time(tmp_task[k-1])
+          prev_available_time = available_time
         end
 
         logger.debug available_time
