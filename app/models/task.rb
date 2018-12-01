@@ -66,9 +66,9 @@ class Task < ApplicationRecord
         logger.debug TaskController.calc_available_time(task.id)
         logger.debug k
         if prev_deadline == task.deadline then
-          available_time == (TaskController.calc_available_time(task.id) - prev_available_time) / (n - k)
+          available_time == (TaskController.calc_available_time(task.id, now) - prev_available_time) / (n - k)
         else
-          available_time += (TaskController.calc_available_time(task.id) - available_time) / (n - k)
+          available_time += (TaskController.calc_available_time(task.id, now) - available_time) / (n - k)
         # available_time += TaskController.calc_available_time(tmp_task[k-1])
           prev_available_time = available_time
         end
