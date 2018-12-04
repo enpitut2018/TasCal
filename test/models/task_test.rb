@@ -26,7 +26,7 @@ class TaskTest < ActiveSupport::TestCase
     @distance = lambda { |t1, t2| t1 - t2 }
     @almost0 = 0
     @do_equal = proc {|t1, t2, sub=@distance|
-      assert_equal(@almost0, sub.(t1, t2))
+      assert_in_delta(@almost0, sub.(t1, t2))
     }
     #=======proc end====================
     insert_task name:"t_tomorrow"
@@ -85,18 +85,18 @@ class TaskTest < ActiveSupport::TestCase
   end  
 
   test "add schedule1(from 25 17:00 to 19:00 overlap task3&task2)" do
-    t3 = 5/3 # : float
-    t2 = t3 + 5/2 # : float
-    t1 = t2 + 6/1 # : float        
+    t3 = 5.fdiv(3) # : float
+    t2 = t3 + 5.fdiv(2) # : float
+    t1 = t2 + 12.fdiv(1) # : float
     three_task(t1, t2, t3) {
       insert_schedule name:"s_today", s_day:"25", s_hour:"17", e_day:"25", e_hour:"19"
     }
   end 
 
   test "add schedule2(from 25 19:00 to 26 6:00 overlap task2&task1" do
-    t3 = 6/3 # : float
-    t2 = t3 + 1/2 # : float
-    t1 = t2 + 6/1 # : float        
+    t3 = 6.fdiv(3) # : float
+    t2 = t3 + 1.fdiv(2) # : float
+    t1 = t2 + 6.fdiv(1) # : float
     three_task(t1, t2, t3) {
       insert_schedule name:"sleep", s_day:"25", s_hour:"19", e_day:"26", e_hour:"6"
     }
