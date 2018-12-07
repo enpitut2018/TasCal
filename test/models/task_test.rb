@@ -102,6 +102,15 @@ class TaskTest < ActiveSupport::TestCase
     }
   end
 
+  test "task-isolation" do
+    insert_task name:"A's task", user_id:"a@site.com"
+    tA = Task.all.find_by(name: "A's task")
+    check = proc {|t| @do_equal.call(@avail.(t.id), @split.(t.id))}
+    check.call(tA)
+    insert_task name:"B's task", user_id:"b@site.com"
+    tB = Task.all.find_by(name: "B's task")
+    ckeck.call(tB)
+  end
 
   def insert_task (name:, user_id:"aaa@example.com", year:"2018", month:"7", day:"26", hour:"12", minute:"0")
     Task.create(:user_id => user_id, :name => name,
