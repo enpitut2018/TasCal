@@ -178,7 +178,7 @@ class TaskController < ApplicationController
     rate = Task.calc_rate_busy id
     # remaining_time = calc_available_time id #実質空き時間
     # deadline = Task.calc_deadtime id #締切
-    if rate <= 0.85 then
+    if rate <= 0.4 then
       "alert"
     end
   end
