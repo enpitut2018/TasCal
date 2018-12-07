@@ -109,7 +109,7 @@ class TaskTest < ActiveSupport::TestCase
     check.call(tA)
     insert_task name:"B's task", user_id:"b@site.com"
     tB = Task.all.find_by(name: "B's task")
-    ckeck.call(tB)
+    check.call(tB)
   end
 
   def insert_task (name:, user_id:"aaa@example.com", year:"2018", month:"7", day:"26", hour:"12", minute:"0")
