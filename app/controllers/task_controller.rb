@@ -124,7 +124,7 @@ class TaskController < ApplicationController
     # p available_time
 
     # 予定が入っている時間を引く
-    schedules = Schedule.all
+    schedules = Schedule.where(user_id: taskdata.user_id)
     # p schedules
     schedules.each do |schedule|
       if schedule.start_time < deadline && schedule.end_time > now then

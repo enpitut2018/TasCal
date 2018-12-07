@@ -41,7 +41,8 @@ class Task < ApplicationRecord
     taskdata = task_record_or_id.instance_of?(Task) ? task_record_or_id : Task.find(task_record_or_id.to_i)
     deadline = taskdata.deadline
 
-    tasks = Task.order('deadline ASC')
+
+    tasks = Task.where(user_id: taskdata.user_id).order('deadline ASC')
     n = 0
     tmp_task = []
     tasks.each do |task|
