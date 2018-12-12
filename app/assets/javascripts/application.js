@@ -16,3 +16,8 @@
 //= require jquery
 //= require bootstrap
 //= require_tree .
+
+$(document).ready(function () {
+    $('#schedule').fullCalendar({
+    });
+});
