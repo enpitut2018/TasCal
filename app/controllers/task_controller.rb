@@ -27,7 +27,7 @@ class TaskController < ApplicationController
       minute = params['minute']
       elements = [year, month, day, hour, minute]
       if (name.length <= 50 && name.length > 0) then 
-        if (elements.all? {|t| !t.empty? && !t.nil?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
+        if (elements.all? {|t| !t.blank?}) && is_valid_date(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i) then
           deadline = Time.zone.local(year.to_i, month.to_i, day.to_i, hour.to_i, minute.to_i)
 
           if view_context.user_signed_in? then
