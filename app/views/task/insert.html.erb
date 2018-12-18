@@ -1,14 +1,46 @@
 <!-- <h1>Task#insert</h1>
 <h2>タスクの情報を入力してください</h2> -->
+<style>
+  .split-box{
+	position:absolute;
+	width:50%;
+	height:100%;
+}
+ 
+.left-box {
+	left:0;
+}
+ 
+.right-box {
+	right:0;
+	overflow-y:scroll;
+}
+</style>
+
 <%= render :partial => "header.html.erb"%>
 
 <% case @err_id
    when "名前" %>
 <p class="emess">タスク名(50文字以内)を入れてください</p>
-   <% when "日程" %>
+   <% when "締切" %>
 <p class="emess">締切を設定して下さい</p>
 <% when "正常" %>
 <p class="passmess">タスクを追加しました</p>
+<% when "初期" %>
+<p></p>
+<% end %>
+
+<% case @err_id
+   when "名前" %>
+<p class="emess">予定名(50文字以内)を入れてください</p>
+   <% when "開始日時" %>
+<p class="emess">開始日時を設定して下さい</p>
+   <% when "終了日時" %>
+<p class="emess">終了日時を設定して下さい</p>
+<% when "終始逆" %>
+<p class="emess">終了日時は開始日時より後に設定して下さい</p>
+<% when "正常" %>
+<p class="passmess">予定を追加しました</p>
 <% when "初期" %>
 <p></p>
 <% end %>
@@ -17,27 +49,27 @@
 
   <ul class="nav nav-tabs" role="tablist">
     <li class="active" role="presentation">
-      <a aria-controls="tab_a" data-toggle="tab" href="#tab_a" role="tab">タスクの追加</a>
+      <a aria-controls="tab_a" data-toggle="tab" href="#tab_a" role="tab">タスク追加</a>
     </li>
     <li role="presentation">
-      <a aria-controls="tab_b" data-toggle="tab" href="#tab_b" role="tab">予定の追加</a>
+      <a aria-controls="tab_b" data-toggle="tab" href="#tab_b" role="tab">予定追加</a>
     </li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="tab_a" role="tabpanel">
       <p>
-        <%= form_tag("/task/insert", method: "post", onsubmit: "return validate()") do %>
+        <%= form_tag("/task/insert", method: "post", onsubmit: "return validate_task()") do %>
         <div class="row">
 
           <div class="col-sm-6">
-            <p>タスクの名前を入力</p>
+            <p>タスク名</p>
             <p>
               <%= text_field_tag(:name) %>
             </p>
           </div>
           <div class="col-sm-6">
-            <p>タスクの締切を入力</p>
+            <p>締切日時</p>
             <p>
               <%= text_field_tag(:year, "", id: 'input-year', type: "hidden") %>
               <%= text_field_tag(:month, "", id: 'input-month', type: "hidden") %>
@@ -59,10 +91,10 @@
 
     <div class="tab-pane" id="tab_b" role="tabpanel">
       <p>
-        <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate()") do %>
+        <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate_schedule()") do %>
           <div class="row">
             <div class="col-sm-4">
-              <p>予定の名前を入力</p>
+              <p>予定名</p>
               <%= text_field_tag(:name) %>
             </div>
             <div class="col-sm-4">
@@ -95,8 +127,12 @@
   </div>
 </div>
 
-<div class="container">
-  <%= render :partial => "task.html.erb"%>
+<div class="split-box left-box", id="task">
+  <%= render :partial => "task/task.html.erb"%>
+</div>
+
+<div class="split-box right-box", id="schedule">
+  <%= render :partial => "schedule/schedule.html.erb"%>
 </div>
 
 <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/flatpickr" %>
@@ -108,7 +144,16 @@
 	  dateFormat: "Y-m-d H:i",
   });
 
-	function validate() {
+  flatpickr("#input-s-date",{
+	  enableTime: true,
+	  dateFormat: "Y-m-d H:i",
+  });
+	flatpickr("#input-e-date",{
+	  enableTime: true,
+	  dateFormat: "Y-m-d H:i",
+  });
+
+	function validate_task() {
 		// return like "2018-07-02 12:00"
 	  var date_str = document.getElementById("input-deadline").value;
 
@@ -128,4 +173,39 @@
 
     return true;
   }
+
+  function validate_schedule() {
+		// return like "2018-07-02 12:00"
+	  var s_date_str = document.getElementById("input-s-date").value;
+	  var e_date_str = document.getElementById("input-e-date").value;
+
+	  var s_date_values = s_date_str.split(/[- :]/);
+	  var e_date_values = e_date_str.split(/[- :]/);
+
+	  var input_s_year_tag = document.getElementById("input-s-year");
+	  var input_s_month_tag = document.getElementById("input-s-month");
+	  var input_s_day_tag = document.getElementById("input-s-day");
+	  var input_s_hour_tag = document.getElementById("input-s-hour");
+	  var input_s_minute_tag = document.getElementById("input-s-minute");
+
+	  var input_e_year_tag = document.getElementById("input-e-year");
+	  var input_e_month_tag = document.getElementById("input-e-month");
+	  var input_e_day_tag = document.getElementById("input-e-day");
+	  var input_e_hour_tag = document.getElementById("input-e-hour");
+	  var input_e_minute_tag = document.getElementById("input-e-minute");
+
+	  input_s_year_tag.value = s_date_values[0];
+	  input_s_month_tag.value = s_date_values[1];
+	  input_s_day_tag.value = s_date_values[2];
+	  input_s_hour_tag.value = s_date_values[3];
+	  input_s_minute_tag.value = s_date_values[4];
+
+	  input_e_year_tag.value = e_date_values[0];
+	  input_e_month_tag.value = e_date_values[1];
+	  input_e_day_tag.value = e_date_values[2];
+	  input_e_hour_tag.value = e_date_values[3];
+	  input_e_minute_tag.value = e_date_values[4];
+
+    return true;
+    }
 </script>

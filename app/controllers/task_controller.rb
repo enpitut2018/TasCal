@@ -103,7 +103,7 @@ class TaskController < ApplicationController
           @err_id = "正常"          # 正常に追加
           redirect_to :action =>"insert"
         else
-          @err_id = "日程"          # 日程が異常
+          @err_id = "締切"          # 日程が異常
           render nothing: true, status: 400
         end
       else

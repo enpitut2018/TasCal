@@ -38,8 +38,8 @@ class ScheduleController < ApplicationController
       e_elements = [e_year, e_month, e_day, e_hour, e_minute]
 
       if (name.length <= 50 && name.length > 0) then 
-        if (s_elements.all? {|t| !t.empty? && !t.nil?}) then
-          if (e_elements.all? {|t| !t.empty? && !t.nil?}) then
+        if (s_elements.all? {|t| !t.blank?}) then
+          if (e_elements.all? {|t| !t.blank?}) then
             if self.is_valid_date(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i) && self.is_valid_date(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i) then
               start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
               end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
@@ -65,6 +65,7 @@ class ScheduleController < ApplicationController
                 @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
 
                 @err_id = "正常"
+                render "task/insert"
               else
                 @err_id = "終始逆"
                 render nothing: true, status: 400
@@ -76,7 +77,8 @@ class ScheduleController < ApplicationController
           end
         else
           @err_id = "開始日時"
-            render nothing: true, status: 400
+          render "task/insert"
+            #render nothing: true, status: 400
         end
       else
         @err_id = "名前"
@@ -139,8 +141,8 @@ class ScheduleController < ApplicationController
       s_elements = [s_year, s_month, s_day, s_hour, s_minute]
       e_elements = [e_year, e_month, e_day, e_hour, e_minute]
       if (name.length <= 50 && name.length > 0) then 
-        if (s_elements.all? {|t| !t.empty? && !t.nil?}) then
-          if (e_elements.all? {|t| !t.empty? && !t.nil?}) then
+        if (s_elements.all? {|t| !t.blank?}) then
+          if (e_elements.all? {|t| !t.blank?}) then
             if self.is_valid_date(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i) && self.is_valid_date(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i) then
             	start_time = Time.zone.local(s_year.to_i, s_month.to_i, s_day.to_i, s_hour.to_i, s_minute.to_i)
             	end_time = Time.zone.local(e_year.to_i, e_month.to_i, e_day.to_i, e_hour.to_i, e_minute.to_i)
