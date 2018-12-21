@@ -36,13 +36,13 @@ class TaskController < ApplicationController
             Task.createRecord(name, deadline)
           end
 
-          @err_id = "正常"          # 正常に追加
+          @err_id = "タスク正常"          # 正常に追加
         else
           @err_id = "日程"          # 日程が異常
           render nothing: true, status: 400
         end
       else
-        @err_id = "名前"        # 名前が0文字または50文字以上
+        @err_id = "タスク名前"        # 名前が0文字または50文字以上
       end
     end
   end

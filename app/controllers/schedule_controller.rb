@@ -64,25 +64,28 @@ class ScheduleController < ApplicationController
 
                 @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
 
-                @err_id = "正常"
+                @err_id = "予定正常"
                 render "task/insert"
               else
                 @err_id = "終始逆"
-                render nothing: true, status: 400
+                render "task/insert"
+                #render nothing: true, status: 400
               end
             end
           else
           	@err_id = "終了日時"
-          	render nothing: true, status: 400
+            render "task/insert"
+            #render nothing: true, status: 400
           end
         else
           @err_id = "開始日時"
           render "task/insert"
-            #render nothing: true, status: 400
+          #render nothing: true, status: 400
         end
       else
-        @err_id = "名前"
-        render nothing: true, status: 400
+        @err_id = "予定名前"
+        render "task/insert"
+        #render nothing: true, status: 400
       end
     end
   end
