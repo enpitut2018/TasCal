@@ -54,7 +54,7 @@ module ScheduleHelper
         if ($('#schedule-calendar').children().length > 0 ) {
 EOS
 
-    embedded_script += '$("#schedule-calendar").fullCalendar("renderEvents", ' + schedules.to_json + ");"
+    embedded_script += '$("#schedule-calendar").fullCalendar("renderEvents", ' + schedules.to_json + ", true);"
 
     embedded_script += <<EOS
       } else {
