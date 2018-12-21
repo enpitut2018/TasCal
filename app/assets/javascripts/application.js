@@ -16,3 +16,22 @@
 //= require jquery
 //= require bootstrap
 //= require_tree .
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/locale-all
+
+
+function eventCalendar() {
+    return $('#schedule-calendar').fullCalendar({
+
+    });
+}
+
+function clearCalendar() {
+    let eventCalendarDom = $('#schedule-calendar');
+    eventCalendarDom.fullCalendar('delete');
+    eventCalendarDom.html('');
+}
+
+$(document).on('turbolinks:load', eventCalendar);
+$(document).on('turbolinks:before-cache', clearCalendar);

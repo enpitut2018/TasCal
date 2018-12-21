@@ -39,4 +39,36 @@ module ScheduleHelper
     end
   end
 
+  def put_fullcalendar_events
+    schedules = []
+    get_available_schedules.each do |schedule|
+      schedules.push({
+                           title: schedule.name,
+                           start: schedule.start_time.iso8601,
+                           end: schedule.end_time.iso8601
+                       })
+    end
+
+    embedded_script = <<EOS
+      function embedEvents() {
+        if ($('#schedule-calendar').children().length > 0 ) {
+EOS
+
+    embedded_script += '$("#schedule-calendar").fullCalendar("renderEvents", ' + schedules.to_json + ", true);"
+
+    embedded_script += <<EOS
+      } else {
+        window.setTimeout(embedEvents, 200);
+      }}
+      embedEvents();
+EOS
+
+    root = Nokogiri::HTML::DocumentFragment.parse('')
+    Nokogiri::HTML::Builder.with(root) do |t|
+      t.script embedded_script
+    end
+
+    root.to_html.html_safe
+  end
+
 end

@@ -71,3 +71,8 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+
+# gem 'fullcalendar'
+gem 'fullcalendar-rails' 
+gem 'momentjs-rails'
+gem 'jquery-rails'

@@ -88,6 +88,21 @@ class ScheduleController < ApplicationController
         #render nothing: true, status: 400
       end
     end
+
+    tempfile = Tempfile.open('events', File.expand_path("tmp", Dir.pwd)) do |f|
+      output_json = []
+      view_context.get_available_schedules.each do |schedule|
+        output_json.push({
+            title: schedule.name,
+            start: schedule.start_time.iso8601,
+            end: schedule.end_time.iso8601
+        })
+      end
+
+      f.write output_json.to_json
+      puts f.path
+      f
+    end
   end
 
   def display
