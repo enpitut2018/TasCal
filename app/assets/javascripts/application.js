@@ -28,7 +28,7 @@ function eventCalendar() {
 }
 
 function clearCalendar() {
-    let eventCalendarDom = $('#schedule-calendar');
+    var eventCalendarDom = $('#schedule-calendar');
     eventCalendarDom.fullCalendar('delete');
     eventCalendarDom.html('');
 }
