@@ -22,11 +22,13 @@
 
 
 function eventCalendar() {
-    return $('#schedule').fullCalendar({});
+    return $('#schedule-calendar').fullCalendar({
+
+    });
 }
 
 function clearCalendar() {
-    let eventCalendarDom = $('#schedule');
+    let eventCalendarDom = $('#schedule-calendar');
     eventCalendarDom.fullCalendar('delete');
     eventCalendarDom.html('');
 }
