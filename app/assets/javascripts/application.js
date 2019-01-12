@@ -20,10 +20,24 @@
 //= require fullcalendar
 //= require fullcalendar/locale-all
 
-
 function eventCalendar() {
     return $('#schedule-calendar').fullCalendar({
-
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        axisFormat: 'H:mm',
+        timeFormat: 'H:mm',
+        monthNames: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
+        monthNamesShort: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
+        dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
+        dayNamesShort: ['日','月','火','水','木','金','土'],
+        events: "/api/v1/events",
+        editable: true,        // 編集可
+        selectable: true,      // 選択可
+        selectHelper: true,    // 選択時にプレースホルダーを描画
+        ignoreTimezone: false
     });
 }
 
