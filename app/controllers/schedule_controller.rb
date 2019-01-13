@@ -105,8 +105,12 @@ class ScheduleController < ApplicationController
     # end
   end
 
+  # ViewのFullCalendar上でスケジュールを表示させるために，予定の情報をJSON形式で返すための関数
+  # ログイン済ならばそのユーザーに紐付いた予定のみ，未ログインならユーザーに紐付いていない予定の情報を返す
   def get_schedules_as_json
+    # ログイン中のユーザーIDを取得，未ログインの場合はnil
     user_id = user_signed_in? ? current_user.email : nil
+
     data_json = Schedule.where(user_id: user_id).map do |schedule|
       {
           title: schedule.name,
@@ -119,9 +123,12 @@ class ScheduleController < ApplicationController
     render json: data_json
   end
 
+  # ViewのFullCalendarからJavaScript経由でスケジュールの削除処理を実行するための関数
+  # POSTリクエスト内のパラメータ"id"に削除したい予定のIDの値が格納されていることを想定
   def delete_schedule_via_api
     schedule_id = params["id"]
 
+    # パラメータ"id"に値が含まれていない場合は400エラーを返す
     unless schedule_id
       render json: { status: 400, message: "No schedule id has been specified" },
              status: :bad_request, text: "No schedule id has been specified"
@@ -131,12 +138,14 @@ class ScheduleController < ApplicationController
     target_schedule = Schedule.find_by_id(schedule_id)
     current_user_id = user_signed_in? ? curernt_user.email : nil
 
+    # 削除要求した予定がログイン中のユーザーに紐付いたものでない場合は400エラーを返す
     unless target_schedule.user_id == current_user_id
       render json: { status: 400, message: "Operation not permitted" },
              status: :bad_request, text: "Operation not permitted"
       return
     end
 
+    # 削除して良い場合は普通に削除
     Schedule.destroyRecord(schedule_id)
     render json: { status: 200, message: "ok" }, status: :ok, text: "ok"
   end
