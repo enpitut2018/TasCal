@@ -45,7 +45,18 @@ function eventCalendar() {
 				event.title = title;
 				$('#schedule-calendar').fullCalendar('updateEvent', event); //イベント（予定）の修正
 			}else{
-				$('#schedule-calendar').fullCalendar("removeEvents", event.id); //イベント（予定）の削除				
+                console.log(event);
+				$.ajax({
+                    url : "schedule/delete",        
+                    type : "GET",               
+                    data : {
+                        id : event.id // ToDo : fullcalendarのidとDBのidが違う
+                    },
+                    dataType : "json",          
+                    success : function(event){   //取得が成功したらtestdata.jsonをコールバック関数のfunctionの引数dataにセット 
+                        console.log(event.id);  //コンソール表示（コールバック関数functionの処理の中身）
+                    }
+                });
 			}
         },
         eventResize: function(event) {
