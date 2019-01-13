@@ -37,7 +37,21 @@ function eventCalendar() {
         editable: true,        // 編集可
         selectable: true,      // 選択可
         selectHelper: true,    // 選択時にプレースホルダーを描画
-        ignoreTimezone: false
+        ignoreTimezone: false,
+        eventClick: function(event) { //イベントをクリックしたときに実行
+            // ToDo : 良い感じにカレンダー上の編集機能を実装する
+            var title = prompt('予定を入力してください:', event.title);
+			if(title && title!=""){
+				event.title = title;
+				$('#schedule-calendar').fullCalendar('updateEvent', event); //イベント（予定）の修正
+			}else{
+				$('#schedule-calendar').fullCalendar("removeEvents", event.id); //イベント（予定）の削除				
+			}
+        },
+        eventResize: function(event) {
+        },
+        eventDrop: function(event) {
+        }
     });
 }
 
