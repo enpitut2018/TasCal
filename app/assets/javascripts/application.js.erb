@@ -49,7 +49,7 @@ function eventCalendar() {
                     url: "api/schedule/delete",
                     type: "POST",
                     data: {
-                        id: event.id // ToDo : fullcalendarのidとDBのidが違う
+                        id: event.id
                     },
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
