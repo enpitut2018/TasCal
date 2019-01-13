@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'schedule/insert'
   post 'schedule/insert'
   get 'schedule/display'
+  get 'api/schedule', to: 'schedule#get_schedules_as_json'
   get 'schedule/delete'
   post 'schedule/delete'
   get 'schedule/edit'

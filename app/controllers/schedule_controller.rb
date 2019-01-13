@@ -105,7 +105,22 @@ class ScheduleController < ApplicationController
     # end
   end
 
+  def get_schedules_as_json
+    user_id = user_signed_in? ? current_user.email : nil
+    data_json = Schedule.where(user_id: user_id).map do |schedule|
+      {
+          title: schedule.name,
+          start: schedule.start_time.iso8601,
+          end: schedule.end_time.iso8601,
+          id: schedule.id
+      }
+    end
+
+    render json: data_json
+  end
+
   def display
+    puts verified_request?
     @err_id = "初期"
     @schedules = Schedule.all
   end
@@ -114,7 +129,7 @@ class ScheduleController < ApplicationController
     if params['edit'] then
       begin
         @@edit_id = params['edit']
-        redirect_to :action => "edit"
+        redirect_to action: "edit"
         exit
       rescue SystemExit
         puts "Edit"
@@ -123,7 +138,7 @@ class ScheduleController < ApplicationController
       id = params['id']
       Schedule.destroyRecord(id)
       @err_id = "初期"
-      redirect_to :action =>"insert"
+      redirect_to action: "insert"
     end
   end
 
@@ -169,7 +184,7 @@ class ScheduleController < ApplicationController
                 Schedule.destroyRecord(@@edit_id)
                 @err_id = "正常"
                 @@edit_id = 0
-                redirect_to :action =>"insert"
+                redirect_to action: "insert"
               else
                 @err_id = "終始逆"
                 render nothing: true, status: 400
