@@ -33,7 +33,7 @@ function eventCalendar() {
         monthNamesShort: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
         dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
         dayNamesShort: ['日','月','火','水','木','金','土'],
-        events: "/api/schedule",
+        events: "/api/schedule/view",
         editable: true,        // 編集可
         selectable: true,      // 選択可
         selectHelper: true,    // 選択時にプレースホルダーを描画
@@ -45,16 +45,24 @@ function eventCalendar() {
 				event.title = title;
 				$('#schedule-calendar').fullCalendar('updateEvent', event); //イベント（予定）の修正
 			}else{
-                console.log(event);
 				$.ajax({
-                    url : "schedule/delete",        
-                    type : "GET",               
+                    url : "api/schedule/delete",
+                    type : "POST",
                     data : {
                         id : event.id // ToDo : fullcalendarのidとDBのidが違う
                     },
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                    },
                     dataType : "json",          
-                    success : function(event){   //取得が成功したらtestdata.jsonをコールバック関数のfunctionの引数dataにセット 
-                        console.log(event.id);  //コンソール表示（コールバック関数functionの処理の中身）
+                    success : function(){   //取得が成功したらtestdata.jsonをコールバック関数のfunctionの引数dataにセット
+                        console.log("Deleted: ", event);  //コンソール表示（コールバック関数functionの処理の中身）
+                        $('#schedule-calendar').fullCalendar('removeEvents', event._id);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        console.debug(XMLHttpRequest);
+                        console.debug(textStatus);
+                        console.debug(errorThrown);
                     }
                 });
 			}

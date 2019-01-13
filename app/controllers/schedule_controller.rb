@@ -119,6 +119,28 @@ class ScheduleController < ApplicationController
     render json: data_json
   end
 
+  def delete_schedule_via_api
+    schedule_id = params["id"]
+
+    unless schedule_id
+      render json: { status: 400, message: "No schedule id has been specified" },
+             status: :bad_request, text: "No schedule id has been specified"
+      return
+    end
+
+    target_schedule = Schedule.find_by_id(schedule_id)
+    current_user_id = user_signed_in? ? curernt_user.email : nil
+
+    unless target_schedule.user_id == current_user_id
+      render json: { status: 400, message: "Operation not permitted" },
+             status: :bad_request, text: "Operation not permitted"
+      return
+    end
+
+    Schedule.destroyRecord(schedule_id)
+    render json: { status: 200, message: "ok" }, status: :ok, text: "ok"
+  end
+
   def display
     puts verified_request?
     @err_id = "初期"
