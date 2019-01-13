@@ -1,5 +1,7 @@
 ## 平成進捗Master タスク管理アプリ「TasCal」
 
+[![](https://circleci.com/gh/enpitut2018/TasCal/tree/master.svg?style=shield&circle-token=38b1ef41aa371ba2ab985afe765b2a02b8d62684)](https://circleci.com/gh/enpitut2018/TasCal)
+
 ## エレベーターピッチ
 「意外と時間なくてタスクの締切直前に焦る」を解決する<br>
 忙しい学生向けの<br>
