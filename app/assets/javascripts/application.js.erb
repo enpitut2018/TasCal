@@ -46,7 +46,7 @@ function eventCalendar() {
                 $('#schedule-calendar').fullCalendar('updateEvent', event); //イベント（予定）の修正
             } else {
                 $.ajax({
-                    url: "api/schedule/delete",
+                    url: "/api/schedule/delete",
                     type: "POST",
                     data: {
                         id: event.id
