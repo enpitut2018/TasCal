@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # get 'schedule/display'
   get 'api/schedule/view',    to: 'schedule#get_schedules_as_json'
   post 'api/schedule/delete', to: 'schedule#delete_schedule_via_api'
+  post 'api/schedule/edit',   to: 'schedule#edit_schedule_via_api'
   get 'schedule/delete'
   post 'schedule/delete'
   get 'schedule/edit'

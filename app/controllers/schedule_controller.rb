@@ -150,6 +150,39 @@ class ScheduleController < ApplicationController
     render json: { status: 200, message: "ok" }, status: :ok, text: "ok"
   end
 
+  # ViewのFullCalendarからJavaScript経由でスケジュールの編集処理を実行するための関数
+  # 編集したい予定のid、予定名、開始時刻、終了時刻が格納
+  def edit_schedule_via_api
+    schedule_id = params["id"]
+    schedule_title = params["title"]
+    schedule_start = params["start"]
+    schedule_end = params["end"]
+
+    unless schedule_id
+      render json: { status: 400, message: "No schedule id has been specified" },
+             status: :bad_request, text: "No schedule id has been specified"
+      return
+    end
+
+    target_schedule = Schedule.find_by_id(schedule_id)
+    current_user_id = user_signed_in? ? curernt_user.email : nil
+
+    unless target_schedule.user_id == current_user_id
+      render json: { status: 400, message: "Operation not permitted" },
+             status: :bad_request, text: "Operation not permitted"
+      return
+    end
+
+    if view_context.user_signed_in? then
+      Schedule.createRecord(schedule_title, schedule_start, schedule_end, current_user.email)
+    else
+      Schedule.createRecord(schedule_title, schedule_start, schedule_end)
+    end
+    Schedule.destroyRecord(schedule_id);
+    render json: { status: 200, message: "ok" }, status: :ok, text: "ok"
+    p "edit success"
+  end
+
   def display
     puts verified_request?
     @err_id = "初期"

@@ -43,7 +43,29 @@ function eventCalendar() {
             var title = prompt('予定を入力してください:', event.title);
             if (title && title != "") {
                 event.title = title;
-                $('#schedule-calendar').fullCalendar('updateEvent', event); //イベント（予定）の修正
+                $.ajax({
+                    url: "/api/schedule/edit",
+                    type: "POST",
+                    data: {
+                        id: event.id,
+                        title: event.title,
+                        start: event.start._i,
+                        end: event.end._i
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                    },
+                    dataType: "json",
+                    success: function () {
+                        console.log("Updated: ", event);  //コンソール表示（コールバック関数functionの処理の中身）
+                        $('#schedule-calendar').fullCalendar('updateEvents', event._id);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.debug(XMLHttpRequest);
+                        console.debug(textStatus);
+                        console.debug(errorThrown);
+                    }
+                });
             } else {
                 $.ajax({
                     url: "/api/schedule/delete",
