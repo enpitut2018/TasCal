@@ -1,0 +1,149 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, or any plugin's
+// vendor/assets/javascripts directory can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file. JavaScript code in this file should be added after the last require_* statement.
+//
+// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+//= require rails-ujs
+//= require activestorage
+//= require turbolinks
+//= require jquery
+//= require bootstrap
+//= require_tree .
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/locale-all
+
+function eventCalendar() {
+    return $('#schedule-calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        defaultView: 'agendaWeek',
+        axisFormat: 'H:mm',
+        timeFormat: 'H:mm',
+        monthNames: ['１月', '２月', '３月', '４月', '５月', '６月', '７月', '８月', '９月', '１０月', '１１月', '１２月'],
+        monthNamesShort: ['１月', '２月', '３月', '４月', '５月', '６月', '７月', '８月', '９月', '１０月', '１１月', '１２月'],
+        dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
+        dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
+        events: "/api/schedule/view",
+        editable: true,        // 編集可
+        selectable: true,      // 選択可
+        selectHelper: true,    // 選択時にプレースホルダーを描画
+        ignoreTimezone: false,
+        eventClick: function (event) { //イベントをクリックしたときに予定名を編集
+            var title = prompt('予定名を変更します(予定名を空白にすると予定が削除されます):', event.title);
+            if (title && title != "") {
+                event.title = title;
+                $.ajax({
+                    url: "/api/schedule/edit",
+                    type: "POST",
+                    data: {
+                        id: event.id,
+                        title: event.title,
+                        start: event.start._i,
+                        end: event.end._i
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                    },
+                    dataType: "json",
+                    success: function () {
+                        console.log("Updated: ", event);  //コンソール表示（コールバック関数functionの処理の中身）
+                        $('#schedule-calendar').fullCalendar('updateEvent', event._id);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.debug(XMLHttpRequest);
+                        console.debug(textStatus);
+                        console.debug(errorThrown);
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "/api/schedule/delete",
+                    type: "POST",
+                    data: {
+                        id: event.id
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                    },
+                    dataType: "json",
+                    success: function () {   //取得が成功したらtestdata.jsonをコールバック関数のfunctionの引数dataにセット
+                        console.log("Deleted: ", event);  //コンソール表示（コールバック関数functionの処理の中身）
+                        $('#schedule-calendar').fullCalendar('removeEvents', event._id);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.debug(XMLHttpRequest);
+                        console.debug(textStatus);
+                        console.debug(errorThrown);
+                    }
+                });
+            }
+        },
+        eventResize: function (event) { //イベントをリサイズしたときに予定の期間を編集
+            var event_start_time = event.start._d
+            var year = event_start_time.getYear() + 1900;
+            var month = event_start_time.getMonth() + 1;
+            var day   = event_start_time.getDate();
+            var hour  = ( event_start_time.getHours()   < 10 ) ? '0' + event_start_time.getHours()   : event_start_time.getHours();
+            var min   = ( event_start_time.getMinutes() < 10 ) ? '0' + event_start_time.getMinutes() : event_start_time.getMinutes();
+            var moment_start = year+"-"+month+"-"+day+" "+hour+":"+min;
+            var start_time = moment(moment_start).add(-9, 'hour').format("YYYY-MM-DDTHH:mm:ssZ");
+            console.log(end_time);
+
+            var event_end_time = event.end._d
+            var year = event_end_time.getYear() + 1900;
+            var month = event_end_time.getMonth() + 1;
+            var day   = event_end_time.getDate();
+            var hour  = ( event_end_time.getHours()   < 10 ) ? '0' + event_end_time.getHours()   : event_end_time.getHours();
+            var min   = ( event_end_time.getMinutes() < 10 ) ? '0' + event_end_time.getMinutes() : event_end_time.getMinutes();
+            var moment_end = year+"-"+month+"-"+day+" "+hour+":"+min;
+            var end_time = moment(moment_end).add(-9, 'hour').format("YYYY-MM-DDTHH:mm:ssZ");
+            console.log(end_time);
+
+            $.ajax({
+                    url: "/api/schedule/edit",
+                    type: "POST",
+                    data: {
+                        id: event.id,
+                        title: event.title,
+                        start: start_time,
+                        end: end_time
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                    },
+                    dataType: "json",
+                    success: function () {
+                        console.log("Updated: ", event);  //コンソール表示（コールバック関数functionの処理の中身）
+                        $('#schedule-calendar').fullCalendar('updateEvent', event._id);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.debug(XMLHttpRequest);
+                        console.debug(textStatus);
+                        console.debug(errorThrown);
+                    }
+                });
+        },
+        eventDrop: function (event) {
+        }
+    });
+}
+
+function clearCalendar() {
+    var eventCalendarDom = $('#schedule-calendar');
+    eventCalendarDom.fullCalendar('delete');
+    eventCalendarDom.html('');
+}
+
+$(document).on('turbolinks:load', eventCalendar);
+$(document).on('turbolinks:before-cache', clearCalendar);
