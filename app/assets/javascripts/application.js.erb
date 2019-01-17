@@ -135,6 +135,49 @@ function eventCalendar() {
                 });
         },
         eventDrop: function (event) {
+            var event_start_time = event.start._d
+            var year = event_start_time.getYear() + 1900;
+            var month = event_start_time.getMonth() + 1;
+            var day   = event_start_time.getDate();
+            var hour  = ( event_start_time.getHours()   < 10 ) ? '0' + event_start_time.getHours()   : event_start_time.getHours();
+            var min   = ( event_start_time.getMinutes() < 10 ) ? '0' + event_start_time.getMinutes() : event_start_time.getMinutes();
+            var moment_start = year+"-"+month+"-"+day+" "+hour+":"+min;
+            var start_time = moment(moment_start).add(-9, 'hour').format("YYYY-MM-DDTHH:mm:ssZ");
+            console.log(end_time);
+
+            var event_end_time = event.end._d
+            var year = event_end_time.getYear() + 1900;
+            var month = event_end_time.getMonth() + 1;
+            var day   = event_end_time.getDate();
+            var hour  = ( event_end_time.getHours()   < 10 ) ? '0' + event_end_time.getHours()   : event_end_time.getHours();
+            var min   = ( event_end_time.getMinutes() < 10 ) ? '0' + event_end_time.getMinutes() : event_end_time.getMinutes();
+            var moment_end = year+"-"+month+"-"+day+" "+hour+":"+min;
+            var end_time = moment(moment_end).add(-9, 'hour').format("YYYY-MM-DDTHH:mm:ssZ");
+            console.log(end_time);
+
+            $.ajax({
+                    url: "/api/schedule/edit",
+                    type: "POST",
+                    data: {
+                        id: event.id,
+                        title: event.title,
+                        start: start_time,
+                        end: end_time
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                    },
+                    dataType: "json",
+                    success: function () {
+                        console.log("Updated: ", event);  //コンソール表示（コールバック関数functionの処理の中身）
+                        $('#schedule-calendar').fullCalendar('updateEvent', event._id);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.debug(XMLHttpRequest);
+                        console.debug(textStatus);
+                        console.debug(errorThrown);
+                    }
+                });
         }
     });
 }
