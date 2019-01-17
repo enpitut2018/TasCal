@@ -53,6 +53,10 @@
     <li role="presentation">
       <a aria-controls="tab_b" data-toggle="tab" href="#tab_b" role="tab"  class="add">予定追加</a>
     </li>
+    <li role="presentation">
+      <a aria-controls="tab_c" data-toggle="tab" href="#tab_c" role="tab"  class="add">インポート</a>
+    </li>
+
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="tab_a" role="tabpanel">
@@ -86,7 +90,7 @@
       </div>
       <% end %>
     </div>
-
+    
     <div class="tab-pane" id="tab_b" role="tabpanel">
       <p>
         <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate_schedule()") do %>
@@ -113,14 +117,44 @@
               <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
               <%= text_field_tag :deadline, "", id: 'input-e-date' %>
             </div>
+            
           </div>
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-4">
+              <a href="/import">Googleカレンダーからインポート</a>
+            </div>
+
+            <div class="col-sm-4">
               <%= submit_tag("追加", class: "btn btn-primary") %>
             </div>
+
           </div>
-        <% end %>
+          <% end %>          
+    </div>
+    <div class="tab-pane active" id="tab_c" role="tabpanel">
+      <p>
+        <%= form_tag("/schedule/import", method: "post", onsubmit: "return validate_task()") do %>
+        <div class="row">
+          <div class="col-sm-6">
+            <p>アドレス</p>
+            <p>
+              <%= text_field_tag(:email) %>
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p>パスワード</p>
+            <p>
+              <%= password_field_tag(:password) %>
+            </p>
+          </div>
+        </div>
       </p>
+      <div class="row">
+        <div class="col-sm-12">
+          <%= submit_tag("取得", class: "btn btn-primary") %>
+        </div>
+      </div>
+      <% end %>
     </div>
   </div>
 </div>

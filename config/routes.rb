@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   post 'schedule/delete'
   get 'schedule/edit'
   post 'schedule/edit'
+  get 'schedule/import'
+  post 'schedule/import'
+
   get 'tasklist/insert'
   post 'tasklist/insert'
   get 'tasklist/delete'
@@ -23,10 +26,10 @@ Rails.application.routes.draw do
   get '/kiyaku', to: 'static#kiyaku'
   get '/privacy', to: 'static#privacy'
   get '/about', to: 'static#about'
-
   get '/login', to: 'sessions#login'
   get '/logout', to: 'sessions#logout'
-  
+  #import calender
+  get '/import', to: 'sessions#import'
   get 'home/index'  
   devise_for :users, controllers: {
       omniauth_callbacks: "users/omniauth_callbacks"

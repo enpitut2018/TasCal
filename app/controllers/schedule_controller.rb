@@ -1,6 +1,7 @@
 # coding: utf-8
 require 'date'
 require 'time'
+require 'google_calendar'
 class ScheduleController < ApplicationController
   @err_id = "初期" #1:名前 2:開始日時 3:終了日時 4:終始逆 0:正常 -1:初期
   @@edit_id
@@ -189,6 +190,65 @@ class ScheduleController < ApplicationController
       end
     end
   end
-end
+  # Omniauthでログインしている前提で予定を取得
+  # def import events
+  #   tasks = TaskController.get_visible_tasks (user_signed_in? ? current_user.email : nil)
+  #   # 予定追加「前」の各タスクの残り時間を取得
+  #   task_times_before_insert = tasks.map {|t| Task.calc_splited_time t}
 
+  #   events.each do |event|
+  #     #validと仮定
+  #     start_time = Datatime.parse(event.start_time)
+  #     end_time = Datatime.parse(event.end_time)
+  #     # p start_time
+  #     # p end_time
+  #     Schedule.createRecord(name, start_time, end_time)
+  #   end
+
+  #   # 予定追加「後」の各タスクの残り時間を取得
+  #   task_times_after_insert = tasks.map {|t| Task.calc_splited_time t}
+      
+  #   # 予定追加前後で残り時間が1分でも変わったタスクを抽出
+  #   affected_task_indexes = tasks.to_a.each_index.select do |i| task_times_before_insert[i] - task_times_after_insert[i] > 1 end
+
+  #   @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
+    
+  #   @err_id = "予定正常"
+  #   #else
+  #   @err_id = "予定正常"
+  #   #end
+  #   render "task/insert"    
+  # end
+
+  # 新規にログインし、予定を取得 http://shakezoomer.com/?p=528
+  # def import
+  #   name = params['email']
+  #   pass = params['password']
+  #   cal = Google::Calendar.new(:usernae => name,
+  #                              :password => pass
+  #                             )
+  #   ev = cal.events  # 予定を取得
+  #   tasks = TaskController.get_visible_tasks (user_signed_in? ? current_user.email : nil)
+  #   # 予定追加「前」の各タスクの残り時間を取得
+  #   task_times_before_insert = tasks.map {|t| Task.calc_splited_time t}
+  #   ev.each do |event|
+  #     #validと仮定
+  #     start_time = Datatime.parse(event.start_time)
+  #     end_time = Datatime.parse(event.end_time)
+  #     # p start_time
+  #     # p end_time
+  #     Schedule.createRecord(name, start_time, end_time)
+  #   end
+  #   # 予定追加「後」の各タスクの残り時間を取得
+  #   task_times_after_insert = tasks.map {|t| Task.calc_splited_time t}
+      
+  #   # 予定追加前後で残り時間が1分でも変わったタスクを抽出
+  #   affected_task_indexes = tasks.to_a.each_index.select do |i| task_times_before_insert[i] - task_times_after_insert[i] > 1 end
+
+  #   @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
+    
+  #   @err_id = "予定正常"
+  #   render "task/insert"
+  # end
+end
 
