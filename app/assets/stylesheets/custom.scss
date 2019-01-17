@@ -149,3 +149,19 @@ p {
 
   }
 }
+
+
+/* 時間が少ない時の警告のホバー表示の位置調整 */
+.table {
+  .hint--top:after, .hint--top:before {
+    -webkit-transform: translateX(-10%);
+    -moz-transform: translateX(-10%);
+    transform: translateX(-10%);
+  }
+
+  [data-hint]:hover:after {
+    -webkit-transform: translateX(-10%) translateY(-8px);
+    -moz-transform: translateX(-10%) translateY(-8px);
+    transform: translateX(-10%) translateY(-8px);
+  }
+}
