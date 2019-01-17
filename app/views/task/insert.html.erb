@@ -57,73 +57,75 @@
 <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" %>
 
 <script>
-	flatpickr("#input-deadline",{
-	  enableTime: true,
-	  dateFormat: "Y-m-d H:i",
+  $(document).on('ready', function() {
+      flatpickr("#input-deadline", {
+          enableTime: true,
+          dateFormat: "Y-m-d H:i",
+      });
+
+      flatpickr("#input-s-date", {
+          enableTime: true,
+          dateFormat: "Y-m-d H:i",
+      });
+      flatpickr("#input-e-date", {
+          enableTime: true,
+          dateFormat: "Y-m-d H:i",
+      });
+
+      function validate_task() {
+          // return like "2018-07-02 12:00"
+          var date_str = document.getElementById("input-deadline").value;
+
+          var date_values = date_str.split(/[- :]/);
+
+          var input_year_tag = document.getElementById("input-year");
+          var input_month_tag = document.getElementById("input-month");
+          var input_day_tag = document.getElementById("input-day");
+          var input_hour_tag = document.getElementById("input-hour");
+          var input_minute_tag = document.getElementById("input-minute");
+
+          input_year_tag.value = date_values[0];
+          input_month_tag.value = date_values[1];
+          input_day_tag.value = date_values[2];
+          input_hour_tag.value = date_values[3];
+          input_minute_tag.value = date_values[4];
+
+          return true;
+      }
+
+      function validate_schedule() {
+          // return like "2018-07-02 12:00"
+          var s_date_str = document.getElementById("input-s-date").value;
+          var e_date_str = document.getElementById("input-e-date").value;
+
+          var s_date_values = s_date_str.split(/[- :]/);
+          var e_date_values = e_date_str.split(/[- :]/);
+
+          var input_s_year_tag = document.getElementById("input-s-year");
+          var input_s_month_tag = document.getElementById("input-s-month");
+          var input_s_day_tag = document.getElementById("input-s-day");
+          var input_s_hour_tag = document.getElementById("input-s-hour");
+          var input_s_minute_tag = document.getElementById("input-s-minute");
+
+          var input_e_year_tag = document.getElementById("input-e-year");
+          var input_e_month_tag = document.getElementById("input-e-month");
+          var input_e_day_tag = document.getElementById("input-e-day");
+          var input_e_hour_tag = document.getElementById("input-e-hour");
+          var input_e_minute_tag = document.getElementById("input-e-minute");
+
+          input_s_year_tag.value = s_date_values[0];
+          input_s_month_tag.value = s_date_values[1];
+          input_s_day_tag.value = s_date_values[2];
+          input_s_hour_tag.value = s_date_values[3];
+          input_s_minute_tag.value = s_date_values[4];
+
+          input_e_year_tag.value = e_date_values[0];
+          input_e_month_tag.value = e_date_values[1];
+          input_e_day_tag.value = e_date_values[2];
+          input_e_hour_tag.value = e_date_values[3];
+          input_e_minute_tag.value = e_date_values[4];
+
+          return true;
+      }
   });
-
-  flatpickr("#input-s-date",{
-	  enableTime: true,
-	  dateFormat: "Y-m-d H:i",
-  });
-	flatpickr("#input-e-date",{
-	  enableTime: true,
-	  dateFormat: "Y-m-d H:i",
-  });
-
-	function validate_task() {
-		// return like "2018-07-02 12:00"
-	  var date_str = document.getElementById("input-deadline").value;
-
-	  var date_values = date_str.split(/[- :]/);
-
-	  var input_year_tag = document.getElementById("input-year");
-	  var input_month_tag = document.getElementById("input-month");
-	  var input_day_tag = document.getElementById("input-day");
-	  var input_hour_tag = document.getElementById("input-hour");
-	  var input_minute_tag = document.getElementById("input-minute");
-
-	  input_year_tag.value = date_values[0];
-	  input_month_tag.value = date_values[1];
-	  input_day_tag.value = date_values[2];
-	  input_hour_tag.value = date_values[3];
-	  input_minute_tag.value = date_values[4];
-
-    return true;
-  }
-
-  function validate_schedule() {
-		// return like "2018-07-02 12:00"
-	  var s_date_str = document.getElementById("input-s-date").value;
-	  var e_date_str = document.getElementById("input-e-date").value;
-
-	  var s_date_values = s_date_str.split(/[- :]/);
-	  var e_date_values = e_date_str.split(/[- :]/);
-
-	  var input_s_year_tag = document.getElementById("input-s-year");
-	  var input_s_month_tag = document.getElementById("input-s-month");
-	  var input_s_day_tag = document.getElementById("input-s-day");
-	  var input_s_hour_tag = document.getElementById("input-s-hour");
-	  var input_s_minute_tag = document.getElementById("input-s-minute");
-
-	  var input_e_year_tag = document.getElementById("input-e-year");
-	  var input_e_month_tag = document.getElementById("input-e-month");
-	  var input_e_day_tag = document.getElementById("input-e-day");
-	  var input_e_hour_tag = document.getElementById("input-e-hour");
-	  var input_e_minute_tag = document.getElementById("input-e-minute");
-
-	  input_s_year_tag.value = s_date_values[0];
-	  input_s_month_tag.value = s_date_values[1];
-	  input_s_day_tag.value = s_date_values[2];
-	  input_s_hour_tag.value = s_date_values[3];
-	  input_s_minute_tag.value = s_date_values[4];
-
-	  input_e_year_tag.value = e_date_values[0];
-	  input_e_month_tag.value = e_date_values[1];
-	  input_e_day_tag.value = e_date_values[2];
-	  input_e_hour_tag.value = e_date_values[3];
-	  input_e_minute_tag.value = e_date_values[4];
-
-    return true;
-    }
 </script>
