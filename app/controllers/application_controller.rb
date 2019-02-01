@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   before_action :ensure_domain
   def ensure_domain
     puts request.host
+
+    # テスト実行時(ホスト名が "www.example.com" の場合)はリダイレクト処理を行わない
+    return if request.host == "www.example.com"
+
     return unless /\.herokuapp.com/ =~ request.host || /^www./ =~ request.host
 
     fqdn = 'tascal.app'
