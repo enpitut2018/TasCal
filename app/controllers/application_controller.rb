@@ -2,10 +2,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :get_current_user_avator, :get_current_user_id, :is_logged_in
 
-  # "https://enpit-tascal.herokuapp.com/herokuapp.com" から "https://tascal.app" にリダイレクト
+  # 以下の2つのリクエストを "https"//tascal.app" にリダイレクトさせる
+  # - "https://enpit-tascal.herokuapp.com"
+  # - "https://www.tascal.app"
   before_action :ensure_domain
   def ensure_domain
-    return unless /\.herokuapp.com/ =~ request.host
+    puts request.host
+    return unless /\.herokuapp.com/ =~ request.host || /^www./ =~ request.host
 
     fqdn = 'tascal.app'
 
