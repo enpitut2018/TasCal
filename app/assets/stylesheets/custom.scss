@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,700,900&subset=japanese');
+
 body {
+    font-family: "Noto Sans JP", "Droid Sans", Helvetica, YuGothic, "Yu Gothic", 游ゴシック体, 游ゴシック, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", メイリオ, Meiryo, Arial, sans-serif;
 	font-size: 16px;
 	text-align: center;
 }
@@ -61,6 +64,11 @@ p {
       color: #ffffff;
     }
   }
+}
+
+.navbar .nav-link {
+  font-weight: 900;
+  font-size: 16px;
 }
 
 .btn.btn-primary {

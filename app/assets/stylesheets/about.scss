@@ -20,7 +20,116 @@ main#page-about {
   div#branding {
     width: 100%;
     height: 100vh;
-    padding-top: 56px;
+    padding-top: 80px;
+    position: relative;
+
+    div.container {
+      height: 100%;
+
+      div.row {
+        margin-top: 0;
+
+        div.branding-left, div.branding-right {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img.img-message, img.img-icons {
+            -webkit-animation-fill-mode:both;
+            -ms-animation-fill-mode:both;
+            animation-fill-mode:both;
+            -webkit-animation-duration:1s;
+            -ms-animation-duration:1s;
+            animation-duration:1s;
+            -webkit-animation-name: fadeInDown;
+            animation-name: fadeInDown;
+            visibility: visible;
+          }
+
+          img.img-icons {
+            animation-delay: 0.5s;
+          }
+        }
+
+        div.branding-left {
+
+          div.flex-wrapper {
+            width: 100%;
+
+            img.img-message {
+              width: 100%;
+              height: auto;
+              margin-bottom: 35px;
+            }
+
+            a.login-wrapper {
+
+              display: block;
+              width: 350px;
+              height: 100px;
+              background-color: #3766d2;
+              border-radius: 50px;
+              margin: auto;
+
+              &:hover {
+                opacity: 0.7;
+
+                span {
+                  text-decoration: none;
+                }
+
+              }
+
+              span {
+                display: block;
+                color: white;
+                height: 38px;
+                line-height: 38px;
+                font-weight: 700;
+              }
+
+              img {
+                height: 50px;
+                width: auto;
+              }
+
+            }
+          }
+
+        }
+
+        div.branding-right {
+
+          img {
+            width: 20vw;
+          }
+        }
+      }
+    }
   }
 
+}
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    -ms-transform: translateY(20px);
+    transform: translateY(20px); }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
 }
