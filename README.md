@@ -12,7 +12,7 @@
 即座にタスクに割くことができる時間を計算できる機能が備わっています。<br>
 
 ## URL
-* https://enpit-tascal.herokuapp.com/
+* https://tascal.app
 
 ## メンバー
 https://github.com/wawawanet<br>
