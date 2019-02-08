@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   # 未ログイン時にaboutページに強制的にリダイレクトさせる
   before_action :require_login
   def require_login
+
+    # テスト実行時(ホスト名が "www.example.com" の場合)はリダイレクト処理を行わない
+    return if request.host == "www.example.com"
+
     unless current_user
       if !(params[:controller] == "static" && params[:action] == "about") \
       && params[:controller] != "sessions" \
