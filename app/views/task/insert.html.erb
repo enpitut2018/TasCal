@@ -48,22 +48,22 @@
           <div class="row">
 
             <div class="col-sm-6">
-          <p>タスク名</p>
-          <p>
-            <%= text_field_tag(:name) %>
-          </p>
-          </div>
-          <div class="col-sm-6">
-            <p>締切日時</p>
-            <p>
-              <%= text_field_tag(:year, "", id: 'input-year', type: "hidden") %>
-              <%= text_field_tag(:month, "", id: 'input-month', type: "hidden") %>
-              <%= text_field_tag(:day, "", id: 'input-day', type: "hidden") %>
-              <%= text_field_tag(:hour, "", id: 'input-hour', type: "hidden") %>
-              <%= text_field_tag(:minute, "", id: 'input-minute', type: "hidden") %>
-              <%= text_field_tag :deadline, "", id: 'input-deadline' %>
-            </p>
-          </div>
+              <p>タスク名</p>
+              <p>
+                <%= text_field_tag(:name) %>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>締切日時</p>
+              <p>
+                <%= text_field_tag(:year, "", id: 'input-year', type: "hidden") %>
+                <%= text_field_tag(:month, "", id: 'input-month', type: "hidden") %>
+                <%= text_field_tag(:day, "", id: 'input-day', type: "hidden") %>
+                <%= text_field_tag(:hour, "", id: 'input-hour', type: "hidden") %>
+                <%= text_field_tag(:minute, "", id: 'input-minute', type: "hidden") %>
+                <%= text_field_tag :deadline, "", id: 'input-deadline' %>
+              </p>
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-12">
@@ -78,27 +78,31 @@
         <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate_schedule()") do %>
           <div class="row">
             <div class="col-sm-4">
-          <p>予定名</p>
-          <%= text_field_tag(:name) %>
-          </div>
-          <div class="col-sm-4">
-            <p>開始日時</p>
-            <%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
-            <%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
-            <%= text_field_tag(:s_day, "", id: 'input-s-day', type: "hidden") %>
-            <%= text_field_tag(:s_hour, "", id: 'input-s-hour', type: "hidden") %>
-            <%= text_field_tag(:s_minute, "", id: 'input-s-minute', type: "hidden") %>
-            <%= text_field_tag :deadline, "", id: 'input-s-date' %>
-          </div>
-          <div class="col-sm-4">
-            <p>終了日時</p>
-            <%= text_field_tag(:e_year, "", id: 'input-e-year', type: "hidden") %>
-            <%= text_field_tag(:e_month, "", id: 'input-e-month', type: "hidden") %>
-            <%= text_field_tag(:e_day, "", id: 'input-e-day', type: "hidden") %>
-            <%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
-            <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
-            <%= text_field_tag :deadline, "", id: 'input-e-date' %>
-          </div>
+              <p>予定名</p>
+              <%= text_field_tag(:name) %>
+            </div>
+            <div class="col-sm-4">
+              <p>開始日時</p>
+              <p>
+                <%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
+                <%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
+                <%= text_field_tag(:s_day, "", id: 'input-s-day', type: "hidden") %>
+                <%= text_field_tag(:s_hour, "", id: 'input-s-hour', type: "hidden") %>
+                <%= text_field_tag(:s_minute, "", id: 'input-s-minute', type: "hidden") %>
+                <%= text_field_tag :deadline, "", id: 'input-s-date' %>
+              </p>
+            </div>
+            <div class="col-sm-4">
+              <p>終了日時</p>
+              <p>
+                <%= text_field_tag(:e_year, "", id: 'input-e-year', type: "hidden") %>
+                <%= text_field_tag(:e_month, "", id: 'input-e-month', type: "hidden") %>
+                <%= text_field_tag(:e_day, "", id: 'input-e-day', type: "hidden") %>
+                <%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
+                <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
+                <%= text_field_tag :deadline, "", id: 'input-e-date' %>
+              </p>
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-12">
