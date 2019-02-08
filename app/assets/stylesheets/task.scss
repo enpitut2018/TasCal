@@ -1,5 +1,5 @@
 // Place all the styles related to the task controller here.
-// They will automatically be included in application.css.
+// They will automatically be included in application.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 p.emess {
         padding: 5px;
@@ -12,3 +12,18 @@ p.passmess {
         color: #ffffff;
         background-color: #009e00;
         }
+
+ .split-box{
+   position:absolute;
+   width:50%;
+   height:100%;
+ }
+
+.left-box {
+  left:0;
+}
+
+.right-box {
+  right:0;
+  overflow-y:scroll;
+}

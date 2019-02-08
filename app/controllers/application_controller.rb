@@ -3,6 +3,22 @@ class ApplicationController < ActionController::Base
   helper_method :get_current_user_avator, :get_current_user_id, :is_logged_in
   before_action :ensure_domain
 
+  # 未ログイン時にaboutページに強制的にリダイレクトさせる
+  before_action :require_login
+  def require_login
+
+    # テスト実行時(ホスト名が "www.example.com" の場合)はリダイレクト処理を行わない
+    return if request.host == "www.example.com"
+
+    unless current_user
+      if !(params[:controller] == "static" && params[:action] == "about") \
+      && params[:controller] != "sessions" \
+      && params[:controller] != "users/omniauth_callbacks" # sessions と users/omniauth_callback はログイン処理中に処理を行うController
+        redirect_to "/about"
+      end
+    end
+  end
+
   # 以下の2つのリクエストを "https"//tascal.app" にリダイレクトさせる
   # - "https://enpit-tascal.herokuapp.com"
   # - "https://www.tascal.app"

@@ -1,7 +1,7 @@
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,700,900&subset=japanese');
 
 body {
+    font-family: "Noto Sans JP", "Droid Sans", Helvetica, YuGothic, "Yu Gothic", 游ゴシック体, 游ゴシック, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", メイリオ, Meiryo, Arial, sans-serif;
 	font-size: 16px;
 	text-align: center;
 }
@@ -66,6 +66,11 @@ p {
   }
 }
 
+.navbar .nav-link {
+  font-weight: 900;
+  font-size: 16px;
+}
+
 .btn.btn-primary {
 	font-size: 28px;
 }
@@ -86,8 +91,30 @@ p {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	/*margin-right: 4.5rem;*/
-	background-color: #ddd;
+	//background-color: #ddd;
 	border-radius: .25rem;
+
+  .nav-link.active {
+    background-color: #dee2e6;
+    border-bottom: #dee2e6;
+  }
+
+  .tab-content {
+    background-color: #dee2e6;
+
+    .row:nth-of-type(1) {
+      margin-top: 0;
+      padding-top: 15px;
+    }
+
+    .row:last-of-type {
+      padding-bottom: 20px;
+    }
+
+    .row input {
+      max-width: 100%;
+    }
+  }
 }
 
 .bg-danger {
