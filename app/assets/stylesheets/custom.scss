@@ -110,6 +110,10 @@ p {
     .row:last-of-type {
       padding-bottom: 20px;
     }
+
+    .row input {
+      max-width: 100%;
+    }
   }
 }
 
