@@ -30,25 +30,28 @@
 <% end %>
 
 <div class="container" id="insert_section">
+
   <ul class="nav nav-tabs" role="tablist">
-    <li class="active" role="presentation">
-      <a aria-controls="tab_a" data-toggle="tab" href="#tab_a" role="tab"  class="add">タスク追加</a>
+    <li class="nav-item">
+      <a class="nav-link active" id="task-insert-tab" data-toggle="tab"
+         href="#task-insert-form" role="tab" aria-controls="task-insert-form" aria-selected="true">タスク追加</a>
     </li>
-    <li role="presentation">
-      <a aria-controls="tab_b" data-toggle="tab" href="#tab_b" role="tab"  class="add">予定追加</a>
+    <li class="nav-item">
+      <a class="nav-link" id="schedule-insert-tab" data-toggle="tab"
+         href="#schedule-insert-form" role="tab" aria-controls="task-insert-form" aria-selected="false">予定追加</a>
     </li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane active" id="tab_a" role="tabpanel">
-      <p>
+    <div class="tab-pane fade show active" id="task-insert-form" role="tabpanel" aria-labelledby="task-insert-tab">
+      <div class="container">
         <%= form_tag("/task/insert", method: "post", onsubmit: "return validate_task()") do %>
-        <div class="row">
+          <div class="row">
 
-          <div class="col-sm-6">
-            <p>タスク名</p>
-            <p>
-              <%= text_field_tag(:name) %>
-            </p>
+            <div class="col-sm-6">
+          <p>タスク名</p>
+          <p>
+            <%= text_field_tag(:name) %>
+          </p>
           </div>
           <div class="col-sm-6">
             <p>締切日時</p>
@@ -61,42 +64,6 @@
               <%= text_field_tag :deadline, "", id: 'input-deadline' %>
             </p>
           </div>
-        </div>
-      </p>
-      <div class="row">
-        <div class="col-sm-12">
-          <%= submit_tag("追加", class: "btn btn-primary") %>
-        </div>
-      </div>
-      <% end %>
-    </div>
-
-    <div class="tab-pane" id="tab_b" role="tabpanel">
-      <p>
-        <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate_schedule()") do %>
-          <div class="row">
-            <div class="col-sm-4">
-              <p>予定名</p>
-              <%= text_field_tag(:name) %>
-            </div>
-            <div class="col-sm-4">
-              <p>開始日時</p>
-              <%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
-              <%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
-              <%= text_field_tag(:s_day, "", id: 'input-s-day', type: "hidden") %>
-              <%= text_field_tag(:s_hour, "", id: 'input-s-hour', type: "hidden") %>
-              <%= text_field_tag(:s_minute, "", id: 'input-s-minute', type: "hidden") %>
-              <%= text_field_tag :deadline, "", id: 'input-s-date' %>
-            </div>
-            <div class="col-sm-4">
-              <p>終了日時</p>
-              <%= text_field_tag(:e_year, "", id: 'input-e-year', type: "hidden") %>
-              <%= text_field_tag(:e_month, "", id: 'input-e-month', type: "hidden") %>
-              <%= text_field_tag(:e_day, "", id: 'input-e-day', type: "hidden") %>
-              <%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
-              <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
-              <%= text_field_tag :deadline, "", id: 'input-e-date' %>
-            </div>
           </div>
           <div class="row">
             <div class="col-sm-12">
@@ -104,9 +71,45 @@
             </div>
           </div>
         <% end %>
-      </p>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="schedule-insert-form" role="tabpanel" aria-labelledby="schedule-insert-tab">
+      <div class="container">
+        <%= form_tag("/schedule/insert", method: "post", onsubmit: "return validate_schedule()") do %>
+          <div class="row">
+            <div class="col-sm-4">
+          <p>予定名</p>
+          <%= text_field_tag(:name) %>
+          </div>
+          <div class="col-sm-4">
+            <p>開始日時</p>
+            <%= text_field_tag(:s_year, "", id: 'input-s-year', type: "hidden") %>
+            <%= text_field_tag(:s_month, "", id: 'input-s-month', type: "hidden") %>
+            <%= text_field_tag(:s_day, "", id: 'input-s-day', type: "hidden") %>
+            <%= text_field_tag(:s_hour, "", id: 'input-s-hour', type: "hidden") %>
+            <%= text_field_tag(:s_minute, "", id: 'input-s-minute', type: "hidden") %>
+            <%= text_field_tag :deadline, "", id: 'input-s-date' %>
+          </div>
+          <div class="col-sm-4">
+            <p>終了日時</p>
+            <%= text_field_tag(:e_year, "", id: 'input-e-year', type: "hidden") %>
+            <%= text_field_tag(:e_month, "", id: 'input-e-month', type: "hidden") %>
+            <%= text_field_tag(:e_day, "", id: 'input-e-day', type: "hidden") %>
+            <%= text_field_tag(:e_hour, "", id: 'input-e-hour', type: "hidden") %>
+            <%= text_field_tag(:e_minute, "", id: 'input-e-minute', type: "hidden") %>
+            <%= text_field_tag :deadline, "", id: 'input-e-date' %>
+          </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <%= submit_tag("追加", class: "btn btn-primary") %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
+
 </div>
 
 <div class="split-box left-box", id="task">
