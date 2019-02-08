@@ -15,36 +15,39 @@
   <body>
     <main id="<%= page_identifier %>">
 
-      <nav class="navbar navbar-expand-lg navbar-light">
+      <nav class="navbar navbar-expand-lg <%= page_identifier == "page-about" ? "navbar-light" : "navbar-dark bg-dark" %>">
         <a class="navbar-brand" href="#">
           TasCal
         </a>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">TasCalとは？</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">使い方</a>
-          </li>
-          <li class="nav-item active">
-            <% if current_user then %>
-              <div class="nav-item dropdown nav-avatar">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img class="img-thumbnail" width="40" height="40" src="<%= get_current_user_avator %>">
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                  <span class="dropdown-item user-id">
-                    <span><%= get_current_user_id %></span>
-                    <span>としてログイン中</span>
-                  </span>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/logout">ログアウト</a>
+          <% if page_identifier == "page-about" %>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">TasCalとは？</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">使い方</a>
+            </li>
+          <% else %>
+            <li class="nav-item active">
+              <% if current_user then %>
+                <div class="nav-item dropdown nav-avatar">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="img-thumbnail" width="40" height="40" src="<%= get_current_user_avator %>">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <span class="dropdown-item user-id">
+                      <span><%= get_current_user_id %></span>
+                      <span>としてログイン中</span>
+                    </span>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">ログアウト</a>
+                  </div>
                 </div>
-              </div>
-            <% else %>
-              <!-- <a href="/login"><%= image_tag('btn_google_signin_dark_pressed_web.png', :size => "166x40") %></a> -->
-            <% end %>
-          </li>
+              <% else %>
+                <!-- <a href="/login"><%= image_tag('btn_google_signin_dark_pressed_web.png', :size => "166x40") %></a> -->
+              <% end %>
+            </li>
+          <% end %>
         </ul>
       </nav>
 
