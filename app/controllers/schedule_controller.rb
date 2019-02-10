@@ -106,7 +106,86 @@ class ScheduleController < ApplicationController
     # end
   end
 
+  # ViewのFullCalendar上でスケジュールを表示させるために，予定の情報をJSON形式で返すための関数
+  # ログイン済ならばそのユーザーに紐付いた予定のみ，未ログインならユーザーに紐付いていない予定の情報を返す
+  def get_schedules_as_json
+    # ログイン中のユーザーIDを取得，未ログインの場合はnil
+    user_id = user_signed_in? ? current_user.email : nil
+
+    data_json = Schedule.where(user_id: user_id).map do |schedule|
+      {
+          title: schedule.name,
+          start: schedule.start_time.iso8601,
+          end: schedule.end_time.iso8601,
+          id: schedule.id
+      }
+    end
+
+    render json: data_json
+  end
+
+  # ViewのFullCalendarからJavaScript経由でスケジュールの削除処理を実行するための関数
+  # POSTリクエスト内のパラメータ"id"に削除したい予定のIDの値が格納されていることを想定
+  def delete_schedule_via_api
+    schedule_id = params["id"]
+
+    # パラメータ"id"に値が含まれていない場合は400エラーを返す
+    unless schedule_id
+      render json: { status: 400, message: "No schedule id has been specified" },
+             status: :bad_request, text: "No schedule id has been specified"
+      return
+    end
+
+    target_schedule = Schedule.find_by_id(schedule_id)
+    current_user_id = user_signed_in? ? curernt_user.email : nil
+
+    # 削除要求した予定がログイン中のユーザーに紐付いたものでない場合は400エラーを返す
+    unless target_schedule.user_id == current_user_id
+      render json: { status: 400, message: "Operation not permitted" },
+             status: :bad_request, text: "Operation not permitted"
+      return
+    end
+
+    # 削除して良い場合は普通に削除
+    Schedule.destroyRecord(schedule_id)
+    render json: { status: 200, message: "ok" }, status: :ok, text: "ok"
+  end
+
+  # ViewのFullCalendarからJavaScript経由でスケジュールの編集処理を実行するための関数
+  # 編集したい予定のid、予定名、開始時刻、終了時刻が格納
+  def edit_schedule_via_api
+    schedule_id = params["id"]
+    schedule_title = params["title"]
+    schedule_start = params["start"]
+    schedule_end = params["end"]
+
+    unless schedule_id
+      render json: { status: 400, message: "No schedule id has been specified" },
+             status: :bad_request, text: "No schedule id has been specified"
+      return
+    end
+
+    target_schedule = Schedule.find_by_id(schedule_id)
+    current_user_id = user_signed_in? ? curernt_user.email : nil
+
+    unless target_schedule.user_id == current_user_id
+      render json: { status: 400, message: "Operation not permitted" },
+             status: :bad_request, text: "Operation not permitted"
+      return
+    end
+
+    if view_context.user_signed_in? then
+      Schedule.createRecord(schedule_title, schedule_start, schedule_end, current_user.email)
+    else
+      Schedule.createRecord(schedule_title, schedule_start, schedule_end)
+    end
+    Schedule.destroyRecord(schedule_id);
+    render json: { status: 200, message: "ok" }, status: :ok, text: "ok"
+    p "edit success"
+  end
+
   def display
+    puts verified_request?
     @err_id = "初期"
     @schedules = Schedule.all
   end
@@ -115,7 +194,7 @@ class ScheduleController < ApplicationController
     if params['edit'] then
       begin
         @@edit_id = params['edit']
-        redirect_to :action => "edit"
+        redirect_to action: "edit"
         exit
       rescue SystemExit
         puts "Edit"
@@ -124,7 +203,7 @@ class ScheduleController < ApplicationController
       id = params['id']
       Schedule.destroyRecord(id)
       @err_id = "初期"
-      redirect_to :action =>"insert"
+      redirect_to action: "insert"
     end
   end
 
@@ -170,7 +249,7 @@ class ScheduleController < ApplicationController
                 Schedule.destroyRecord(@@edit_id)
                 @err_id = "正常"
                 @@edit_id = 0
-                redirect_to :action =>"insert"
+                redirect_to action: "insert"
               else
                 @err_id = "終始逆"
                 render nothing: true, status: 400

@@ -1,7 +1,8 @@
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,700,900&subset=japanese');
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:400,900');
 
 body {
+    font-family: "Noto Sans JP", "Droid Sans", Helvetica, YuGothic, "Yu Gothic", 游ゴシック体, 游ゴシック, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", メイリオ, Meiryo, Arial, sans-serif;
 	font-size: 16px;
 	text-align: center;
 }
@@ -66,6 +67,11 @@ p {
   }
 }
 
+.navbar .nav-link {
+  font-weight: 900;
+  font-size: 16px;
+}
+
 .btn.btn-primary {
 	font-size: 28px;
 }
@@ -82,12 +88,47 @@ p {
 	margin-top: 15px;
 }
 
-#insert_section {
-	padding-top: 10px;
-	padding-bottom: 10px;
-	/*margin-right: 4.5rem;*/
-	background-color: #ddd;
-	border-radius: .25rem;
+main {
+
+  nav.navbar {
+
+    a.navbar-brand {
+      font-family: 'Alegreya Sans', sans-serif;
+      font-weight: 900;
+      font-size: 30px;
+    }
+  }
+
+  #insert_section {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*margin-right: 4.5rem;*/
+    //background-color: #ddd;
+    border-radius: .25rem;
+
+    .nav-link.active {
+      background-color: #dee2e6;
+      border-bottom: #dee2e6;
+    }
+
+    .tab-content {
+      background-color: #dee2e6;
+
+      .row:nth-of-type(1) {
+        margin-top: 0;
+        padding-top: 15px;
+      }
+
+      .row:last-of-type {
+        padding-bottom: 20px;
+      }
+
+      .row input {
+        max-width: 100%;
+      }
+    }
+  }
+
 }
 
 .bg-danger {
@@ -147,5 +188,21 @@ p {
       }
     }
 
+  }
+}
+
+
+/* 時間が少ない時の警告のホバー表示の位置調整 */
+.table {
+  .hint--top:after, .hint--top:before {
+    -webkit-transform: translateX(-10%);
+    -moz-transform: translateX(-10%);
+    transform: translateX(-10%);
+  }
+
+  [data-hint]:hover:after {
+    -webkit-transform: translateX(-10%) translateY(-8px);
+    -moz-transform: translateX(-10%) translateY(-8px);
+    transform: translateX(-10%) translateY(-8px);
   }
 }

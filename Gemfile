@@ -65,9 +65,9 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# gem 'bootstrap'
-gem 'bootstrap-sass'
+
 gem 'jquery-rails'
+gem 'bootstrap'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
@@ -76,8 +76,11 @@ gem 'omniauth-google-oauth2'
 # gem 'fullcalendar'
 gem 'fullcalendar-rails' 
 gem 'momentjs-rails'
+<<<<<<< HEAD
 gem 'jquery-rails'
 
 #import google calender
 gem 'google-api-client'
 gem 'google_calendar'
+=======
+>>>>>>> master
