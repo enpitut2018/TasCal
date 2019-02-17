@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
         access_token:  @user_info.credentials.token,
         refresh_token: @user_info.credentials.refresh_token,
         client_id:     ENV['GOOGLE_CLIENT_ID'],
-        client_secret: ENV['GOOGLE_SECRET']
+        client_secret: ENV['GOOGLE_CLIENT_SECRET']
       }
     )
 
