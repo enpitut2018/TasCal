@@ -271,7 +271,7 @@ class ScheduleController < ApplicationController
   end
   #Omniauthでログインしている前提で予定を取得
 
-  def import events
+  def self.import events
     # tasks = TaskController.get_visible_tasks (user_signed_in? ? current_user.email : nil)
     # # 予定追加「前」の各タスクの残り時間を取得
     # task_times_before_insert = tasks.map {|t| Task.calc_splited_time t}
