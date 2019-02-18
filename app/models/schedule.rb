@@ -1,5 +1,5 @@
 class Schedule < ApplicationRecord
-  def self.createRecord name, start_time, end_time, user_id=nil
+  def self.createRecord name, start_time, end_time, user_id
     Schedule.create(:user_id => user_id, :name => name, :start_time => start_time, :end_time => end_time)
   end
 

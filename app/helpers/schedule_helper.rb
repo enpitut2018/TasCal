@@ -1,3 +1,4 @@
+# coding: utf-8
 module ScheduleHelper
 
   def get_available_schedules
@@ -10,6 +11,7 @@ module ScheduleHelper
 
   
   def notify_affected_tasks
+    if @affected_tasks == nil then return; end
     unless @affected_tasks.empty?
       root = Nokogiri::HTML::DocumentFragment.parse('')
       Nokogiri::HTML::Builder.with(root) do |t|

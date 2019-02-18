@@ -269,36 +269,43 @@ class ScheduleController < ApplicationController
       end
     end
   end
-  #Omniauthでログインしている前提で予定を取得
-
-  def self.import events
-    # tasks = TaskController.get_visible_tasks (user_signed_in? ? current_user.email : nil)
-    # # 予定追加「前」の各タスクの残り時間を取得
-    # task_times_before_insert = tasks.map {|t| Task.calc_splited_time t}
-
-    # events.each do |event|
-    #   #validと仮定
-    #   start_time = Datatime.parse(event.start_time)
-    #   end_time = Datatime.parse(event.end_time)
-    #   # p start_time
-    #   # p end_time
-    #   Schedule.createRecord(event.name, start_time, end_time)
-    # end
-
-    # # 予定追加「後」の各タスクの残り時間を取得
-    # task_times_after_insert = tasks.map {|t| Task.calc_splited_time t}
+  #Omniauthでログインする際に呼び出される
+  def self.import(events, email)
+    @affected_tasks = []
+    tasks = TaskController.get_visible_tasks(email)
+    # 予定追加「前」の各タスクの残り時間を取得
+    task_times_before_insert = tasks.map {|t| Task.calc_splited_time t}
+    Schedule.destroy_all
+    events.each do |event|
+      #validと仮定
+      #start_time = Datetime.parse(event.start_time)
+      #end_time = Datetime.parse(event.end_time)
+      # start_time = event.start
+      # end_time = event.end
+      unless event.status == "cancelled"
+        start_time = event.start.date_time
+        end_time = event.end.date_time
       
-    # # 予定追加前後で残り時間が1分でも変わったタスクを抽出
-    # affected_task_indexes = tasks.to_a.each_index.select do |i| task_times_before_insert[i] - task_times_after_insert[i] > 1 end
+        #binding.pry
+      # p start_time
+      # p end_time
+        Schedule.createRecord(event.summary, start_time, end_time, email)
+      end
+    end
 
-    # @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
+    # 予定追加「後」の各タスクの残り時間を取得
+    task_times_after_insert = tasks.map {|t| Task.calc_splited_time t}
+      
+    # 予定追加前後で残り時間が1分でも変わったタスクを抽出
+    affected_task_indexes = tasks.to_a.each_index.select do |i| task_times_before_insert[i] - task_times_after_insert[i] > 1 end
+
+    @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
     
-    # @err_id = "予定正常"
-    # #else
-    # @err_id = "予定正常"
-    # #end
+    @err_id = "予定正常"
+    #else
+    @err_id = "予定正常"
+    #end
     # render "task/insert"
-    render "schedule/insert"
   end
 
   # 新規にログインし、予定を取得 http://shakezoomer.com/?p=528
