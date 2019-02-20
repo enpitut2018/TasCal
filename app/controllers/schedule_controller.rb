@@ -282,14 +282,16 @@ class ScheduleController < ApplicationController
       #end_time = Datetime.parse(event.end_time)
       # start_time = event.start
       # end_time = event.end
-      unless event.status == "cancelled"
-        start_time = event.start.date_time
-        end_time = event.end.date_time
-      
+      begin 
+        convert = lambda {|e| Time.zone.parse(e.date_time.to_time.to_s)}
+        # stime = Time.zone.parse(start_time.to_time.to_s)
+        # etime = Time.zone.parse(end_time.to_time.to_s)
         #binding.pry
-      # p start_time
-      # p end_time
-        Schedule.createRecord(event.summary, start_time, end_time, email)
+        #p start_time
+        #p end_time
+        Schedule.createRecord(event.summary, convert.(event.start), convert.(event.end), email)
+        #Schedule.createRecord(event.summary, stime, etime, email)
+      rescue NoMethodError => ex
       end
     end
 
