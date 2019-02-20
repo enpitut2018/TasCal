@@ -22,10 +22,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       cal_service.authorization = secrets.to_authorization
       @calendar_list = cal_service.list_calendar_lists
       events = []
-      @calendar_list.items.each do |calender|
-        p calender.id
-        
-        events.concat(cal_service.list_events(calender.id).items)
+      @calendar_list.items.each do |calender|        
+        events.concat(cal_service.list_events(calender.id,
+                                              max_results: 20,
+                                              single_events: true,
+                                              order_by: 'startTime',
+                                              time_min: DateTime.now.rfc3339
+                                             ).items)
       end
       puts "ここでログインした人 ====>  #{@user.email} <===="
       ScheduleController.import(events, @user.email)

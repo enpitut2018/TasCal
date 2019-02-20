@@ -277,20 +277,9 @@ class ScheduleController < ApplicationController
     task_times_before_insert = tasks.map {|t| Task.calc_splited_time t}
     Schedule.destroy_all
     events.each do |event|
-      #validと仮定
-      #start_time = Datetime.parse(event.start_time)
-      #end_time = Datetime.parse(event.end_time)
-      # start_time = event.start
-      # end_time = event.end
       begin 
         convert = lambda {|e| Time.zone.parse(e.date_time.to_time.to_s)}
-        # stime = Time.zone.parse(start_time.to_time.to_s)
-        # etime = Time.zone.parse(end_time.to_time.to_s)
-        #binding.pry
-        #p start_time
-        #p end_time
         Schedule.createRecord(event.summary, convert.(event.start), convert.(event.end), email)
-        #Schedule.createRecord(event.summary, stime, etime, email)
       rescue NoMethodError => ex
       end
     end
