@@ -2,6 +2,9 @@
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+require 'google/api_client/client_secrets.rb'
+require 'google/apis/calendar_v3'
+
 Devise.setup do |config|
 
   require 'devise/orm/active_record'

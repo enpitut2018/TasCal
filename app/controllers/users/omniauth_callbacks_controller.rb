@@ -1,12 +1,14 @@
 # coding: utf-8
+require 'google/api_client/client_secrets.rb'
+require 'google/apis/calendar_v3'
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google
-    @user = User.find_for_google(request.env['omniauth.auth'])
-
+    user_info = request.env['omniauth.auth']
+    @user = User.find_for_google(user_info)
     logger.debug("Persisted: %s" % @user.persisted?)
 
     if @user.persisted?
-      # flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
+      #flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
       secrets = Google::APIClient::ClientSecrets.new(
         web: {
           access_token:  user_info.credentials.token,

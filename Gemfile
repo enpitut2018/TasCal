@@ -75,3 +75,7 @@ gem 'omniauth-google-oauth2'
 # gem 'fullcalendar'
 gem 'fullcalendar-rails' 
 gem 'momentjs-rails'
+
+#import google calender
+gem 'google-api-client'
+gem 'google_calendar'

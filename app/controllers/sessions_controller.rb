@@ -1,3 +1,4 @@
+require 'google/api_client/client_secrets.rb'
 class SessionsController < ApplicationController
   def login
     redirect_to user_google_omniauth_authorize_path
