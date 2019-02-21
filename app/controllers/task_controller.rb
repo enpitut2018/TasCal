@@ -111,9 +111,44 @@ class TaskController < ApplicationController
       end
     end
   end
+  def self.toRange(schedules)
+    schedules.map {|s| s.start_time..s.end_time}
+  end
 
   def self.calc_available_time task_record_or_id, current_time=nil
+    # 併合
+    def self.ranges_overlap?(a, b)
+      a.include?(b.begin) || b.include?(a.begin)
+    end
+    def self.merge_ranges(a, b)
+      [a.begin, b.begin].min..[a.end, b.end].max
+    end
+    def self.merge_overlapping_ranges(ranges)
+      ranges.sort_by(&:begin).inject([]) do |ranges, range|
+        if !ranges.empty? && ranges_overlap?(ranges.last, range)
+          ranges[0...-1] + [merge_ranges(ranges.last, range)]
+        else
+          ranges + [range]
+        end
+      end
+    end
+    # def self.ranges_overlap?(a, b)
+    #   Schedule.include?(a, b.start_time) || Schedule.include?(b, a.start_time)
+    # end
+    # def self.merge_ranges(a, b)
+    #   [a.start_time, b.start_time].min..[a.end_time, b.end_time].max
+    # end
+    # def self.merge_overlapping_ranges(ranges)
+    #   ranges.sort_by(&:start_time).inject([]) do |ranges, range|
+    #     if !ranges.empty? && ranges_overlap?(ranges.last, range)
+    #       ranges[0...-1] + [merge_ranges(ranges.last, range)]
+    #     else
+    #       ranges + [range]
+    #     end
+    #   end
+    # end
     # 今の時間の取得
+    
     now = !current_time.nil? ? current_time : Time.zone.now
 
     # deadlineの取得
@@ -124,20 +159,20 @@ class TaskController < ApplicationController
     # p available_time
 
     # 予定が入っている時間を引く
-    schedules = Schedule.where(user_id: taskdata.user_id)
+    schedules = merge_overlapping_ranges(toRange(Schedule.where(user_id: taskdata.user_id)))
     # p schedules
     schedules.each do |schedule|
-      if schedule.start_time < deadline && schedule.end_time > now then
-        if schedule.start_time >= now then
-          if schedule.end_time < deadline then
-            available_time -= (schedule.end_time - schedule.start_time)
-          elsif schedule.end_time >= deadline then
-            available_time -= (deadline - schedule.start_time)
+      if schedule.begin < deadline && schedule.end > now then
+        if schedule.begin >= now then
+          if schedule.end < deadline then
+            available_time -= (schedule.end - schedule.begin)
+          elsif schedule.end >= deadline then
+            available_time -= (deadline - schedule.begin)
           end
-        elsif schedule.start_time < now then
-          if schedule.end_time <= deadline then
-            available_time -= (schedule.end_time - now)
-          elsif schedule.end_time > deadline then
+        elsif schedule.begin < now then
+          if schedule.end <= deadline then
+            available_time -= (schedule.end - now)
+          elsif schedule.end > deadline then
             available_time = 0.0
           end
         end

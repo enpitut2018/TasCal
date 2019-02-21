@@ -2,6 +2,9 @@
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+require 'google/api_client/client_secrets.rb'
+require 'google/apis/calendar_v3'
+
 Devise.setup do |config|
 
   require 'devise/orm/active_record'
@@ -9,7 +12,7 @@ Devise.setup do |config|
                   ENV['GOOGLE_CLIENT_ID'],
                   ENV['GOOGLE_CLIENT_SECRET'],
                   name: :google,
-                  scope: %w(email)
+                  scope: ["email", Google::Apis::CalendarV3::AUTH_CALENDAR]
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.

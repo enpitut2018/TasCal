@@ -53,7 +53,7 @@ class ScheduleController < ApplicationController
                 if view_context.user_signed_in? then
                   Schedule.createRecord(name, start_time, end_time, current_user.email)
                 else
-                  Schedule.createRecord(name, start_time, end_time)
+                  Schedule.createRecord(name, start_time, end_time, nil)
                 end
 
                 # 予定追加「後」の各タスクの残り時間を取得
@@ -267,6 +267,35 @@ class ScheduleController < ApplicationController
         render nothing: true, status: 400
       end
     end
+  end
+    #Omniauthでログインする際に呼び出される
+  def self.import(events, email)
+    @affected_tasks = []
+    tasks = TaskController.get_visible_tasks(email)
+    # 予定追加「前」の各タスクの残り時間を取得
+    task_times_before_insert = tasks.map {|t| Task.calc_splited_time t}
+    Schedule.destroy_all
+    events.each do |event|
+      begin 
+        convert = lambda {|e| Time.zone.parse(e.date_time.to_time.to_s)}
+        Schedule.createRecord(event.summary, convert.(event.start), convert.(event.end), email)
+      rescue NoMethodError => ex
+      end
+    end
+
+    # 予定追加「後」の各タスクの残り時間を取得
+    task_times_after_insert = tasks.map {|t| Task.calc_splited_time t}
+      
+    # 予定追加前後で残り時間が1分でも変わったタスクを抽出
+    affected_task_indexes = tasks.to_a.each_index.select do |i| task_times_before_insert[i] - task_times_after_insert[i] > 1 end
+
+    @affected_tasks = affected_task_indexes.map {|index| [tasks[index], task_times_before_insert[index], task_times_after_insert[index]]}
+    
+    @err_id = "予定正常"
+    #else
+    @err_id = "予定正常"
+    #end
+    # render "task/insert"
   end
 end
 
