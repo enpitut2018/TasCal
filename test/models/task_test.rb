@@ -111,7 +111,17 @@ class TaskTest < ActiveSupport::TestCase
     tB = Task.all.find_by(name: "B's task")
     check.call(tB)
   end
-
+  test "range over safe" do
+    tA = insert_task name:"task", user_id:"a@site.com"
+    insert_schedule(name:"休日")
+    insert_schedule(name:"training", s_day:"26", s_hour:"13", e_day: "26", e_hour:"15")
+    sH = Schedule.all.find_by(name: "休日")
+    @do_equal = proc {|t1, t2, sub=@distance|
+      assert_equal(t1, t2)
+    }
+    @do_equal.call(@avail.(tA.id), @split.(tA.id))    
+    @do_equal.call(@avail.(tA.id), (sH.end_time - sH.start_time) / 60)
+  end
   def insert_task (name:, user_id:"aaa@example.com", year:"2018", month:"7", day:"26", hour:"12", minute:"0")
     Task.create(:user_id => user_id, :name => name,
                 :deadline =>

@@ -53,7 +53,7 @@ class ScheduleController < ApplicationController
                 if view_context.user_signed_in? then
                   Schedule.createRecord(name, start_time, end_time, current_user.email)
                 else
-                  Schedule.createRecord(name, start_time, end_time)
+                  Schedule.createRecord(name, start_time, end_time, nil)
                 end
 
                 # 予定追加「後」の各タスクの残り時間を取得
